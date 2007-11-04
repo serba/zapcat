@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="zapcat" default="jar">
+	<description>
+    	Build the Zapcat library. You can even use this to run the sample programs.
+    </description>
+	<property name="jar" value="zapcat-1.0.jar" />
+
+	<target name="clean" description="clean out generated code">
+		<delete includeemptydirs="yes" failonerror="no">
+			<fileset dir="samples" includes="*.class" />
+			<fileset dir="bin/org" />
+		</delete>
+	</target>
+
+	<target name="jar" description="compile and jar the library">
+		<javac destdir="bin" srcdir="src"
+		       classpath="lib/log4j-1.2.13.jar" />
+		<jar destfile="${jar}" basedir="bin" />
+	</target>
+
+	<target name="agent" depends="jar" description="run the zapcat agent sample">
+		<javac destdir="samples" srcdir="samples"
+		       classpath="${jar}" />
+		<java classname="SampleAgent" fork="true">
+			<jvmarg value="-Dcom.sun.management.jmxremote" />
+			<jvmarg value="-Dcom.sun.management.jmxremote.authent
+icate=false" />
+			<jvmarg value="-Dcom.sun.management.jmxremote.ssl=false" />
+			<classpath>
+				<pathelement path="samples" />
+				<pathelement location="${jar}" />
+				<pathelement location="lib/log4j-1.2.13.jar" />
+			</classpath>
+		</java>
+	</target>
+</project>
