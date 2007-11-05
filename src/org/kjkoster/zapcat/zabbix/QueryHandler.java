@@ -55,9 +55,9 @@ final class QueryHandler implements Runnable {
         try {
             log.debug("started worker");
             try {
-                while (socket.getInputStream().available() > 0) {
-                    handleConnection();
-                }
+                do {
+                    handleQuery();
+                } while (socket.getInputStream().available() > 0);
             } finally {
                 if (socket != null) {
                     socket.close();
@@ -69,7 +69,7 @@ final class QueryHandler implements Runnable {
         }
     }
 
-    private void handleConnection() throws Exception {
+    private void handleQuery() throws Exception {
         String request = receive(socket.getInputStream());
         log.debug("received '" + request + "'");
 
