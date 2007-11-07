@@ -17,8 +17,16 @@ package org.kjkoster.zapcat.zabbix;
  */
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.nio.channels.spi.SelectorProvider;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -38,11 +46,15 @@ import org.kjkoster.zapcat.Agent;
 public final class ZabbixAgent implements Agent, Runnable {
     private static final Logger log = Logger.getLogger(ZabbixAgent.class);
 
+    // the address to bind to (or 'null' to bind to any available interface).
+    private final InetAddress address;
+
+    // the port to bind to.
     private final int port;
 
     private final Thread daemon;
 
-    private ServerSocket listener = null;
+    private Selector listener = null;
 
     private final ExecutorService handlers;
 
@@ -53,24 +65,41 @@ public final class ZabbixAgent implements Agent, Runnable {
      * run. This constructor configures the port number by checking for a system
      * property named "org.kjkoster.zapcat.zabbix.port". If it is not there, the
      * port number defaults to 10052.
+     * <p>
+     * An optional address on which the agent will listen can be specified by
+     * setting a property named "org.kjkoster.zapcat.zabbix.address". If this
+     * property is not set, this Zabbix agent will listen on any available
+     * address.
+     * 
+     * @throws UnknownHostException
+     *                 Thrown by invoking {@link InetAddress#getByName(String)}
+     *                 on the value of "org.kjkoster.zapcat.zabbix.address", if
+     *                 that value was set.
      */
-    public ZabbixAgent() {
-        this(Integer.parseInt(System.getProperty(
-                "org.kjkoster.zapcat.zabbix.port", "10052")));
+    public ZabbixAgent() throws UnknownHostException {
+        this(InetAddress.getByName(System
+                .getProperty("org.kjkoster.zapcat.zabbix.address")), Integer
+                .parseInt(System.getProperty("org.kjkoster.zapcat.zabbix.port",
+                        "10052")));
     }
 
     /**
-     * Configure a new Zabbix agent to listen on a specific port number.
+     * Configure a new Zabbix agent to listen on a specific address and port
+     * number.
      * <p>
-     * Use of this method is discouraged, since it places port number
-     * configuration in the hands of developers. That is a task that should
-     * normally be left to system administrators and done through system
+     * Use of this method is discouraged, since it places address and port
+     * number configuration in the hands of developers. That is a task that
+     * should normally be left to system administrators and done through system
      * properties.
      * 
+     * @param address
+     *                The address to listen on, or 'null' to listen on any
+     *                available address.
      * @param port
-     *            The port number to listen on.
+     *                The port number to listen on.
      */
-    public ZabbixAgent(final int port) {
+    public ZabbixAgent(final InetAddress address, final int port) {
+        this.address = address;
         this.port = port;
         handlers = new ThreadPoolExecutor(1, 5, 60L, TimeUnit.SECONDS,
                 new LinkedBlockingQueue<Runnable>());
@@ -81,8 +110,7 @@ public final class ZabbixAgent implements Agent, Runnable {
     }
 
     /**
-     * Stop and clean up the used resources. I am not entirely happy with the
-     * way we close the server socket.
+     * Stop and clean up the used resources.
      * 
      * @see org.kjkoster.zapcat.Agent#stop()
      */
@@ -90,9 +118,7 @@ public final class ZabbixAgent implements Agent, Runnable {
         closing = true;
 
         try {
-            final ServerSocket toClose = listener;
-            listener = null;
-            toClose.close();
+            listener.close();
         } catch (IOException e) {
             // ignore, we're going down anyway...
         }
@@ -115,15 +141,37 @@ public final class ZabbixAgent implements Agent, Runnable {
      */
     public void run() {
         try {
-            listener = new ServerSocket(port);
-            log.debug("listening on port " + listener.getLocalPort());
+            listener = initNIOListener(address, port);
 
             for (;;) {
-                final Socket accepted = listener.accept();
-                log.debug("accepted connection from "
-                        + accepted.getInetAddress().getHostAddress());
+                listener.select();
 
-                handlers.execute(new QueryHandler(accepted));
+                if (!listener.isOpen()) {
+                    log.debug("stopped listening for connections.");
+                    break;
+                }
+
+                for (final SelectionKey key : listener.keys()) {
+                    if (!key.isValid()) {
+                        continue;
+                    }
+
+                    if (key.isAcceptable()) {
+                        final ServerSocketChannel serverSocketChannel = (ServerSocketChannel) key
+                                .channel();
+                        final SocketChannel socketChannel = serverSocketChannel
+                                .accept();
+
+                        // This will ensure backwards compatibility. Should we
+                        // change this to non-blocking sockets as well?
+                        socketChannel.configureBlocking(true);
+                        final Socket accepted = socketChannel.socket();
+                        log.debug("accepted connection from "
+                                + accepted.getInetAddress().getHostAddress());
+
+                        handlers.execute(new QueryHandler(accepted));
+                    }
+                }
             }
         } catch (IOException e) {
             if (!closing) {
@@ -139,5 +187,34 @@ public final class ZabbixAgent implements Agent, Runnable {
             }
             log.debug("zabbix agent exits");
         }
+    }
+
+    /**
+     * Initializes a non-blocking server socket, by binding it to the specified
+     * address (use 'null' to bind to any available interface) and port.
+     * 
+     * @param addres
+     *                The address to bind the server socket to. Bind to any
+     *                available address by assigning 'null'.
+     * @param port
+     *                The port to bind the server socket to.
+     * @return The selector object that has been registered to the channel.
+     * @throws IOException
+     */
+    private static Selector initNIOListener(final InetAddress addres,
+            final int port) throws IOException {
+        final ServerSocketChannel serverSocketChannel = ServerSocketChannel
+                .open();
+        // We'd like to perform non-blocking operations.
+        serverSocketChannel.configureBlocking(false);
+
+        final ServerSocket serverSocket = serverSocketChannel.socket();
+        serverSocket.bind(new InetSocketAddress(addres, port));
+        log.debug("listening on " + serverSocket.toString());
+
+        // create, register and return the Selector instance that we'll use.
+        final Selector selector = SelectorProvider.provider().openSelector();
+        serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+        return selector;
     }
 }
