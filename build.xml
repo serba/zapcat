@@ -14,7 +14,7 @@
 
 	<target name="jar" description="compile and jar the library">
 		<javac destdir="bin" srcdir="src"
-		       classpath="lib/log4j-1.2.13.jar" />
+		       classpath="lib/log4j-1.2.15.jar" />
 		<jar destfile="${jar}" basedir="bin" />
 	</target>
 
@@ -29,7 +29,7 @@ icate=false" />
 			<classpath>
 				<pathelement path="samples" />
 				<pathelement location="${jar}" />
-				<pathelement location="lib/log4j-1.2.13.jar" />
+				<pathelement location="lib/log4j-1.2.15.jar" />
 			</classpath>
 		</java>
 	</target>
