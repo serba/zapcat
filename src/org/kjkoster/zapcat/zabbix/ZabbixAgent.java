@@ -56,6 +56,8 @@ public final class ZabbixAgent implements Agent, Runnable {
 
     private Selector listener = null;
 
+    private ServerSocketChannel serverSocketChannel = null;
+
     private final ExecutorService handlers;
 
     private boolean closing = false;
@@ -118,7 +120,12 @@ public final class ZabbixAgent implements Agent, Runnable {
         closing = true;
 
         try {
-            listener.close();
+            if (listener != null) {
+                listener.close();
+            }
+            if (serverSocketChannel != null) {
+                serverSocketChannel.close();
+            }
         } catch (IOException e) {
             // ignore, we're going down anyway...
         }
@@ -185,6 +192,13 @@ public final class ZabbixAgent implements Agent, Runnable {
                     // ignore, we're going down anyway...
                 }
             }
+            if (serverSocketChannel != null) {
+                try {
+                    serverSocketChannel.close();
+                } catch (IOException e) {
+                    // ignore, we're going down anyway...
+                }
+            }
             log.debug("zabbix agent exits");
         }
     }
@@ -201,10 +215,9 @@ public final class ZabbixAgent implements Agent, Runnable {
      * @return The selector object that has been registered to the channel.
      * @throws IOException
      */
-    private static Selector initNIOListener(final InetAddress addres,
-            final int port) throws IOException {
-        final ServerSocketChannel serverSocketChannel = ServerSocketChannel
-                .open();
+    private Selector initNIOListener(final InetAddress addres, final int port)
+            throws IOException {
+        serverSocketChannel = ServerSocketChannel.open();
         // We'd like to perform non-blocking operations.
         serverSocketChannel.configureBlocking(false);
 
