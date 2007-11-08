@@ -109,6 +109,10 @@ final class QueryHandler implements Runnable {
         return null;
     }
 
+    /*
+     * This method will go away once I have added collection support to the
+     * query handler.
+     */
     private String querySystemProperty(final String key) {
         log.debug("System property[" + key + "]");
         return System.getProperty(key);
