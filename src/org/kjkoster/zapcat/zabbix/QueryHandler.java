@@ -96,14 +96,21 @@ final class QueryHandler implements Runnable {
     }
 
     private String response(final String query) throws Exception {
-        final String[] parts = query.split("[\\[\\]]");
+        final int lastOpen = query.lastIndexOf('[');
+        final int lastClose = query.lastIndexOf(']');
+        final String attribute = query.substring(lastOpen + 1, lastClose);
 
         if (query.startsWith("jmx")) {
-            return JMXHelper.query(parts[1], parts[3]);
+            final int firstClose = query.lastIndexOf(']', lastOpen);
+            final int firstOpen = query.indexOf('[');
+            final String objectName = query
+                    .substring(firstOpen + 1, firstClose);
+
+            return JMXHelper.query(objectName, attribute);
         } else if (query.startsWith("system.property")) {
-            return querySystemProperty(parts[1]);
+            return querySystemProperty(attribute);
         } else if (query.startsWith("system.env")) {
-            return queryEnvironment(parts[1]);
+            return queryEnvironment(attribute);
         }
 
         return null;
