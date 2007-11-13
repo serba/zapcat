@@ -74,15 +74,19 @@ public final class ZabbixAgent implements Agent, Runnable {
      * address.
      * 
      * @throws UnknownHostException
-     *                 Thrown by invoking {@link InetAddress#getByName(String)}
-     *                 on the value of "org.kjkoster.zapcat.zabbix.address", if
-     *                 that value was set.
+     *             Thrown by invoking {@link InetAddress#getByName(String)} on
+     *             the value of "org.kjkoster.zapcat.zabbix.address", if that
+     *             value was set.
      */
     public ZabbixAgent() throws UnknownHostException {
-        this(InetAddress.getByName(System
-                .getProperty("org.kjkoster.zapcat.zabbix.address")), Integer
-                .parseInt(System.getProperty("org.kjkoster.zapcat.zabbix.port",
-                        "10052")));
+        this(findAddress(), Integer.parseInt(System.getProperty(
+                "org.kjkoster.zapcat.zabbix.port", "10052")));
+    }
+
+    private static InetAddress findAddress() throws UnknownHostException {
+        final String hostname = System
+                .getProperty("org.kjkoster.zapcat.zabbix.address");
+        return hostname == null ? null : InetAddress.getByName(hostname);
     }
 
     /**
@@ -95,10 +99,10 @@ public final class ZabbixAgent implements Agent, Runnable {
      * properties.
      * 
      * @param address
-     *                The address to listen on, or 'null' to listen on any
-     *                available address.
+     *            The address to listen on, or 'null' to listen on any available
+     *            address.
      * @param port
-     *                The port number to listen on.
+     *            The port number to listen on.
      */
     public ZabbixAgent(final InetAddress address, final int port) {
         this.address = address;
@@ -208,12 +212,11 @@ public final class ZabbixAgent implements Agent, Runnable {
      * address (use 'null' to bind to any available interface) and port.
      * 
      * @param addres
-     *                The address to bind the server socket to. Bind to any
-     *                available address by assigning 'null'.
+     *            The address to bind the server socket to. Bind to any
+     *            available address by assigning 'null'.
      * @param port
-     *                The port to bind the server socket to.
+     *            The port to bind the server socket to.
      * @return The selector object that has been registered to the channel.
-     * @throws IOException
      */
     private Selector initNIOListener(final InetAddress addres, final int port)
             throws IOException {
