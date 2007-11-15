@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+	<servlet>
+		<servlet-name>ZapcatServlet</servlet-name>
+		<servlet-class>
+			org.kjkoster.zapcat.servlet.ZapcatServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+</web-app>

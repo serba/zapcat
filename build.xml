@@ -1,33 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="zapcat" default="jar">
+<project name="zapcat" default="all">
 	<description>
-    	Build the Zapcat library. You can even use this to run the sample programs.
-    </description>
-	<property name="jar" value="zapcat-1.0.jar" />
+		Build the Zapcat library. You can even use this to run the sample programs.
+	</description>
 
-	<target name="clean" description="clean out generated code">
-		<delete includeemptydirs="yes" failonerror="no">
-			<fileset dir="samples" includes="*.class" />
-			<fileset dir="bin/org" />
-		</delete>
+	<property name="version" value="1.1-beta" />
+	<property name="jar" value="zapcat-${version}.jar" />
+	<property name="war" value="zapcat-${version}.war" />
+
+	<target name="clean" description="clean build dir">
+		<delete failonerror="false" dir="build" />
 	</target>
 
-	<target name="jar" description="compile and jar the library">
-		<javac destdir="bin" srcdir="src"
-		       classpath="lib/log4j-1.2.15.jar" />
-		<jar destfile="${jar}" basedir="bin" />
+	<target name="distclean" description="clean build dir and generated libraries" depends="clean">
+		<delete failonerror="false" file="${jar}" />
+		<delete failonerror="false" file="${war}" />
 	</target>
+
+	<target name="jar" description="compile and jar the library" depends="clean">
+		<mkdir dir="build/jar" />
+		<javac destdir="build/jar" srcdir="src">
+			<classpath>
+				<pathelement location="lib/log4j-1.2.15.jar" />
+				<pathelement location="lib/servlet-api.jar" />
+			</classpath>
+		</javac>
+		<jar destfile="${jar}" basedir="build/jar" />
+	</target>
+
+	<target name="war" description="build the war file" depends="jar">
+		<copy verbose="yes" todir="build">
+			<fileset dir="." includes="webapp/**" />
+		</copy>
+		<mkdir dir="build/webapp/WEB-INF/lib" />
+		<copy file="lib/log4j-1.2.15.jar" todir="build/webapp/WEB-INF/lib" />
+		<copy file="${jar}" todir="build/webapp/WEB-INF/lib" />
+		<jar destfile="${war}" basedir="build/webapp" />
+	</target>
+
+	<target name="all" description="compile the lot" depends="jar,war" />
 
 	<target name="agent" depends="jar" description="run the zapcat agent sample">
-		<javac destdir="samples" srcdir="samples"
-		       classpath="${jar}" />
+		<mkdir dir="build/samples" />
+		<javac destdir="build/samples" srcdir="samples" classpath="${jar}" />
+		<copy todir="build/samples" file="samples/log4j.xml" />
 		<java classname="SampleAgent" fork="true">
 			<jvmarg value="-Dcom.sun.management.jmxremote" />
 			<jvmarg value="-Dcom.sun.management.jmxremote.authent
 icate=false" />
 			<jvmarg value="-Dcom.sun.management.jmxremote.ssl=false" />
 			<classpath>
-				<pathelement path="samples" />
+				<pathelement path="build/samples" />
 				<pathelement location="${jar}" />
 				<pathelement location="lib/log4j-1.2.15.jar" />
 			</classpath>

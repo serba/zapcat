@@ -19,3 +19,17 @@ LICENSE
 
     You should have received a copy of the GNU General Public License
     along with Zapcat.  If not, see <http://www.gnu.org/licenses/>.
+
+RELEASE NOTES
+
+	version 1.1-beta:
+		- Fixes a problem where the agent closes the connection before the
+		  Zabbix server had time to send the query.
+		- Updates to a newer version of Log4J. (thanks to Guus der Kinderen)
+		- Changes the query parser so that square brackets in object names are
+		  no longer a problem.
+		- Updates the server socket to use NIO. (thanks to Guus der Kinderen)
+		- Introduces a servlet for easy integration in servlet containers.
+
+    version 1.0:
+		- First version. Supports Zabbix agents and composite data.
