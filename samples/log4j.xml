@@ -12,7 +12,7 @@
 
 <!--
 	<logger name="org.kjkoster.zapcat">
-		<level value="WARN" />
+		<level value="INFO" />
 	</logger>
 -->
 

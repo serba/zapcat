@@ -226,7 +226,7 @@ public final class ZabbixAgent implements Agent, Runnable {
 
         final ServerSocket serverSocket = serverSocketChannel.socket();
         serverSocket.bind(new InetSocketAddress(addres, port));
-        log.debug("listening on " + serverSocket.toString());
+        log.info("listening on " + serverSocket.toString());
 
         // create, register and return the Selector instance that we'll use.
         final Selector selector = SelectorProvider.provider().openSelector();
