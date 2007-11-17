@@ -1,0 +1,48 @@
+body {
+	background-color: #e6e5ff;
+	color: #473b3b;
+	font-family: 'GillSans', 'Gill Sans', 'Trebuchet MS', 'sans-serif';
+	margin-left: 200px;
+}
+
+h1 {
+	font-size: 36px;
+	color: #969696;
+	text-align: center;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	width: 421px;
+}
+
+p {
+	font-size: 15px;
+	width: 421px;
+}
+
+table {
+	border-spacing: 0;
+}
+
+td.mbean {
+	padding-top: 18px;
+	font-size: 11px;
+}
+
+td.attrib {
+	font-size: 11px;
+}
+
+a {
+	color: #473b3b;
+	text-decoration: underline;
+}
+
+a:visited {
+	color: #473b3b;
+	text-decoration: underline;
+}
+
+a:hover {
+	color: #666666;
+	text-decoration: underline;
+}

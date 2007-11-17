@@ -18,6 +18,7 @@ package org.kjkoster.zapcat.zabbix;
 
 import java.lang.management.ManagementFactory;
 
+import javax.management.InstanceNotFoundException;
 import javax.management.MBeanServer;
 import javax.management.ObjectInstance;
 import javax.management.ObjectName;
@@ -30,8 +31,11 @@ import org.apache.log4j.Logger;
  * 
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
  */
-final class JMXHelper {
+public final class JMXHelper {
     private static final Logger log = Logger.getLogger(JMXHelper.class);
+
+    private static final MBeanServer mbeanserver = ManagementFactory
+            .getPlatformMBeanServer();
 
     /**
      * Perform a JMX query given an mbean name and the name of an attribute on
@@ -48,9 +52,6 @@ final class JMXHelper {
     public static String query(final String name, final String attribute)
             throws Exception {
         log.debug("JMX query[" + name + "][" + attribute + "]");
-
-        final MBeanServer mbeanserver = ManagementFactory
-                .getPlatformMBeanServer();
 
         final ObjectInstance bean = mbeanserver
                 .getObjectInstance(new ObjectName(name));
@@ -78,5 +79,45 @@ final class JMXHelper {
 
         return resolveFields((CompositeData) attribute.get(field.substring(0,
                 dot)), field.substring(dot + 1));
+    }
+
+    /**
+     * Try to register a managed bean. Note that errors are logged but then
+     * suppressed.
+     * 
+     * @param mbean
+     *            The managed bean to register.
+     * @param objectName
+     *            The name under which to register the bean.
+     * @return The object name of the mbean, for later deregistration.
+     */
+    public static ObjectName register(final Object mbean,
+            final String objectName) {
+        ObjectName name = null;
+        try {
+            name = new ObjectName(objectName);
+            mbeanserver.registerMBean(mbean, name);
+        } catch (Exception e) {
+            log.warn("unable to register '" + name + "'", e);
+        }
+
+        return name;
+    }
+
+    /**
+     * Remove the registration of a bean.
+     * 
+     * @param name
+     *            The name of the bean to unregister.
+     */
+    public static void unregister(final ObjectName name) {
+        try {
+            mbeanserver.unregisterMBean(name);
+        } catch (InstanceNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (Exception e) {
+            log.warn("unable to unregister '" + name + "'", e);
+        }
     }
 }

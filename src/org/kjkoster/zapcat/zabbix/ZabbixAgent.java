@@ -32,6 +32,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import javax.management.ObjectName;
+
 import org.apache.log4j.Logger;
 import org.kjkoster.zapcat.Agent;
 
@@ -60,7 +62,7 @@ public final class ZabbixAgent implements Agent, Runnable {
 
     private final ExecutorService handlers;
 
-    private boolean closing = false;
+    private final ObjectName mbeanName;
 
     /**
      * Configure a new Zabbix agent. Each agent needs the local port number to
@@ -113,6 +115,9 @@ public final class ZabbixAgent implements Agent, Runnable {
         daemon = new Thread(this, "Zabbix-agent");
         daemon.setDaemon(true);
         daemon.start();
+
+        mbeanName = JMXHelper.register(new Agent(),
+                "org.kjkoster.zapcat:type=Agent,port=" + port);
     }
 
     /**
@@ -121,8 +126,6 @@ public final class ZabbixAgent implements Agent, Runnable {
      * @see org.kjkoster.zapcat.Agent#stop()
      */
     public void stop() {
-        closing = true;
-
         try {
             if (listener != null) {
                 listener.close();
@@ -185,9 +188,7 @@ public final class ZabbixAgent implements Agent, Runnable {
                 }
             }
         } catch (IOException e) {
-            if (!closing) {
-                log.error("caught exception, exiting", e);
-            }
+            log.error("caught exception, exiting", e);
         } finally {
             if (listener != null) {
                 try {
@@ -203,6 +204,9 @@ public final class ZabbixAgent implements Agent, Runnable {
                     // ignore, we're going down anyway...
                 }
             }
+
+            JMXHelper.unregister(mbeanName);
+
             log.debug("zabbix agent exits");
         }
     }
@@ -211,26 +215,68 @@ public final class ZabbixAgent implements Agent, Runnable {
      * Initializes a non-blocking server socket, by binding it to the specified
      * address (use 'null' to bind to any available interface) and port.
      * 
-     * @param addres
+     * @param address
      *            The address to bind the server socket to. Bind to any
      *            available address by assigning 'null'.
      * @param port
      *            The port to bind the server socket to.
      * @return The selector object that has been registered to the channel.
      */
-    private Selector initNIOListener(final InetAddress addres, final int port)
+    private Selector initNIOListener(final InetAddress address, final int port)
             throws IOException {
         serverSocketChannel = ServerSocketChannel.open();
         // We'd like to perform non-blocking operations.
         serverSocketChannel.configureBlocking(false);
 
         final ServerSocket serverSocket = serverSocketChannel.socket();
-        serverSocket.bind(new InetSocketAddress(addres, port));
+        serverSocket.bind(new InetSocketAddress(address, port));
         log.info("listening on " + serverSocket.toString());
 
         // create, register and return the Selector instance that we'll use.
         final Selector selector = SelectorProvider.provider().openSelector();
         serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
         return selector;
+    }
+
+    /**
+     * The interface to our JMX representation.
+     * 
+     * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
+     */
+    public interface AgentMBean {
+        /**
+         * Read the port number that the current agent is listening to.
+         * 
+         * @return The configured port number.
+         */
+        int getPort();
+
+        /**
+         * Read the bind address of the current agent.
+         * 
+         * @return The configured bind address, or '*' to indicate any address.
+         */
+        String getBindAddress();
+    }
+
+    /**
+     * Our JMX representation.
+     * 
+     * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
+     */
+    private class Agent implements AgentMBean {
+        /**
+         * @see org.kjkoster.zapcat.zabbix.AgentMBean#getPort()
+         */
+        public int getPort() {
+            return port;
+        }
+
+        /**
+         * @see org.kjkoster.zapcat.zabbix.ZabbixAgent.AgentMBean#getBindAddress()
+         */
+        public String getBindAddress() {
+            return address == null ? "*" : address.getHostAddress();
+        }
     }
 }
