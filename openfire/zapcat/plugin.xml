@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+    <class>org.kjkoster.zapcat.openfire.ZapcatPlugin</class>
+    <name>Zapcat</name>
+    <description>A Zabbix / JMX bridge for Openfire.</description>
+    <author>Guus der Kinderen</author>
+    <version>1.0.0</version>
+    <date>November 8th, 2007</date>
+    <licenseType>gpl</licenseType>
+</plugin>
