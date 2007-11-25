@@ -7,6 +7,7 @@
 	<property name="version" value="1.1-beta" />
 	<property name="jar" value="zapcat-${version}.jar" />
 	<property name="war" value="zapcat-${version}.war" />
+	<property name="of" value="zapcat-openfire-${version}.jar" />
 
 	<target name="clean" description="clean build dir">
 		<delete failonerror="false" dir="build" />
@@ -25,11 +26,13 @@
 				<pathelement location="lib/servlet-api.jar" />
 			</classpath>
 		</javac>
-		<jar destfile="${jar}" basedir="build/jar" />
+
+		<!-- We don't need the Openfire stubs. The only serve to make our code compile. -->
+		<jar destfile="${jar}" basedir="build/jar" excludes="org/jivesoftware/**" />
 	</target>
 
 	<target name="war" description="build the war file" depends="jar">
-		<copy verbose="yes" todir="build">
+		<copy todir="build">
 			<fileset dir="." includes="webapp/**" />
 		</copy>
 		<mkdir dir="build/webapp/WEB-INF/lib" />
@@ -38,7 +41,21 @@
 		<jar destfile="${war}" basedir="build/webapp" />
 	</target>
 
-	<target name="all" description="compile the lot" depends="jar,war" />
+	<target name="of" description="build the Openfire plugin" depends="jar">
+		<copy todir="build">
+			<fileset dir="openfire" includes="zapcat/**" />
+		</copy>
+		<mkdir dir="build/zapcat/lib" />
+		<copy file="lib/log4j-1.2.15.jar" todir="build/zapcat/lib" />
+		<copy file="${jar}" todir="build/zapcat/lib" />
+
+		<!-- Wrap log4j.xml in a jar to get it into Openfire's classpath. Ugh. -->
+		<jar destfile="build/zapcat/lib/log4j-xml.jar" basedir="webapp/WEB-INF/classes" includes="log4j.xml" />
+
+		<jar destfile="${of}" basedir="build/zapcat" />
+	</target>
+
+	<target name="all" description="compile the lot" depends="jar,war,of" />
 
 	<target name="agent" depends="jar" description="run the zapcat agent sample">
 		<mkdir dir="build/samples" />
@@ -46,8 +63,7 @@
 		<copy todir="build/samples" file="samples/log4j.xml" />
 		<java classname="SampleAgent" fork="true">
 			<jvmarg value="-Dcom.sun.management.jmxremote" />
-			<jvmarg value="-Dcom.sun.management.jmxremote.authent
-icate=false" />
+			<jvmarg value="-Dcom.sun.management.jmxremote.authenticate=false" />
 			<jvmarg value="-Dcom.sun.management.jmxremote.ssl=false" />
 			<classpath>
 				<pathelement path="build/samples" />
