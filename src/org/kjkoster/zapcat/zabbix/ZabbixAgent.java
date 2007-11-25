@@ -48,6 +48,11 @@ import org.kjkoster.zapcat.Agent;
 public final class ZabbixAgent implements Agent, Runnable {
     private static final Logger log = Logger.getLogger(ZabbixAgent.class);
 
+    /**
+     * The default port that the Zapcat agents listens on.
+     */
+    public static final int DEFAULT_PORT = 10052;
+
     // the address to bind to (or 'null' to bind to any available interface).
     private final InetAddress address;
 
@@ -82,7 +87,7 @@ public final class ZabbixAgent implements Agent, Runnable {
      */
     public ZabbixAgent() throws UnknownHostException {
         this(findAddress(), Integer.parseInt(System.getProperty(
-                "org.kjkoster.zapcat.zabbix.port", "10052")));
+                "org.kjkoster.zapcat.zabbix.port", "" + DEFAULT_PORT)));
     }
 
     private static InetAddress findAddress() throws UnknownHostException {
@@ -155,7 +160,7 @@ public final class ZabbixAgent implements Agent, Runnable {
      */
     public void run() {
         try {
-            listener = initNIOListener(address, port);
+            listener = initNIOListener();
 
             for (;;) {
                 listener.select();
@@ -171,10 +176,9 @@ public final class ZabbixAgent implements Agent, Runnable {
                     }
 
                     if (key.isAcceptable()) {
-                        final ServerSocketChannel serverSocketChannel = (ServerSocketChannel) key
+                        final ServerSocketChannel keyChannel = (ServerSocketChannel) key
                                 .channel();
-                        final SocketChannel socketChannel = serverSocketChannel
-                                .accept();
+                        final SocketChannel socketChannel = keyChannel.accept();
 
                         // This will ensure backwards compatibility. Should we
                         // change this to non-blocking sockets as well?
@@ -215,15 +219,9 @@ public final class ZabbixAgent implements Agent, Runnable {
      * Initializes a non-blocking server socket, by binding it to the specified
      * address (use 'null' to bind to any available interface) and port.
      * 
-     * @param address
-     *            The address to bind the server socket to. Bind to any
-     *            available address by assigning 'null'.
-     * @param port
-     *            The port to bind the server socket to.
      * @return The selector object that has been registered to the channel.
      */
-    private Selector initNIOListener(final InetAddress address, final int port)
-            throws IOException {
+    private Selector initNIOListener() throws IOException {
         serverSocketChannel = ServerSocketChannel.open();
         // We'd like to perform non-blocking operations.
         serverSocketChannel.configureBlocking(false);
