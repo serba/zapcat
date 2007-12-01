@@ -22,7 +22,7 @@ LICENSE
 
 RELEASE NOTES
 
-	version 1.1-beta:
+	version 1.1:
 		- Introduces an Openfire XMPP server plugin for Zapcat. (thanks to Guus
 		  der Kinderen)
 		- Fixes a problem where the agent closed the connection before the
