@@ -64,7 +64,7 @@ configuration, Tomcat versions and Tomcat configuration options.</p>
             return "numeric (float)";
         }
 
-        return "not&nbsp;supported&nbsp;("
+        return "unknown&nbsp;("
                 + type
                 + "),&nbsp;but&nbsp;you&nbsp;can&nbsp;try&nbsp;using&nbsp;'text'.";
     }%>
