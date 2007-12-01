@@ -23,13 +23,16 @@ LICENSE
 RELEASE NOTES
 
 	version 1.1-beta:
+		- Introduces an Openfire XMPP server plugin for Zapcat. (thanks to Guus
+		  der Kinderen)
 		- Fixes a problem where the agent closed the connection before the
 		  Zabbix server had time to send the query.
 		- Updates to a newer version of Log4J. (thanks to Guus der Kinderen)
 		- Changes the query parser so that square brackets in object names are
 		  no longer a problem.
 		- Updates the server socket to use NIO. (thanks to Guus der Kinderen)
-		- Introduces a servlet for easy integration in servlet containers.
+		- Introduces a servlet for easy integration in servlet containers, such
+		  as Tomcat.
 		- Introduces a system property to configure the bind address. (thanks
 		  to Guus der Kinderen)
 
