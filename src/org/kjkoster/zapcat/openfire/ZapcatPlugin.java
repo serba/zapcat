@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Map;
 
+import org.apache.log4j.BasicConfigurator;
 import org.jivesoftware.openfire.container.Plugin;
 import org.jivesoftware.openfire.container.PluginManager;
 import org.jivesoftware.util.JiveGlobals;
@@ -38,6 +39,9 @@ public class ZapcatPlugin implements Plugin, PropertyEventListener {
     public void initializePlugin(final PluginManager manager,
             final File pluginDirectory) {
         Log.info("Initializing Zapcat Plugin.");
+
+        Log.info("Initializing Log4J for Zapcat.");
+        BasicConfigurator.configure(new OpenfireLog4jAppender());
 
         PropertyEventDispatcher.addListener(this);
         final String address = JiveGlobals.getProperty(ZAPCAT_INETADDRESS);

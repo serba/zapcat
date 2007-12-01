@@ -49,9 +49,6 @@
 		<copy file="lib/log4j-1.2.15.jar" todir="build/zapcat/lib" />
 		<copy file="${jar}" todir="build/zapcat/lib" />
 
-		<!-- Wrap log4j.xml in a jar to get it into Openfire's classpath. Ugh. -->
-		<jar destfile="build/zapcat/lib/log4j-xml.jar" basedir="webapp/WEB-INF/classes" includes="log4j.xml" />
-
 		<jar destfile="${of}" basedir="build/zapcat" />
 	</target>
 

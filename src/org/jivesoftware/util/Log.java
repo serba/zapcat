@@ -11,9 +11,18 @@ public class Log {
     public static void debug(String string) {
     }
 
+    public static void debug(String string, Throwable throwable) {
+    }
+
     public static void info(String string) {
     }
 
-    public static void warn(String string, Exception ex) {
+    public static void info(String message, Throwable throwable) {
+    }
+
+    public static void warn(String message, Throwable throwable) {
+    }
+
+    public static void error(String message, Throwable throwable) {
     }
 }
