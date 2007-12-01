@@ -82,30 +82,22 @@ public interface ServerStatsMBean {
      */
     public int getUserSessionsCount();
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.apache.mina.management.MINAStatCollector#getMsgRead()
      */
     public long getMinaMsgRead();
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.apache.mina.management.MINAStatCollector#getMsgWritten()
      */
     public long getMinaMsgWritten();
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.apache.mina.management.MINAStatCollector#getQueuedEvents()
      */
     public long getMinaQueuedEvents();
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.apache.mina.management.MINAStatCollector#getScheduledWrites()
      */
     public long getMinaScheduledWrites();

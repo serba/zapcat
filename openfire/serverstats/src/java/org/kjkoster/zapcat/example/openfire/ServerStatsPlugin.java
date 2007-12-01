@@ -24,14 +24,11 @@ import org.jivesoftware.util.Log;
  * query this information.
  * 
  * @author Guus der Kinderen, guus@nimbuzz.com
- * 
  */
 public class ServerStatsPlugin implements Plugin {
     private ObjectName mbeanName = null;
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.jivesoftware.openfire.container.Plugin#initializePlugin(org.jivesoftware.openfire.container.PluginManager,
      *      java.io.File)
      */
@@ -46,22 +43,12 @@ public class ServerStatsPlugin implements Plugin {
 
             ManagementFactory.getPlatformMBeanServer().registerMBean(mbean,
                     mbeanName);
-        } catch (MalformedObjectNameException e) {
-            Log.warn("Unable to register ServerStatsMBean", e);
-        } catch (InstanceAlreadyExistsException e) {
-            Log.warn("Unable to register ServerStatsMBean", e);
-        } catch (MBeanRegistrationException e) {
-            Log.warn("Unable to register ServerStatsMBean", e);
-        } catch (NotCompliantMBeanException e) {
-            Log.warn("Unable to register ServerStatsMBean", e);
-        } catch (NullPointerException e) {
-            Log.warn("Unable to register ServerStatsMBean", e);
+        } catch (Exception e) {
+            Log.error("Unable to register ServerStatsMBean", e);
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.jivesoftware.openfire.container.Plugin#destroyPlugin()
      */
     public void destroyPlugin() {
@@ -70,9 +57,7 @@ public class ServerStatsPlugin implements Plugin {
         try {
             ManagementFactory.getPlatformMBeanServer().unregisterMBean(
                     mbeanName);
-        } catch (InstanceNotFoundException e) {
-            Log.warn("Unable to unregister ServerStatsMBean", e);
-        } catch (MBeanRegistrationException e) {
+        } catch (Exception e) {
             Log.warn("Unable to unregister ServerStatsMBean", e);
         }
     }

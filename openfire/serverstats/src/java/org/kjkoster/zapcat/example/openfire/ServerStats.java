@@ -21,10 +21,6 @@ import org.jivesoftware.util.JiveGlobals;
  * @author Guus der Kinderen, guus@nimbuzz.com
  * 
  */
-/**
- * @author Guus der Kinderen, guus@nimbuzz.com
- * 
- */
 public class ServerStats implements ServerStatsMBean {
     private SocketAcceptor socketAcceptor;
 
@@ -49,7 +45,7 @@ public class ServerStats implements ServerStatsMBean {
      * Utility method to parse the database statistics through the toString()
      * hack.
      * 
-     * @return Array of integer that holds all database statistics.
+     * @return An array of integers that holds all database statistics.
      */
     private static int[] getDBResults() {
         final String[] textresults = DbConnectionManager
@@ -74,9 +70,7 @@ public class ServerStats implements ServerStatsMBean {
         return (ThreadPoolExecutor) threadModel.getExecutor();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.kjkoster.zapcat.example.openfire.ServerStatsMBean#getDatabasePoolMaximumConnections()
      */
     @Override
@@ -84,9 +78,7 @@ public class ServerStats implements ServerStatsMBean {
         return getDBResults()[1];
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.kjkoster.zapcat.example.openfire.ServerStatsMBean#getDatabasePoolMinimumConnections()
      */
     @Override
@@ -94,9 +86,7 @@ public class ServerStats implements ServerStatsMBean {
         return getDBResults()[0];
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.kjkoster.zapcat.example.openfire.ServerStatsMBean#getDatabasePoolOpenConnections()
      */
     @Override
@@ -104,9 +94,7 @@ public class ServerStats implements ServerStatsMBean {
         return getDBResults()[2];
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.kjkoster.zapcat.example.openfire.ServerStatsMBean#getDatabasePoolUsedConnections()
      */
     @Override
@@ -114,9 +102,7 @@ public class ServerStats implements ServerStatsMBean {
         return getDBResults()[3];
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.kjkoster.zapcat.example.openfire.ServerStatsMBean#getMinaMsgRead()
      */
     @Override
@@ -124,9 +110,7 @@ public class ServerStats implements ServerStatsMBean {
         return minaStatCollector.getMsgRead();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.kjkoster.zapcat.example.openfire.ServerStatsMBean#getMinaMsgWritten()
      */
     @Override
@@ -134,9 +118,7 @@ public class ServerStats implements ServerStatsMBean {
         return minaStatCollector.getMsgWritten();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.kjkoster.zapcat.example.openfire.ServerStatsMBean#getMinaQueuedEvents()
      */
     @Override
@@ -144,9 +126,7 @@ public class ServerStats implements ServerStatsMBean {
         return minaStatCollector.getQueuedEvents();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.kjkoster.zapcat.example.openfire.ServerStatsMBean#getMinaScheduledWrites()
      */
     @Override
@@ -154,9 +134,7 @@ public class ServerStats implements ServerStatsMBean {
         return minaStatCollector.getScheduledWrites();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.kjkoster.zapcat.example.openfire.ServerStatsMBean#getThreadPoolActiveThreadsCount()
      */
     @Override
@@ -164,9 +142,7 @@ public class ServerStats implements ServerStatsMBean {
         return getExecutor().getActiveCount();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.kjkoster.zapcat.example.openfire.ServerStatsMBean#getThreadPoolCompletedTaskCount()
      */
     @Override
@@ -174,9 +150,7 @@ public class ServerStats implements ServerStatsMBean {
         return getExecutor().getCompletedTaskCount();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.kjkoster.zapcat.example.openfire.ServerStatsMBean#getThreadPoolCoreSize()
      */
     @Override
@@ -184,9 +158,7 @@ public class ServerStats implements ServerStatsMBean {
         return getExecutor().getCorePoolSize();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.kjkoster.zapcat.example.openfire.ServerStatsMBean#getThreadPoolNumberOfQueuedTasks()
      */
     @Override
@@ -194,9 +166,7 @@ public class ServerStats implements ServerStatsMBean {
         return getExecutor().getQueue().size();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.kjkoster.zapcat.example.openfire.ServerStatsMBean#getUserSessionsCount()
      */
     @Override
