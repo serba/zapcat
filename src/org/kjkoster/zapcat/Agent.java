@@ -17,7 +17,8 @@ package org.kjkoster.zapcat;
  */
 
 /**
- * The interface of a monitoring agent.
+ * The interface of a monitoring agent. Agents are passive, waiting for the
+ * server to poll them for statistics.
  * 
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
  */
