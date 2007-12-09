@@ -33,7 +33,7 @@ import org.kjkoster.zapcat.Trapper;
  */
 public final class ZabbixTrapper implements Trapper {
 
-    private final BlockingQueue<Item> queue;
+    private final BlockingQueue<Item> queue = new LinkedBlockingQueue<Item>();
 
     private final Sender sender;
 
@@ -55,10 +55,16 @@ public final class ZabbixTrapper implements Trapper {
      */
     public ZabbixTrapper(final String zabbixServer, final int port,
             final String host) throws UnknownHostException {
-        queue = new LinkedBlockingQueue<Item>();
+        final String server = System.getProperty(
+                "org.kjkoster.zapcat.zabbix.server", zabbixServer);
+        final String serverPort = System
+                .getProperty("org.kjkoster.zapcat.zabbix.serverport", Integer
+                        .toString(port));
+        final String serverHost = System.getProperty(
+                "org.kjkoster.zapcat.zabbix.host", host);
 
-        sender = new Sender(queue, InetAddress.getByName(zabbixServer), port,
-                host);
+        sender = new Sender(queue, InetAddress.getByName(server), Integer
+                .parseInt(serverPort), serverHost);
         sender.start();
     }
 
