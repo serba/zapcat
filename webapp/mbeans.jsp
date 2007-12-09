@@ -52,7 +52,7 @@ configuration, Tomcat versions and Tomcat configuration options.</p>
 <%!private static String zabbixType(final String type) {
         if (type.equals("java.lang.String")
                 || type.equals("javax.management.ObjectName")) {
-            return "text";
+            return "character";
         }
         if (type.equals("java.lang.Short") || type.equals("short")
                 || type.equals("java.lang.Integer") || type.equals("int")
@@ -66,5 +66,5 @@ configuration, Tomcat versions and Tomcat configuration options.</p>
 
         return "unknown&nbsp;("
                 + type
-                + "),&nbsp;but&nbsp;you&nbsp;can&nbsp;try&nbsp;using&nbsp;'text'.";
+                + "),&nbsp;but&nbsp;you&nbsp;can&nbsp;try&nbsp;using&nbsp;'character'.";
     }%>
