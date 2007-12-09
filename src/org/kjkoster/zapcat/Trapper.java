@@ -1,5 +1,7 @@
 package org.kjkoster.zapcat;
 
+import java.util.concurrent.TimeUnit;
+
 /* This file is part of Zapcat.
  *
  * Zapcat is free software: you can redistribute it and/or modify
@@ -39,4 +41,35 @@ public interface Trapper {
      * Stop the trapper and clean up.
      */
     void stop();
+
+    /**
+     * Send the output of a JMX query to the server immediately.
+     * 
+     * @param key
+     *            The identifier of the data item.
+     * @param objectName
+     *            The JMX object to query.
+     * @param attribute
+     *            The attribute on that object.
+     */
+    void send(String key, String objectName, String attribute);
+
+    /**
+     * Schedule the sending of the output of a JMX query to the server. The
+     * query is performed at a fixed rate and the first query is performed
+     * immediately.
+     * 
+     * @param time
+     *            The time duration in the given <code>unit</code>.
+     * @param unit
+     *            The unit of the <code>time</code> argument.
+     * @param key
+     *            The identifier of the data item.
+     * @param objectName
+     *            The JMX object to query.
+     * @param attribute
+     *            The attribute on that object.
+     */
+    void every(int time, TimeUnit unit, String key, String objectName,
+            String attribute);
 }

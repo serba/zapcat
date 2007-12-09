@@ -145,7 +145,7 @@ final class Sender extends Thread {
             }
             if (read != 2 || response[0] != 'O' || response[1] != 'K') {
                 log.warn("received unexpected response '"
-                        + new String(response) + "' for key " + key);
+                        + new String(response) + "' for key '" + key + "'");
             }
         } finally {
             if (in != null) {

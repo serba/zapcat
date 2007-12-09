@@ -19,7 +19,10 @@ package org.kjkoster.zapcat.zabbix;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.kjkoster.zapcat.Trapper;
 
@@ -33,6 +36,9 @@ public final class ZabbixTrapper implements Trapper {
     private final BlockingQueue<Item> queue;
 
     private final Sender sender;
+
+    private final ScheduledExecutorService scheduler = Executors
+            .newScheduledThreadPool(1);
 
     /**
      * Create a new Zabbix trapper.
@@ -89,5 +95,28 @@ public final class ZabbixTrapper implements Trapper {
      */
     public void send(final String key, final Object value) {
         queue.offer(new Item(key, value.toString()));
+    }
+
+    /**
+     * @see org.kjkoster.zapcat.Trapper#send(java.lang.String, java.lang.String,
+     *      java.lang.String)
+     */
+    public void send(final String key, final String objectName,
+            final String attribute) {
+        queue.offer(new Item(key, objectName, attribute));
+    }
+
+    /**
+     * @see org.kjkoster.zapcat.Trapper#every(int,
+     *      java.util.concurrent.TimeUnit, java.lang.String, java.lang.String,
+     *      java.lang.String)
+     */
+    public void every(final int time, final TimeUnit unit, final String key,
+            final String objectName, final String attribute) {
+        scheduler.scheduleAtFixedRate(new Runnable() {
+            public void run() {
+                send(key, objectName, attribute);
+            }
+        }, 0, time, unit);
     }
 }

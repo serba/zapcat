@@ -38,10 +38,11 @@
 
 	<target name="jar" description="compile and jar the library" depends="clean">
 		<mkdir dir="build/jar" />
-		<javac destdir="build/jar" srcdir="src">
+		<javac destdir="build/jar" srcdir="src" debug="true">
 			<classpath>
 				<pathelement location="lib/log4j-1.2.15.jar" />
 				<pathelement location="lib/servlet-api.jar" />
+				<pathelement location="lib/ostermillerutils_1_06_01.jar" />
 			</classpath>
 		</javac>
 
@@ -75,7 +76,7 @@
 
 	<target name="agent" depends="jar" description="run the zapcat agent sample">
 		<mkdir dir="build/samples" />
-		<javac destdir="build/samples" srcdir="samples" classpath="${jar}" />
+		<javac destdir="build/samples" srcdir="samples" classpath="${jar}" debug="true" />
 		<copy todir="build/samples" file="samples/log4j.xml" />
 		<java classname="SampleAgent" fork="true">
 			<jvmarg value="-Dcom.sun.management.jmxremote" />
@@ -85,6 +86,23 @@
 				<pathelement path="build/samples" />
 				<pathelement location="${jar}" />
 				<pathelement location="lib/log4j-1.2.15.jar" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="trapper" depends="jar" description="run the zapcat trapper sample">
+		<mkdir dir="build/samples" />
+		<javac destdir="build/samples" srcdir="samples" classpath="${jar}" debug="true" />
+		<copy todir="build/samples" file="samples/log4j.xml" />
+		<java classname="SampleTrapper" fork="true">
+			<jvmarg value="-Dcom.sun.management.jmxremote" />
+			<jvmarg value="-Dcom.sun.management.jmxremote.authenticate=false" />
+			<jvmarg value="-Dcom.sun.management.jmxremote.ssl=false" />
+			<classpath>
+				<pathelement path="build/samples" />
+				<pathelement location="${jar}" />
+				<pathelement location="lib/log4j-1.2.15.jar" />
+				<pathelement location="lib/ostermillerutils_1_06_01.jar" />
 			</classpath>
 		</java>
 	</target>
