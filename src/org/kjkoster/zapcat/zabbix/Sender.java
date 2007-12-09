@@ -51,6 +51,8 @@ final class Sender extends Thread {
 
     private boolean stopping = false;
 
+    private static final int TIMEOUT = 5 * 1000;
+
     /**
      * Create a new background sender.
      * 
@@ -133,6 +135,7 @@ final class Sender extends Thread {
         InputStream in = null;
         try {
             zabbix = new Socket(zabbixServer, zabbixPort);
+            zabbix.setSoTimeout(TIMEOUT);
 
             out = new OutputStreamWriter(zabbix.getOutputStream());
             out.write(message.toString());
