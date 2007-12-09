@@ -9,8 +9,12 @@ public class SampleAgent {
 
             // simulate lots of important work being done...
             Thread.sleep(Long.MAX_VALUE);
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
-            agent.stop();
+            if (agent != null) {
+                agent.stop();
+            }
         }
     }
 }
