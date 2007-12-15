@@ -110,8 +110,7 @@ public class ZabbixAgentConfigurationTest extends TestCase {
 
     /**
      * Test that we can use a Java system property to configure the port number
-     * on the agent. The property should override the default port number and
-     * the number passed as an argument.
+     * on the agent. The property should override the default port number.
      * 
      * @throws Exception
      *             When the test failed.
