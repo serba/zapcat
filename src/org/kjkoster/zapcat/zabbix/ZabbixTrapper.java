@@ -33,40 +33,32 @@ import org.kjkoster.zapcat.Trapper;
  */
 public final class ZabbixTrapper implements Trapper {
 
+    /**
+     * The property key of the server that Zabbix runs on.
+     */
+    public static final String SERVER_PROPERTY = "org.kjkoster.zapcat.zabbix.server";
+
+    /**
+     * The property key of the port of Zabbix on its server.
+     */
+    public static final String PORT_PROPERTY = "org.kjkoster.zapcat.zabbix.serverport";
+
+    /**
+     * The property key of the host that we are in Zabbix.
+     */
+    public static final String HOST_PROPERTY = "org.kjkoster.zapcat.zabbix.host";
+
+    /**
+     * The default port of Zabbix servers.
+     */
+    public static final int DEFAULT_PORT = 10051;
+
     private final BlockingQueue<Item> queue = new LinkedBlockingQueue<Item>();
 
     private final Sender sender;
 
     private final ScheduledExecutorService scheduler = Executors
             .newScheduledThreadPool(1);
-
-    /**
-     * Create a new Zabbix trapper.
-     * 
-     * @param zabbixServer
-     *            The name or IP address of the machine that Zabbix runs on.
-     * @param port
-     *            The port number on that machine.
-     * @param host
-     *            The name of the host as defined in the hosts section in
-     *            Zabbix.
-     * @throws UnknownHostException
-     *             When the zabbix server name could not be resolved.
-     */
-    public ZabbixTrapper(final String zabbixServer, final int port,
-            final String host) throws UnknownHostException {
-        final String server = System.getProperty(
-                "org.kjkoster.zapcat.zabbix.server", zabbixServer);
-        final String serverPort = System
-                .getProperty("org.kjkoster.zapcat.zabbix.serverport", Integer
-                        .toString(port));
-        final String serverHost = System.getProperty(
-                "org.kjkoster.zapcat.zabbix.host", host);
-
-        sender = new Sender(queue, InetAddress.getByName(server), Integer
-                .parseInt(serverPort), serverHost);
-        sender.start();
-    }
 
     /**
      * Create a new Zabbix trapper, using the default port number.
@@ -81,7 +73,14 @@ public final class ZabbixTrapper implements Trapper {
      */
     public ZabbixTrapper(final String zabbixServer, final String host)
             throws UnknownHostException {
-        this(zabbixServer, 10051, host);
+        final String server = System.getProperty(SERVER_PROPERTY, zabbixServer);
+        final String serverPort = System.getProperty(PORT_PROPERTY, Integer
+                .toString(DEFAULT_PORT));
+        final String serverHost = System.getProperty(HOST_PROPERTY, host);
+
+        sender = new Sender(queue, InetAddress.getByName(server), Integer
+                .parseInt(serverPort), serverHost);
+        sender.start();
     }
 
     /**
