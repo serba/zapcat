@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
-<zabbix_export version="1.0" date="09.12.07" time="07.58">
+<zabbix_export version="1.0" date="12.12.07" time="03.02">
 	<hosts>
 		<host name="Template_Java">
 			<ip>0.0.0.0</ip>
 			<port>10050</port>
 			<status>3</status>
 			<groups>
-				<group>Java virtual machines</group>
+				<group>Templates</group>
 			</groups>
 			<items>
 				<item type="0" key="jmx[java.lang:type=ClassLoading][LoadedClassCount]" value_type="3">
@@ -137,39 +137,6 @@
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=OperatingSystem][CommittedVirtualMemorySize]" value_type="3">
-					<description>memory physical committed</description>
-					<delay>30</delay>
-					<history>90</history>
-					<trends>365</trends>
-					<units>B</units>
-					<formula>1</formula>
-					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
-					<snmp_port>161</snmp_port>
-				</item>
-				<item type="0" key="jmx[java.lang:type=OperatingSystem][FreePhysicalMemorySize]" value_type="3">
-					<description>memory physical free</description>
-					<delay>30</delay>
-					<history>90</history>
-					<trends>365</trends>
-					<units>B</units>
-					<formula>1</formula>
-					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
-					<snmp_port>161</snmp_port>
-				</item>
-				<item type="0" key="jmx[java.lang:type=OperatingSystem][FreeSwapSpaceSize]" value_type="3">
-					<description>memory swap free</description>
-					<delay>30</delay>
-					<history>90</history>
-					<trends>365</trends>
-					<units>B</units>
-					<formula>1</formula>
-					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
-					<snmp_port>161</snmp_port>
-				</item>
 				<item type="0" key="jmx[java.lang:type=OperatingSystem][MaxFileDescriptorCount]" value_type="3">
 					<description>filedescriptors max</description>
 					<delay>30</delay>
@@ -203,19 +170,8 @@
 					<snmp_port>161</snmp_port>
 				</item>
 				<item type="0" key="jmx[java.lang:type=OperatingSystem][TotalPhysicalMemorySize]" value_type="3">
-					<description>memory physical total</description>
-					<delay>30</delay>
-					<history>90</history>
-					<trends>365</trends>
-					<units>B</units>
-					<formula>1</formula>
-					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
-					<snmp_port>161</snmp_port>
-				</item>
-				<item type="0" key="jmx[java.lang:type=OperatingSystem][TotalSwapSpaceSize]" value_type="3">
-					<description>memory swap total</description>
-					<delay>30</delay>
+					<description>physical memory</description>
+					<delay>3600</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<units>B</units>
@@ -301,13 +257,13 @@
 				<trigger>
 					<description>jvm uses suboptimal JIT compiler</description>
 					<expression>{{HOSTNAME}:jmx[java.lang:type=Compilation][Name].str(Server)}#1</expression>
-					<priority>2</priority>
+					<priority>4</priority>
 					<comments>Most monitored Java applications run on server class machines and should also use the server class hotspot compiler. The client hotspot compiler uses only a single cpu, whereas the server hotspot compiler uses all available processors. You can enable the server class hotspot compiler by specifying -server on the JVM command line.</comments>
 				</trigger>
 				<trigger>
 					<description>DISPLAY environment variable set</description>
 					<expression>{{HOSTNAME}:system.env[DISPLAY].nodata(60)}=0</expression>
-					<priority>2</priority>
+					<priority>4</priority>
 					<comments>The DISPLAY environment variable may cause problems for server that use AWT and other painting classes, for example to generate graphs. Unsetting this environment variable is usually a good idea, unless you specifically have to set it. This variable is particularly sneaky because depending on how you logged into the system it may be set or not. Best add 'unset DISPLAY' to your server's start script.</comments>
 				</trigger>
 				<trigger>
@@ -421,44 +377,6 @@
 						</graph_element>
 						<graph_element item="{HOSTNAME}:jmx[java.lang:type=Memory][NonHeapMemoryUsage.used]">
 							<color>009900</color>
-							<yaxisside>1</yaxisside>
-							<calc_fnc>2</calc_fnc>
-							<periods_cnt>5</periods_cnt>
-						</graph_element>
-					</graph_elements>
-				</graph>
-				<graph name="memory physical" width="900" height="200">
-					<show_work_period>1</show_work_period>
-					<show_triggers>1</show_triggers>
-					<yaxismin>0.0000</yaxismin>
-					<yaxismax>100.0000</yaxismax>
-					<graph_elements>
-						<graph_element item="{HOSTNAME}:jmx[java.lang:type=OperatingSystem][TotalPhysicalMemorySize]">
-							<color>990000</color>
-							<yaxisside>1</yaxisside>
-							<calc_fnc>2</calc_fnc>
-							<periods_cnt>5</periods_cnt>
-						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[java.lang:type=OperatingSystem][FreePhysicalMemorySize]">
-							<color>009900</color>
-							<yaxisside>1</yaxisside>
-							<calc_fnc>2</calc_fnc>
-							<periods_cnt>5</periods_cnt>
-						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[java.lang:type=OperatingSystem][FreeSwapSpaceSize]">
-							<color>009999</color>
-							<yaxisside>1</yaxisside>
-							<calc_fnc>2</calc_fnc>
-							<periods_cnt>5</periods_cnt>
-						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[java.lang:type=OperatingSystem][TotalSwapSpaceSize]">
-							<color>999900</color>
-							<yaxisside>1</yaxisside>
-							<calc_fnc>2</calc_fnc>
-							<periods_cnt>5</periods_cnt>
-						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[java.lang:type=OperatingSystem][CommittedVirtualMemorySize]">
-							<color>000099</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
 							<periods_cnt>5</periods_cnt>
