@@ -136,13 +136,13 @@ public class ZabbixAgentConfigurationTest extends TestCase {
         try {
             JMXHelper.query("org.kjkoster.zapcat:type=Agent,port=" + port,
                     "Port");
-            fail("agent mbean found, but not expected");
+            fail();
         } catch (InstanceNotFoundException e) {
             // this is supposed to happen
         }
         try {
             new Socket(InetAddress.getLocalHost(), port);
-            fail("port " + port + " is in use");
+            fail();
         } catch (ConnectException e) {
             // this is supposed to happen
         }
