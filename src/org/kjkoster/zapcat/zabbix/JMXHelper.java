@@ -93,6 +93,8 @@ public final class JMXHelper {
      */
     public static ObjectName register(final Object mbean,
             final String objectName) {
+        log.debug("registering [" + objectName + "]: " + mbean);
+
         ObjectName name = null;
         try {
             name = new ObjectName(objectName);
@@ -107,17 +109,19 @@ public final class JMXHelper {
     /**
      * Remove the registration of a bean.
      * 
-     * @param name
+     * @param objectName
      *            The name of the bean to unregister.
      */
-    public static void unregister(final ObjectName name) {
+    public static void unregister(final ObjectName objectName) {
+        log.debug("un-registering [" + objectName + "]");
+
         try {
-            mbeanserver.unregisterMBean(name);
+            mbeanserver.unregisterMBean(objectName);
         } catch (InstanceNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (Exception e) {
-            log.warn("unable to unregister '" + name + "'", e);
+            log.warn("unable to unregister '" + objectName + "'", e);
         }
     }
 }
