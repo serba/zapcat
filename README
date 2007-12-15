@@ -27,6 +27,10 @@ RELEASE NOTES
 		- Fixes an issue where system properties would be ignored by agents
 		  during startup. Hard-coded configuration was removed to simplify the
 		  agent's interface.
+		- Now works with older versions of Zabbix by introducing a switch that
+		  allows you to select the Zabbix 1.4 protocol, or the Zabbix 1.1
+		  protocol. (thanks to Valeri Felberg)
+		- Has some unit tests to avoid regression (never enough, though).
 
 	version 1.1:
 		- Introduces an Openfire XMPP server plugin for Zapcat. (thanks to Guus
