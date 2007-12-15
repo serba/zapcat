@@ -24,7 +24,7 @@ import org.jivesoftware.util.Log;
 /**
  * A Log4J appender that sends its log entries to the Openfire logs.
  * 
- * @author Guus der Kinderen, guus@nimbuzz.com
+ * @author Guus der Kinderen &lt;guus@nimbuzz.com&gt;
  */
 public class OpenfireLog4jAppender extends AppenderSkeleton {
 

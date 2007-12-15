@@ -34,7 +34,7 @@ import org.kjkoster.zapcat.zabbix.ZabbixAgent;
 /**
  * This plugin enables a Zabbix server to query Openfire in a JMX style.
  * 
- * @author Guus der Kinderen, guus@nimbuzz.com
+ * @author Guus der Kinderen &lt;guus@nimbuzz.com&gt;
  */
 public class ZapcatPlugin implements Plugin, PropertyEventListener {
 
