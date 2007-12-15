@@ -18,15 +18,9 @@ package org.kjkoster.zapcat.zabbix;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
-import java.nio.channels.spi.SelectorProvider;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -42,6 +36,12 @@ import org.kjkoster.zapcat.Agent;
  * <p>
  * The agent uses an executor service to handle the JMX queries that come in.
  * This allows us to handle a few queries concurrently.
+ * <p>
+ * Configuration is done in the following order: system properties are checked
+ * first, if present they override both coded and default values. The values
+ * that are passed as an argument to the agent's constructor override the
+ * default values. If neither system properties and coded values are present,
+ * default values are used.
  * 
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
  */
@@ -53,6 +53,16 @@ public final class ZabbixAgent implements Agent, Runnable {
      */
     public static final int DEFAULT_PORT = 10052;
 
+    /**
+     * The property key indicating the port number.
+     */
+    public static final String PORT_PROPERTY = "org.kjkoster.zapcat.zabbix.port";
+
+    /**
+     * The property key indicating the bind address.
+     */
+    public static final String ADDRESS_PROPERTY = "org.kjkoster.zapcat.zabbix.address";
+
     // the address to bind to (or 'null' to bind to any available interface).
     private final InetAddress address;
 
@@ -61,13 +71,9 @@ public final class ZabbixAgent implements Agent, Runnable {
 
     private final Thread daemon;
 
-    private Selector listener = null;
+    private ServerSocket serverSocket = null;
 
-    private ServerSocketChannel serverSocketChannel = null;
-
-    private final ExecutorService handlers;
-
-    private final ObjectName mbeanName;
+    private volatile boolean stopping = false;
 
     /**
      * Configure a new Zabbix agent. Each agent needs the local port number to
@@ -79,21 +85,20 @@ public final class ZabbixAgent implements Agent, Runnable {
      * setting a property named "org.kjkoster.zapcat.zabbix.address". If this
      * property is not set, this Zabbix agent will listen on any available
      * address.
-     * 
-     * @throws UnknownHostException
-     *             Thrown by invoking {@link InetAddress#getByName(String)} on
-     *             the value of "org.kjkoster.zapcat.zabbix.address", if that
-     *             value was set.
      */
-    public ZabbixAgent() throws UnknownHostException {
-        this(findAddress(), Integer.parseInt(System.getProperty(
-                "org.kjkoster.zapcat.zabbix.port", "" + DEFAULT_PORT)));
+    public ZabbixAgent() {
+        this(null, DEFAULT_PORT);
     }
 
-    private static InetAddress findAddress() throws UnknownHostException {
-        final String hostname = System
-                .getProperty("org.kjkoster.zapcat.zabbix.address");
-        return hostname == null ? null : InetAddress.getByName(hostname);
+    /**
+     * Configure a new Zabbix agent on the specified port. This port number may
+     * still be overridden using a system property.
+     * 
+     * @param port
+     *            The port number to listen on.
+     */
+    public ZabbixAgent(final int port) {
+        this(null, port);
     }
 
     /**
@@ -112,17 +117,25 @@ public final class ZabbixAgent implements Agent, Runnable {
      *            The port number to listen on.
      */
     public ZabbixAgent(final InetAddress address, final int port) {
-        this.address = address;
-        this.port = port;
-        handlers = new ThreadPoolExecutor(1, 5, 60L, TimeUnit.SECONDS,
-                new LinkedBlockingQueue<Runnable>());
+        final String propertyAddress = System.getProperty(ADDRESS_PROPERTY);
+        InetAddress resolved = null;
+        if (propertyAddress != null) {
+            try {
+                resolved = InetAddress.getByName(propertyAddress);
+            } catch (UnknownHostException e) {
+                log.warn("Unable to resolve " + propertyAddress
+                        + " as a host name, ignoring setting", e);
+            }
+        }
+        this.address = resolved == null ? address : resolved;
+
+        final String propertyPort = System.getProperty(PORT_PROPERTY);
+        this.port = propertyPort == null ? port : Integer
+                .parseInt(propertyPort);
 
         daemon = new Thread(this, "Zabbix-agent");
         daemon.setDaemon(true);
         daemon.start();
-
-        mbeanName = JMXHelper.register(new Agent(),
-                "org.kjkoster.zapcat:type=Agent,port=" + port);
     }
 
     /**
@@ -131,109 +144,69 @@ public final class ZabbixAgent implements Agent, Runnable {
      * @see org.kjkoster.zapcat.Agent#stop()
      */
     public void stop() {
+        stopping = true;
+
         try {
-            if (listener != null) {
-                listener.close();
-            }
-            if (serverSocketChannel != null) {
-                serverSocketChannel.close();
+            if (serverSocket != null) {
+                serverSocket.close();
+                serverSocket = null;
             }
         } catch (IOException e) {
             // ignore, we're going down anyway...
         }
+
         try {
             daemon.join();
         } catch (InterruptedException e) {
             // ignore, we're going down anyway...
         }
 
-        try {
-            handlers.shutdown();
-            handlers.awaitTermination(10, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            // ignore, we're going down anyway...
-        }
+        log.debug("zabbix agent is done");
     }
 
     /**
      * @see java.lang.Runnable#run()
      */
     public void run() {
+        final ExecutorService handlers = new ThreadPoolExecutor(1, 5, 60L,
+                TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+        final ObjectName mbeanName = JMXHelper.register(new Agent(),
+                "org.kjkoster.zapcat:type=Agent,port=" + port);
+
         try {
-            listener = initNIOListener();
+            // 0 means 'use default backlog'
+            serverSocket = new ServerSocket(port, 0, address);
 
-            for (;;) {
-                listener.select();
+            while (!stopping) {
+                final Socket accepted = serverSocket.accept();
+                log.debug("accepted connection from "
+                        + accepted.getInetAddress().getHostAddress());
 
-                if (!listener.isOpen()) {
-                    log.debug("stopped listening for connections.");
-                    break;
-                }
-
-                for (final SelectionKey key : listener.keys()) {
-                    if (!key.isValid()) {
-                        continue;
-                    }
-
-                    if (key.isAcceptable()) {
-                        final ServerSocketChannel keyChannel = (ServerSocketChannel) key
-                                .channel();
-                        final SocketChannel socketChannel = keyChannel.accept();
-
-                        // This will ensure backwards compatibility. Should we
-                        // change this to non-blocking sockets as well?
-                        socketChannel.configureBlocking(true);
-                        final Socket accepted = socketChannel.socket();
-                        log.debug("accepted connection from "
-                                + accepted.getInetAddress().getHostAddress());
-
-                        handlers.execute(new QueryHandler(accepted));
-                    }
-                }
+                handlers.execute(new QueryHandler(accepted));
             }
         } catch (IOException e) {
-            log.error("caught exception, exiting", e);
-        } finally {
-            if (listener != null) {
-                try {
-                    listener.close();
-                } catch (IOException e) {
-                    // ignore, we're going down anyway...
-                }
+            if (!stopping) {
+                log.error("caught exception, exiting", e);
             }
-            if (serverSocketChannel != null) {
-                try {
-                    serverSocketChannel.close();
-                } catch (IOException e) {
-                    // ignore, we're going down anyway...
+        } finally {
+            try {
+                if (serverSocket != null) {
+                    serverSocket.close();
+                    serverSocket = null;
                 }
+            } catch (IOException e) {
+                // ignore, we're going down anyway...
+            }
+
+            try {
+                handlers.shutdown();
+                handlers.awaitTermination(10, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                // ignore, we're going down anyway...
             }
 
             JMXHelper.unregister(mbeanName);
-
-            log.debug("zabbix agent exits");
         }
-    }
-
-    /**
-     * Initializes a non-blocking server socket, by binding it to the specified
-     * address (use 'null' to bind to any available interface) and port.
-     * 
-     * @return The selector object that has been registered to the channel.
-     */
-    private Selector initNIOListener() throws IOException {
-        serverSocketChannel = ServerSocketChannel.open();
-        // We'd like to perform non-blocking operations.
-        serverSocketChannel.configureBlocking(false);
-
-        final ServerSocket serverSocket = serverSocketChannel.socket();
-        serverSocket.bind(new InetSocketAddress(address, port));
-        log.info("listening on " + serverSocket.toString());
-
-        // create, register and return the Selector instance that we'll use.
-        final Selector selector = SelectorProvider.provider().openSelector();
-        serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
-        return selector;
     }
 
     /**

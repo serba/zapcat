@@ -16,9 +16,6 @@ package org.kjkoster.zapcat.servlet;
  * along with Zapcat.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.net.UnknownHostException;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
 import org.kjkoster.zapcat.Agent;
@@ -37,12 +34,8 @@ public class ZapcatServlet extends HttpServlet {
      * @see javax.servlet.GenericServlet#init()
      */
     @Override
-    public void init() throws ServletException {
-        try {
-            agent = new ZabbixAgent();
-        } catch (UnknownHostException e) {
-            throw new ServletException(e);
-        }
+    public void init() {
+        agent = new ZabbixAgent();
     }
 
     /**
