@@ -37,11 +37,7 @@ import org.kjkoster.zapcat.Agent;
  * The agent uses an executor service to handle the JMX queries that come in.
  * This allows us to handle a few queries concurrently.
  * <p>
- * Configuration is done in the following order: system properties are checked
- * first, if present they override both coded and default values. The values
- * that are passed as an argument to the agent's constructor override the
- * default values. If neither system properties and coded values are present,
- * default values are used.
+ * Configuration done through system properties override default values.
  * 
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
  */
@@ -88,17 +84,6 @@ public final class ZabbixAgent implements Agent, Runnable {
      */
     public ZabbixAgent() {
         this(null, DEFAULT_PORT);
-    }
-
-    /**
-     * Configure a new Zabbix agent on the specified port. This port number may
-     * still be overridden using a system property.
-     * 
-     * @param port
-     *            The port number to listen on.
-     */
-    public ZabbixAgent(final int port) {
-        this(null, port);
     }
 
     /**

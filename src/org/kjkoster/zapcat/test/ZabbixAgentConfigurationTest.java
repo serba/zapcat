@@ -37,9 +37,7 @@ import org.kjkoster.zapcat.zabbix.ZabbixAgent;
 public class ZabbixAgentConfigurationTest extends TestCase {
     private static final int DEFAULTPORT = ZabbixAgent.DEFAULT_PORT;
 
-    private static final int ARGUMENTPORT = 10053;
-
-    private static final int PROPERTYPORT = 10054;
+    private static final int PROPERTYPORT = DEFAULTPORT + 1;
 
     private final Properties originalProperties;
 
@@ -64,7 +62,6 @@ public class ZabbixAgentConfigurationTest extends TestCase {
         assertNull(System.getProperty(ZabbixAgent.ADDRESS_PROPERTY));
 
         assertAgentDown(DEFAULTPORT);
-        assertAgentDown(ARGUMENTPORT);
         assertAgentDown(PROPERTYPORT);
     }
 
@@ -76,7 +73,6 @@ public class ZabbixAgentConfigurationTest extends TestCase {
         super.tearDown();
 
         assertAgentDown(DEFAULTPORT);
-        assertAgentDown(ARGUMENTPORT);
         assertAgentDown(PROPERTYPORT);
     }
 
@@ -90,7 +86,6 @@ public class ZabbixAgentConfigurationTest extends TestCase {
         final Agent agent = new ZabbixAgent();
 
         assertAgentUp(DEFAULTPORT);
-        assertAgentDown(ARGUMENTPORT);
         assertAgentDown(PROPERTYPORT);
 
         agent.stop();
@@ -108,24 +103,6 @@ public class ZabbixAgentConfigurationTest extends TestCase {
         assertAgentUp(DEFAULTPORT);
         assertAgentUp(DEFAULTPORT);
 
-        assertAgentDown(ARGUMENTPORT);
-        assertAgentDown(PROPERTYPORT);
-
-        agent.stop();
-    }
-
-    /**
-     * Test that we can use a Java argument to configure the port number on the
-     * agent. The argument should override the default port number.
-     * 
-     * @throws Exception
-     *             When the test failed.
-     */
-    public void testPortAsArgument() throws Exception {
-        final Agent agent = new ZabbixAgent(ARGUMENTPORT);
-
-        assertAgentDown(DEFAULTPORT);
-        assertAgentUp(ARGUMENTPORT);
         assertAgentDown(PROPERTYPORT);
 
         agent.stop();
@@ -142,16 +119,15 @@ public class ZabbixAgentConfigurationTest extends TestCase {
     public void testPortAsProperty() throws Exception {
         final Properties testProperties = (Properties) originalProperties
                 .clone();
-        testProperties.setProperty(ZabbixAgent.PORT_PROPERTY, ""
-                + PROPERTYPORT);
+        testProperties
+                .setProperty(ZabbixAgent.PORT_PROPERTY, "" + PROPERTYPORT);
         System.setProperties(testProperties);
         assertEquals("" + PROPERTYPORT, System
                 .getProperty(ZabbixAgent.PORT_PROPERTY));
 
-        final Agent agent = new ZabbixAgent(ARGUMENTPORT);
+        final Agent agent = new ZabbixAgent();
 
         assertAgentDown(DEFAULTPORT);
-        assertAgentDown(ARGUMENTPORT);
         assertAgentUp(PROPERTYPORT);
 
         agent.stop();
