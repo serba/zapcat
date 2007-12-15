@@ -59,6 +59,11 @@ public final class ZabbixAgent implements Agent, Runnable {
      */
     public static final String ADDRESS_PROPERTY = "org.kjkoster.zapcat.zabbix.address";
 
+    /**
+     * The property key indicating the protocol version to use.
+     */
+    public static final String PROTOCOL_PROPERTY = "org.kjkoster.zapcat.zabbix.protocol";
+
     // the address to bind to (or 'null' to bind to any available interface).
     private final InetAddress address;
 

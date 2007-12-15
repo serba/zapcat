@@ -28,6 +28,8 @@ import org.apache.log4j.Logger;
  * A JMX query handler for Zabbix. The query handler reads the query from the
  * socket, parses the request and constructs and sends a response.
  * <p>
+ * You can configure the protocol version to use and set it to either
+ * &quot;1.1&quot; or &quot;1.4&quot;.
  * 
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
  */
@@ -134,21 +136,23 @@ final class QueryHandler implements Runnable {
             throws IOException {
         final BufferedOutputStream out = new BufferedOutputStream(outputStream);
 
-        // write magic marker
-        write(out, (byte) 'Z');
-        write(out, (byte) 'B');
-        write(out, (byte) 'X');
-        write(out, (byte) 'D');
+        if (isProtocol14()) {
+            // write magic marker
+            write(out, (byte) 'Z');
+            write(out, (byte) 'B');
+            write(out, (byte) 'X');
+            write(out, (byte) 'D');
 
-        // write protocol version
-        write(out, (byte) 0x01);
+            // write protocol version
+            write(out, (byte) 0x01);
 
-        // length as 64 bit integer, little endian format
-        long length = response.length();
-        for (int i = 0; i < 8; i++) {
-            write(out, (byte) (length & 0xff));
+            // length as 64 bit integer, little endian format
+            long length = response.length();
+            for (int i = 0; i < 8; i++) {
+                write(out, (byte) (length & 0xff));
 
-            length >>= 8;
+                length >>= 8;
+            }
         }
 
         // response itself
@@ -158,6 +162,20 @@ final class QueryHandler implements Runnable {
 
         out.flush();
         log.debug("sent bytes " + hexdump);
+    }
+
+    private boolean isProtocol14() {
+        final String protocolProperty = System
+                .getProperty(ZabbixAgent.PROTOCOL_PROPERTY);
+        if (protocolProperty == null || "1.4".equals(protocolProperty)) {
+            return true;
+        }
+        if ("1.1".equals(protocolProperty)) {
+            return false;
+        }
+
+        log.warn("Unsupported protocol '" + protocolProperty + "', using 1.4");
+        return true;
     }
 
     private void write(final BufferedOutputStream out, final byte b)
