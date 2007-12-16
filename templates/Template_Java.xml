@@ -1,55 +1,71 @@
 <?xml version="1.0"?>
-<zabbix_export version="1.0" date="12.12.07" time="03.02">
+<zabbix_export version="1.0" date="16.12.07" time="03.02">
 	<hosts>
 		<host name="Template_Java">
-			<ip>0.0.0.0</ip>
-			<port>10050</port>
+			<port>10052</port>
 			<status>3</status>
 			<groups>
 				<group>Templates</group>
 			</groups>
 			<items>
-				<item type="0" key="jmx[java.lang:type=ClassLoading][LoadedClassCount]" value_type="3">
+				<item type="0"
+					key="jmx[java.lang:type=ClassLoading][LoadedClassCount]"
+					value_type="3">
 					<description>classes loaded</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=ClassLoading][TotalLoadedClassCount]" value_type="3">
+				<item type="0"
+					key="jmx[java.lang:type=ClassLoading][TotalLoadedClassCount]"
+					value_type="3">
 					<description>classes total loaded</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=ClassLoading][UnloadedClassCount]" value_type="3">
+				<item type="0"
+					key="jmx[java.lang:type=ClassLoading][UnloadedClassCount]"
+					value_type="3">
 					<description>classes unloaded</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=Compilation][Name]" value_type="1">
+				<item type="0"
+					key="jmx[java.lang:type=Compilation][Name]" value_type="1">
 					<description>jit name</description>
 					<delay>3600</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=Compilation][TotalCompilationTime]" value_type="0">
+				<item type="0"
+					key="jmx[java.lang:type=Compilation][TotalCompilationTime]"
+					value_type="0">
 					<description>jit time</description>
 					<delay>30</delay>
 					<history>90</history>
@@ -58,10 +74,14 @@
 					<multiplier>1</multiplier>
 					<formula>0.0001</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=Memory][HeapMemoryUsage.committed]" value_type="3">
+				<item type="0"
+					key="jmx[java.lang:type=Memory][HeapMemoryUsage.committed]"
+					value_type="3">
 					<description>memory heap committed</description>
 					<delay>30</delay>
 					<history>90</history>
@@ -69,10 +89,14 @@
 					<units>B</units>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=Memory][HeapMemoryUsage.max]" value_type="3">
+				<item type="0"
+					key="jmx[java.lang:type=Memory][HeapMemoryUsage.max]"
+					value_type="3">
 					<description>memory heap max</description>
 					<delay>30</delay>
 					<history>90</history>
@@ -80,10 +104,14 @@
 					<units>B</units>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=Memory][HeapMemoryUsage.used]" value_type="3">
+				<item type="0"
+					key="jmx[java.lang:type=Memory][HeapMemoryUsage.used]"
+					value_type="3">
 					<description>memory heap used</description>
 					<delay>30</delay>
 					<history>90</history>
@@ -91,10 +119,14 @@
 					<units>B</units>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=Memory][NonHeapMemoryUsage.committed]" value_type="3">
+				<item type="0"
+					key="jmx[java.lang:type=Memory][NonHeapMemoryUsage.committed]"
+					value_type="3">
 					<description>memory nonheap committed</description>
 					<delay>30</delay>
 					<history>90</history>
@@ -102,10 +134,14 @@
 					<units>B</units>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=Memory][NonHeapMemoryUsage.max]" value_type="3">
+				<item type="0"
+					key="jmx[java.lang:type=Memory][NonHeapMemoryUsage.max]"
+					value_type="3">
 					<description>memory nonheap max</description>
 					<delay>30</delay>
 					<history>90</history>
@@ -113,10 +149,14 @@
 					<units>B</units>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=Memory][NonHeapMemoryUsage.used]" value_type="3">
+				<item type="0"
+					key="jmx[java.lang:type=Memory][NonHeapMemoryUsage.used]"
+					value_type="3">
 					<description>memory nonheap used</description>
 					<delay>30</delay>
 					<history>90</history>
@@ -124,40 +164,58 @@
 					<units>B</units>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=Memory][ObjectPendingFinalizationCount]" value_type="3">
-					<description>objects pending finalization</description>
+				<item type="0"
+					key="jmx[java.lang:type=Memory][ObjectPendingFinalizationCount]"
+					value_type="3">
+					<description>
+						objects pending finalization
+					</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=OperatingSystem][MaxFileDescriptorCount]" value_type="3">
+				<item type="0"
+					key="jmx[java.lang:type=OperatingSystem][MaxFileDescriptorCount]"
+					value_type="3">
 					<description>filedescriptors max</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=OperatingSystem][OpenFileDescriptorCount]" value_type="3">
+				<item type="0"
+					key="jmx[java.lang:type=OperatingSystem][OpenFileDescriptorCount]"
+					value_type="3">
 					<description>filedescriptors open</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=OperatingSystem][ProcessCpuTime]" value_type="3">
+				<item type="0"
+					key="jmx[java.lang:type=OperatingSystem][ProcessCpuTime]"
+					value_type="3">
 					<description>vm cpu time</description>
 					<delay>30</delay>
 					<history>90</history>
@@ -166,21 +224,13 @@
 					<multiplier>1</multiplier>
 					<formula>0.000001</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=OperatingSystem][TotalPhysicalMemorySize]" value_type="3">
-					<description>physical memory</description>
-					<delay>3600</delay>
-					<history>90</history>
-					<trends>365</trends>
-					<units>B</units>
-					<formula>1</formula>
-					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
-					<snmp_port>161</snmp_port>
-				</item>
-				<item type="0" key="jmx[java.lang:type=Runtime][Uptime]" value_type="3">
+				<item type="0" key="jmx[java.lang:type=Runtime][Uptime]"
+					value_type="3">
 					<description>vm uptime</description>
 					<delay>30</delay>
 					<history>90</history>
@@ -189,99 +239,166 @@
 					<multiplier>1</multiplier>
 					<formula>0.001</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=Runtime][VmVersion]" value_type="1">
+				<item type="0"
+					key="jmx[java.lang:type=Runtime][VmVersion]" value_type="1">
 					<description>vm version</description>
 					<delay>3600</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=Threading][DaemonThreadCount]" value_type="3">
+				<item type="0"
+					key="jmx[java.lang:type=Threading][DaemonThreadCount]"
+					value_type="3">
 					<description>threads daemon count</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=Threading][PeakThreadCount]" value_type="3">
+				<item type="0"
+					key="jmx[java.lang:type=Threading][PeakThreadCount]"
+					value_type="3">
 					<description>threads peak</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=Threading][ThreadCount]" value_type="3">
+				<item type="0"
+					key="jmx[java.lang:type=Threading][ThreadCount]" value_type="3">
 					<description>threads count</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[java.lang:type=Threading][TotalStartedThreadCount]" value_type="3">
+				<item type="0"
+					key="jmx[java.lang:type=Threading][TotalStartedThreadCount]"
+					value_type="3">
 					<description>threads started count</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="system.env[DISPLAY]" value_type="1">
-					<description>DISPLAY environment variable</description>
+				<item type="0" key="system.env[DISPLAY]"
+					value_type="1">
+					<description>
+						display environment variable
+					</description>
 					<delay>3600</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_oid>
+						interfaces.ifTable.ifEntry.ifInOctets.1
+					</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
 			</items>
 			<triggers>
 				<trigger>
-					<description>jvm uses suboptimal JIT compiler</description>
-					<expression>{{HOSTNAME}:jmx[java.lang:type=Compilation][Name].str(Server)}#1</expression>
+					<description>
+						jvm uses suboptimal jit compiler
+					</description>
+					<expression>
+						{{HOSTNAME}:jmx[java.lang:type=Compilation][Name].str(Server)}#1
+					</expression>
 					<priority>4</priority>
-					<comments>Most monitored Java applications run on server class machines and should also use the server class hotspot compiler. The client hotspot compiler uses only a single cpu, whereas the server hotspot compiler uses all available processors. You can enable the server class hotspot compiler by specifying -server on the JVM command line.</comments>
+					<comments>
+						Most monitored Java applications run on server
+						class machines and should also use the server
+						class hotspot compiler. The client hotspot
+						compiler uses only a single cpu, whereas the
+						server hotspot compiler uses all available
+						processors. You can enable the server class
+						hotspot compiler by specifying -server on the
+						JVM command line.
+					</comments>
 				</trigger>
 				<trigger>
-					<description>DISPLAY environment variable set</description>
-					<expression>{{HOSTNAME}:system.env[DISPLAY].nodata(60)}=0</expression>
+					<description>
+						display environment variable set
+					</description>
+					<expression>
+						{{HOSTNAME}:system.env[DISPLAY].nodata(60)}=0
+					</expression>
 					<priority>4</priority>
-					<comments>The DISPLAY environment variable may cause problems for server that use AWT and other painting classes, for example to generate graphs. Unsetting this environment variable is usually a good idea, unless you specifically have to set it. This variable is particularly sneaky because depending on how you logged into the system it may be set or not. Best add 'unset DISPLAY' to your server's start script.</comments>
+					<comments>
+						The DISPLAY environment variable may cause
+						problems for server that use AWT and other
+						painting classes, for example to generate
+						graphs. Unsetting this environment variable is
+						usually a good idea, unless you specifically
+						have to set it. This variable is particularly
+						sneaky because depending on how you logged into
+						the system it may be set or not. Best add 'unset
+						DISPLAY' to your server's start script.
+					</comments>
 				</trigger>
 				<trigger>
 					<description>70% heap memory used</description>
-					<expression>{{HOSTNAME}:jmx[java.lang:type=Memory][HeapMemoryUsage.used].last(0)}&gt;({{HOSTNAME}:jmx[java.lang:type=Memory][HeapMemoryUsage.max].last(0)}*0.7)</expression>
+					<expression>
+						{{HOSTNAME}:jmx[java.lang:type=Memory][HeapMemoryUsage.used].last(0)}&gt;({{HOSTNAME}:jmx[java.lang:type=Memory][HeapMemoryUsage.max].last(0)}*0.7)
+					</expression>
 					<priority>4</priority>
-					<comments>Around 70% heap memory usage will cause the garbage collectors to start taking serious measures to free up extra memory. You may have to give the JVM more memory to allow it to handle the load.</comments>
+					<comments>
+						Around 70% heap memory usage will cause the
+						garbage collectors to start taking serious
+						measures to free up extra memory. You may have
+						to give the JVM more memory to allow it to
+						handle the load.
+					</comments>
 				</trigger>
 				<trigger>
 					<description>70% nonheap memory used</description>
-					<expression>{{HOSTNAME}:jmx[java.lang:type=Memory][NonHeapMemoryUsage.used].last(0)}&gt;({{HOSTNAME}:jmx[java.lang:type=Memory][NonHeapMemoryUsage.max].last(0)}*0.7)</expression>
+					<expression>
+						{{HOSTNAME}:jmx[java.lang:type=Memory][NonHeapMemoryUsage.used].last(0)}&gt;({{HOSTNAME}:jmx[java.lang:type=Memory][NonHeapMemoryUsage.max].last(0)}*0.7)
+					</expression>
 					<priority>4</priority>
 				</trigger>
 				<trigger>
 					<description>70% file descriptors used</description>
-					<expression>{{HOSTNAME}:jmx[java.lang:type=OperatingSystem][OpenFileDescriptorCount].last(0)}&gt;({{HOSTNAME}:jmx[java.lang:type=OperatingSystem][OpenFileDescriptorCount].last(0)}*0.7)</expression>
+					<expression>
+						{{HOSTNAME}:jmx[java.lang:type=OperatingSystem][OpenFileDescriptorCount].last(0)}&gt;({{HOSTNAME}:jmx[java.lang:type=OperatingSystem][OpenFileDescriptorCount].last(0)}*0.7)
+					</expression>
 					<priority>4</priority>
-					<comments>Aside form memory, file descriptors are another important resource that your JVM may consume.</comments>
+					<comments>
+						Aside form memory, file descriptors are another
+						important resource that your JVM may consume.
+					</comments>
 				</trigger>
 			</triggers>
 			<graphs>
@@ -291,19 +408,22 @@
 					<yaxismin>0.0000</yaxismin>
 					<yaxismax>100.0000</yaxismax>
 					<graph_elements>
-						<graph_element item="{HOSTNAME}:jmx[java.lang:type=ClassLoading][TotalLoadedClassCount]">
+						<graph_element
+							item="{HOSTNAME}:jmx[java.lang:type=ClassLoading][TotalLoadedClassCount]">
 							<color>000099</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
 							<periods_cnt>5</periods_cnt>
 						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[java.lang:type=ClassLoading][UnloadedClassCount]">
+						<graph_element
+							item="{HOSTNAME}:jmx[java.lang:type=ClassLoading][UnloadedClassCount]">
 							<color>999900</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
 							<periods_cnt>5</periods_cnt>
 						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[java.lang:type=ClassLoading][LoadedClassCount]">
+						<graph_element
+							item="{HOSTNAME}:jmx[java.lang:type=ClassLoading][LoadedClassCount]">
 							<color>009900</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
@@ -311,19 +431,22 @@
 						</graph_element>
 					</graph_elements>
 				</graph>
-				<graph name="file descriptors" width="900" height="200">
+				<graph name="file descriptors" width="900"
+					height="200">
 					<show_work_period>1</show_work_period>
 					<show_triggers>1</show_triggers>
 					<yaxismin>0.0000</yaxismin>
 					<yaxismax>100.0000</yaxismax>
 					<graph_elements>
-						<graph_element item="{HOSTNAME}:jmx[java.lang:type=OperatingSystem][MaxFileDescriptorCount]">
+						<graph_element
+							item="{HOSTNAME}:jmx[java.lang:type=OperatingSystem][MaxFileDescriptorCount]">
 							<color>990000</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
 							<periods_cnt>5</periods_cnt>
 						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[java.lang:type=OperatingSystem][OpenFileDescriptorCount]">
+						<graph_element
+							item="{HOSTNAME}:jmx[java.lang:type=OperatingSystem][OpenFileDescriptorCount]">
 							<color>009900</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
@@ -337,19 +460,22 @@
 					<yaxismin>0.0000</yaxismin>
 					<yaxismax>100.0000</yaxismax>
 					<graph_elements>
-						<graph_element item="{HOSTNAME}:jmx[java.lang:type=Memory][HeapMemoryUsage.committed]">
+						<graph_element
+							item="{HOSTNAME}:jmx[java.lang:type=Memory][HeapMemoryUsage.committed]">
 							<color>000099</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
 							<periods_cnt>5</periods_cnt>
 						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[java.lang:type=Memory][HeapMemoryUsage.max]">
+						<graph_element
+							item="{HOSTNAME}:jmx[java.lang:type=Memory][HeapMemoryUsage.max]">
 							<color>990000</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
 							<periods_cnt>5</periods_cnt>
 						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[java.lang:type=Memory][HeapMemoryUsage.used]">
+						<graph_element
+							item="{HOSTNAME}:jmx[java.lang:type=Memory][HeapMemoryUsage.used]">
 							<color>009900</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
@@ -363,19 +489,22 @@
 					<yaxismin>0.0000</yaxismin>
 					<yaxismax>100.0000</yaxismax>
 					<graph_elements>
-						<graph_element item="{HOSTNAME}:jmx[java.lang:type=Memory][NonHeapMemoryUsage.committed]">
+						<graph_element
+							item="{HOSTNAME}:jmx[java.lang:type=Memory][NonHeapMemoryUsage.committed]">
 							<color>000099</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
 							<periods_cnt>5</periods_cnt>
 						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[java.lang:type=Memory][NonHeapMemoryUsage.max]">
+						<graph_element
+							item="{HOSTNAME}:jmx[java.lang:type=Memory][NonHeapMemoryUsage.max]">
 							<color>990000</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
 							<periods_cnt>5</periods_cnt>
 						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[java.lang:type=Memory][NonHeapMemoryUsage.used]">
+						<graph_element
+							item="{HOSTNAME}:jmx[java.lang:type=Memory][NonHeapMemoryUsage.used]">
 							<color>009900</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
@@ -389,19 +518,22 @@
 					<yaxismin>0.0000</yaxismin>
 					<yaxismax>100.0000</yaxismax>
 					<graph_elements>
-						<graph_element item="{HOSTNAME}:jmx[java.lang:type=Threading][PeakThreadCount]">
+						<graph_element
+							item="{HOSTNAME}:jmx[java.lang:type=Threading][PeakThreadCount]">
 							<color>990000</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
 							<periods_cnt>5</periods_cnt>
 						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[java.lang:type=Threading][DaemonThreadCount]">
+						<graph_element
+							item="{HOSTNAME}:jmx[java.lang:type=Threading][DaemonThreadCount]">
 							<color>000099</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
 							<periods_cnt>5</periods_cnt>
 						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[java.lang:type=Threading][ThreadCount]">
+						<graph_element
+							item="{HOSTNAME}:jmx[java.lang:type=Threading][ThreadCount]">
 							<color>009900</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
