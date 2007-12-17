@@ -360,31 +360,451 @@
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Survivor Space][Usage.committed]" value_type="3">
+					<description>memorypool survivor space committed</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Survivor Space][Usage.max]" value_type="3">
+					<description>memorypool survivor space max</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Survivor Space][Usage.used]" value_type="3">
+					<description>memorypool survivor space used</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Perm Gen][Usage.committed]" value_type="3">
+					<description>memorypool perm gen committed</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Perm Gen][Usage.max]" value_type="3">
+					<description>memorypool perm gen max</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Perm Gen][Usage.used]" value_type="3">
+					<description>memorypool perm gen used</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Eden Space][Usage.committed]" value_type="3">
+					<description>memorypool eden space committed</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Eden Space][Usage.max]" value_type="3">
+					<description>memorypool eden space max</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Eden Space][Usage.used]" value_type="3">
+					<description>memorypool eden space used</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Code Cache][Usage.committed]" value_type="3">
+					<description>memorypool code cache committed</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Code Cache][Usage.max]" value_type="3">
+					<description>memorypool code cache max</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Code Cache][Usage.used]" value_type="3">
+					<description>memorypool code cache used</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Tenured Gen][Usage.committed]" value_type="3">
+					<description>memorypool tenured gen committed</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Tenured Gen][Usage.max]" value_type="3">
+					<description>memorypool tenured gen max</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Tenured Gen][Usage.used]" value_type="3">
+					<description>memorypool tenured gen used</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=PS Survivor Space][Usage.committed]" value_type="3">
+					<description>memorypool ps survivor space committed</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=PS Survivor Space][Usage.max]" value_type="3">
+					<description>memorypool ps survivor space max</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=PS Survivor Space][Usage.used]" value_type="3">
+					<description>memorypool ps survivor space used</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=PS Eden Space][Usage.committed]" value_type="3">
+					<description>memorypool ps eden space committed</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=PS Eden Space][Usage.max]" value_type="3">
+					<description>memorypool ps eden space max</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=PS Eden Space][Usage.used]" value_type="3">
+					<description>memorypool ps eden space used</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=PS Old Gen][Usage.committed]" value_type="3">
+					<description>memorypool ps old gen committed</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=PS Old Gen][Usage.max]" value_type="3">
+					<description>memorypool ps old gen max</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=PS Old Gen][Usage.used]" value_type="3">
+					<description>memorypool ps old gen used</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=PS Perm Gen][Usage.committed]" value_type="3">
+					<description>memorypool ps perm gen committed</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=PS Perm Gen][Usage.max]" value_type="3">
+					<description>memorypool ps perm gen max</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=PS Perm Gen][Usage.used]" value_type="3">
+					<description>memorypool ps perm gen used</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=CMS Old Gen][Usage.committed]" value_type="3">
+					<description>memorypool cms old gen committed</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=CMS Old Gen][Usage.max]" value_type="3">
+					<description>memorypool cms old gen max</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=CMS Old Gen][Usage.used]" value_type="3">
+					<description>memorypool cms old gen used</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=CMS Perm Gen][Usage.committed]" value_type="3">
+					<description>memorypool cms perm gen committed</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=CMS Perm Gen][Usage.max]" value_type="3">
+					<description>memorypool cms perm gen max</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=CMS Perm Gen][Usage.used]" value_type="3">
+					<description>memorypool cms perm gen used</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Par Eden Space][Usage.committed]" value_type="3">
+					<description>memorypool par eden space committed</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Par Eden Space][Usage.max]" value_type="3">
+					<description>memorypool par eden space max</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Par Eden Space][Usage.used]" value_type="3">
+					<description>memorypool par eden space used</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Par Survivor Space][Usage.committed]" value_type="3">
+					<description>memorypool par survivor space committed</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Par Survivor Space][Usage.max]" value_type="3">
+					<description>memorypool par survivor space max</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Par Survivor Space][Usage.used]" value_type="3">
+					<description>memorypool par survivor space used</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<units>B</units>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
 			</items>
 			<triggers>
 				<trigger>
 					<description>jvm uses suboptimal jit compiler</description>
 					<expression>{{HOSTNAME}:jmx[java.lang:type=Compilation][Name].str(Server)}#1</expression>
 					<priority>4</priority>
-					<comments>
-						Most monitored Java applications run on server class machines and should also use the server class hotspot compiler. The client hotspot compiler uses only a single cpu, whereas the server hotspot compiler uses all available
-						processors. You can enable the server class hotspot compiler by specifying -server on the JVM command line.
-					</comments>
 				</trigger>
 				<trigger>
 					<description>display environment variable set</description>
 					<expression>{{HOSTNAME}:system.env[DISPLAY].nodata(60)}=0</expression>
 					<priority>4</priority>
-					<comments>
-						The DISPLAY environment variable may cause problems for server that use AWT and other painting classes, for example to generate graphs. Unsetting this environment variable is usually a good idea, unless you specifically have to set
-						it. This variable is particularly sneaky because depending on how you logged into the system it may be set or not. Best add 'unset DISPLAY' to your server's start script.
-					</comments>
 				</trigger>
 				<trigger>
 					<description>70% heap memory used</description>
 					<expression>{{HOSTNAME}:jmx[java.lang:type=Memory][HeapMemoryUsage.used].last(0)}&gt;({{HOSTNAME}:jmx[java.lang:type=Memory][HeapMemoryUsage.max].last(0)}*0.7)</expression>
 					<priority>4</priority>
-					<comments>Around 70% heap memory usage will cause the garbage collectors to start taking serious measures to free up extra memory. You may have to give the JVM more memory to allow it to handle the load.</comments>
 				</trigger>
 				<trigger>
 					<description>70% nonheap memory used</description>
@@ -395,7 +815,71 @@
 					<description>70% file descriptors used</description>
 					<expression>{{HOSTNAME}:jmx[java.lang:type=OperatingSystem][OpenFileDescriptorCount].last(0)}&gt;({{HOSTNAME}:jmx[java.lang:type=OperatingSystem][OpenFileDescriptorCount].last(0)}*0.7)</expression>
 					<priority>4</priority>
-					<comments>Aside form memory, file descriptors are another important resource that your JVM may consume.</comments>
+				</trigger>
+				<trigger>
+					<description>70% memorypool survivor space used</description>
+					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Survivor Space][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Survivor Space][Usage.max].last(0)}*0.7)</expression>
+					<priority>4</priority>
+				</trigger>
+				<trigger>
+					<description>70% memorypool perm gen used</description>
+					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Perm Gen][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Perm Gen][Usage.max].last(0)}*0.7)</expression>
+					<priority>4</priority>
+				</trigger>
+				<trigger>
+					<description>70% memorypool eden space used</description>
+					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Eden Space][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Eden Space][Usage.max].last(0)}*0.7)</expression>
+					<priority>4</priority>
+				</trigger>
+				<trigger>
+					<description>70% memorypool code cache used</description>
+					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Code Cache][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Code Cache][Usage.max].last(0)}*0.7)</expression>
+					<priority>4</priority>
+				</trigger>
+				<trigger>
+					<description>70% memorypool tenured gen used</description>
+					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Tenured Gen][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Tenured Gen][Usage.max].last(0)}*0.7)</expression>
+					<priority>4</priority>
+				</trigger>
+				<trigger>
+					<description>70% memorypool ps survivor space used</description>
+					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Survivor Space][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Survivor Space][Usage.max].last(0)}*0.7)</expression>
+					<priority>4</priority>
+				</trigger>
+				<trigger>
+					<description>70% memorypool ps eden space used</description>
+					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Eden Space][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Eden Space][Usage.max].last(0)}*0.7)</expression>
+					<priority>4</priority>
+				</trigger>
+				<trigger>
+					<description>70% memorypool ps old gen used</description>
+					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Old Gen][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Old Gen][Usage.max].last(0)}*0.7)</expression>
+					<priority>4</priority>
+				</trigger>
+				<trigger>
+					<description>70% memorypool ps perm gen used</description>
+					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Perm Gen][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Perm Gen][Usage.max].last(0)}*0.7)</expression>
+					<priority>4</priority>
+				</trigger>
+				<trigger>
+					<description>70% memorypool cms old gen used</description>
+					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=CMS Old Gen][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=CMS Old Gen][Usage.max].last(0)}*0.7)</expression>
+					<priority>4</priority>
+				</trigger>
+				<trigger>
+					<description>70% memorypool cms perm gen used</description>
+					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=CMS Perm Gen][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=CMS Perm Gen][Usage.max].last(0)}*0.7)</expression>
+					<priority>4</priority>
+				</trigger>
+				<trigger>
+					<description>70% memorypool par eden space used</description>
+					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Par Eden Space][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Par Eden Space][Usage.max].last(0)}*0.7)</expression>
+					<priority>4</priority>
+				</trigger>
+				<trigger>
+					<description>70% memorypool par survivor space used</description>
+					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Par Survivor Space][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Par Survivor Space][Usage.max].last(0)}*0.7)</expression>
+					<priority>4</priority>
 				</trigger>
 			</triggers>
 			<graphs>
@@ -516,6 +1000,344 @@
 							<periods_cnt>5</periods_cnt>
 						</graph_element>
 						<graph_element item="{HOSTNAME}:jmx[java.lang:type=Threading][ThreadCount]">
+							<color>009900</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+					</graph_elements>
+				</graph>
+				<graph name="memorypool survivor space" width="900" height="200">
+					<show_work_period>1</show_work_period>
+					<show_triggers>1</show_triggers>
+					<yaxismin>0.0000</yaxismin>
+					<yaxismax>100.0000</yaxismax>
+					<graph_elements>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Survivor Space][Usage.committed]">
+							<color>000099</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Survivor Space][Usage.max]">
+							<color>990000</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Survivor Space][Usage.used]">
+							<color>009900</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+					</graph_elements>
+				</graph>
+				<graph name="memorypool perm gen" width="900" height="200">
+					<show_work_period>1</show_work_period>
+					<show_triggers>1</show_triggers>
+					<yaxismin>0.0000</yaxismin>
+					<yaxismax>100.0000</yaxismax>
+					<graph_elements>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Perm Gen][Usage.committed]">
+							<color>000099</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Perm Gen][Usage.max]">
+							<color>990000</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Perm Gen][Usage.used]">
+							<color>009900</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+					</graph_elements>
+				</graph>
+				<graph name="memorypool eden space" width="900" height="200">
+					<show_work_period>1</show_work_period>
+					<show_triggers>1</show_triggers>
+					<yaxismin>0.0000</yaxismin>
+					<yaxismax>100.0000</yaxismax>
+					<graph_elements>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Eden Space][Usage.committed]">
+							<color>000099</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Eden Space][Usage.max]">
+							<color>990000</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Eden Space][Usage.used]">
+							<color>009900</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+					</graph_elements>
+				</graph>
+				<graph name="memorypool code cache" width="900" height="200">
+					<show_work_period>1</show_work_period>
+					<show_triggers>1</show_triggers>
+					<yaxismin>0.0000</yaxismin>
+					<yaxismax>100.0000</yaxismax>
+					<graph_elements>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Code Cache][Usage.committed]">
+							<color>000099</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Code Cache][Usage.max]">
+							<color>990000</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Code Cache][Usage.used]">
+							<color>009900</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+					</graph_elements>
+				</graph>
+				<graph name="memorypool tenured gen" width="900" height="200">
+					<show_work_period>1</show_work_period>
+					<show_triggers>1</show_triggers>
+					<yaxismin>0.0000</yaxismin>
+					<yaxismax>100.0000</yaxismax>
+					<graph_elements>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Tenured Gen][Usage.committed]">
+							<color>000099</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Tenured Gen][Usage.max]">
+							<color>990000</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Tenured Gen][Usage.used]">
+							<color>009900</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+					</graph_elements>
+				</graph>
+				<graph name="memorypool ps survivor space" width="900" height="200">
+					<show_work_period>1</show_work_period>
+					<show_triggers>1</show_triggers>
+					<yaxismin>0.0000</yaxismin>
+					<yaxismax>100.0000</yaxismax>
+					<graph_elements>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Survivor Space][Usage.committed]">
+							<color>000099</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Survivor Space][Usage.max]">
+							<color>990000</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Survivor Space][Usage.used]">
+							<color>009900</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+					</graph_elements>
+				</graph>
+				<graph name="memorypool ps eden space" width="900" height="200">
+					<show_work_period>1</show_work_period>
+					<show_triggers>1</show_triggers>
+					<yaxismin>0.0000</yaxismin>
+					<yaxismax>100.0000</yaxismax>
+					<graph_elements>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Eden Space][Usage.committed]">
+							<color>000099</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Eden Space][Usage.max]">
+							<color>990000</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Eden Space][Usage.used]">
+							<color>009900</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+					</graph_elements>
+				</graph>
+				<graph name="memorypool ps old gen" width="900" height="200">
+					<show_work_period>1</show_work_period>
+					<show_triggers>1</show_triggers>
+					<yaxismin>0.0000</yaxismin>
+					<yaxismax>100.0000</yaxismax>
+					<graph_elements>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Old Gen][Usage.committed]">
+							<color>000099</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Old Gen][Usage.max]">
+							<color>990000</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Old Gen][Usage.used]">
+							<color>009900</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+					</graph_elements>
+				</graph>
+				<graph name="memorypool ps perm gen" width="900" height="200">
+					<show_work_period>1</show_work_period>
+					<show_triggers>1</show_triggers>
+					<yaxismin>0.0000</yaxismin>
+					<yaxismax>100.0000</yaxismax>
+					<graph_elements>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Perm Gen][Usage.committed]">
+							<color>000099</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Perm Gen][Usage.max]">
+							<color>990000</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Perm Gen][Usage.used]">
+							<color>009900</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+					</graph_elements>
+				</graph>
+				<graph name="memorypool cms old gen" width="900" height="200">
+					<show_work_period>1</show_work_period>
+					<show_triggers>1</show_triggers>
+					<yaxismin>0.0000</yaxismin>
+					<yaxismax>100.0000</yaxismax>
+					<graph_elements>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=CMS Old Gen][Usage.committed]">
+							<color>000099</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=CMS Old Gen][Usage.max]">
+							<color>990000</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=CMS Old Gen][Usage.used]">
+							<color>009900</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+					</graph_elements>
+				</graph>
+				<graph name="memorypool cms perm gen" width="900" height="200">
+					<show_work_period>1</show_work_period>
+					<show_triggers>1</show_triggers>
+					<yaxismin>0.0000</yaxismin>
+					<yaxismax>100.0000</yaxismax>
+					<graph_elements>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=CMS Perm Gen][Usage.committed]">
+							<color>000099</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=CMS Perm Gen][Usage.max]">
+							<color>990000</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=CMS Perm Gen][Usage.used]">
+							<color>009900</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+					</graph_elements>
+				</graph>
+				<graph name="memorypool par eden space" width="900" height="200">
+					<show_work_period>1</show_work_period>
+					<show_triggers>1</show_triggers>
+					<yaxismin>0.0000</yaxismin>
+					<yaxismax>100.0000</yaxismax>
+					<graph_elements>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Par Eden Space][Usage.committed]">
+							<color>000099</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Par Eden Space][Usage.max]">
+							<color>990000</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Par Eden Space][Usage.used]">
+							<color>009900</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+					</graph_elements>
+				</graph>
+				<graph name="memorypool par survivor space" width="900" height="200">
+					<show_work_period>1</show_work_period>
+					<show_triggers>1</show_triggers>
+					<yaxismin>0.0000</yaxismin>
+					<yaxismax>100.0000</yaxismax>
+					<graph_elements>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Par Survivor Space][Usage.committed]">
+							<color>000099</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Par Survivor Space][Usage.max]">
+							<color>990000</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Par Survivor Space][Usage.used]">
 							<color>009900</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
