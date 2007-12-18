@@ -2,7 +2,6 @@
 <zabbix_export version="1.0" date="16.12.07" time="03.42">
 	<hosts>
 		<host name="Template_Java">
-			<port>10052</port>
 			<status>3</status>
 			<groups>
 				<group>Templates</group>
