@@ -22,6 +22,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import javax.management.AttributeNotFoundException;
+import javax.management.InstanceNotFoundException;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -108,7 +111,16 @@ final class QueryHandler implements Runnable {
             final String objectName = query
                     .substring(firstOpen + 1, firstClose);
 
-            return JMXHelper.query(objectName, attribute);
+            try {
+                return JMXHelper.query(objectName, attribute);
+            } catch (InstanceNotFoundException e) {
+                log.debug("no bean named " + objectName, e);
+                return "ZBX_NOTSUPPORTED";
+            } catch (AttributeNotFoundException e) {
+                log.debug("no attribute named " + attribute + " on bean named "
+                        + objectName, e);
+                return "ZBX_NOTSUPPORTED";
+            }
         } else if (query.startsWith("system.property")) {
             return querySystemProperty(attribute);
         } else if (query.startsWith("system.env")) {
