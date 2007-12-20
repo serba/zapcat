@@ -791,92 +791,77 @@
 			</items>
 			<triggers>
 				<trigger>
-					<description>jvm uses suboptimal jit compiler</description>
+					<description>jvm uses suboptimal jit compiler on {HOSTNAME}</description>
 					<expression>{{HOSTNAME}:jmx[java.lang:type=Compilation][Name].str(Server)}#1</expression>
 					<priority>4</priority>
 				</trigger>
 				<trigger>
-					<description>display environment variable set</description>
+					<description>display environment variable set on {HOSTNAME}</description>
 					<expression>{{HOSTNAME}:system.env[DISPLAY].nodata(60)}=0</expression>
 					<priority>4</priority>
 				</trigger>
 				<trigger>
-					<description>70% heap memory used</description>
+					<description>70% heap memory used on {HOSTNAME}</description>
 					<expression>{{HOSTNAME}:jmx[java.lang:type=Memory][HeapMemoryUsage.used].last(0)}&gt;({{HOSTNAME}:jmx[java.lang:type=Memory][HeapMemoryUsage.max].last(0)}*0.7)</expression>
 					<priority>4</priority>
 				</trigger>
 				<trigger>
-					<description>70% nonheap memory used</description>
+					<description>70% nonheap memory used on {HOSTNAME}</description>
 					<expression>{{HOSTNAME}:jmx[java.lang:type=Memory][NonHeapMemoryUsage.used].last(0)}&gt;({{HOSTNAME}:jmx[java.lang:type=Memory][NonHeapMemoryUsage.max].last(0)}*0.7)</expression>
 					<priority>4</priority>
 				</trigger>
 				<trigger>
-					<description>70% file descriptors used</description>
+					<description>70% file descriptors used on {HOSTNAME}</description>
 					<expression>{{HOSTNAME}:jmx[java.lang:type=OperatingSystem][OpenFileDescriptorCount].last(0)}&gt;({{HOSTNAME}:jmx[java.lang:type=OperatingSystem][OpenFileDescriptorCount].last(0)}*0.7)</expression>
 					<priority>4</priority>
 				</trigger>
 				<trigger>
-					<description>70% memorypool survivor space used</description>
+					<description>70% memorypool survivor space used on {HOSTNAME}</description>
 					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Survivor Space][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Survivor Space][Usage.max].last(0)}*0.7)</expression>
 					<priority>4</priority>
 				</trigger>
 				<trigger>
-					<description>70% memorypool perm gen used</description>
+					<description>70% memorypool perm gen used on {HOSTNAME}</description>
 					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Perm Gen][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Perm Gen][Usage.max].last(0)}*0.7)</expression>
 					<priority>4</priority>
 				</trigger>
 				<trigger>
-					<description>70% memorypool eden space used</description>
-					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Eden Space][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Eden Space][Usage.max].last(0)}*0.7)</expression>
-					<priority>4</priority>
-				</trigger>
-				<trigger>
-					<description>70% memorypool code cache used</description>
+					<description>70% memorypool code cache used on {HOSTNAME}</description>
 					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Code Cache][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Code Cache][Usage.max].last(0)}*0.7)</expression>
 					<priority>4</priority>
 				</trigger>
 				<trigger>
-					<description>70% memorypool tenured gen used</description>
+					<description>70% memorypool tenured gen used on {HOSTNAME}</description>
 					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Tenured Gen][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Tenured Gen][Usage.max].last(0)}*0.7)</expression>
 					<priority>4</priority>
 				</trigger>
 				<trigger>
-					<description>70% memorypool ps survivor space used</description>
+					<description>70% memorypool ps survivor space used on {HOSTNAME}</description>
 					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Survivor Space][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Survivor Space][Usage.max].last(0)}*0.7)</expression>
 					<priority>4</priority>
 				</trigger>
 				<trigger>
-					<description>70% memorypool ps eden space used</description>
-					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Eden Space][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Eden Space][Usage.max].last(0)}*0.7)</expression>
-					<priority>4</priority>
-				</trigger>
-				<trigger>
-					<description>70% memorypool ps old gen used</description>
+					<description>70% memorypool ps old gen used on {HOSTNAME}</description>
 					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Old Gen][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Old Gen][Usage.max].last(0)}*0.7)</expression>
 					<priority>4</priority>
 				</trigger>
 				<trigger>
-					<description>70% memorypool ps perm gen used</description>
+					<description>70% memorypool ps perm gen used on {HOSTNAME}</description>
 					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Perm Gen][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=PS Perm Gen][Usage.max].last(0)}*0.7)</expression>
 					<priority>4</priority>
 				</trigger>
 				<trigger>
-					<description>70% memorypool cms old gen used</description>
+					<description>70% memorypool cms old gen used on {HOSTNAME}</description>
 					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=CMS Old Gen][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=CMS Old Gen][Usage.max].last(0)}*0.7)</expression>
 					<priority>4</priority>
 				</trigger>
 				<trigger>
-					<description>70% memorypool cms perm gen used</description>
+					<description>70% memorypool cms perm gen used on {HOSTNAME}</description>
 					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=CMS Perm Gen][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=CMS Perm Gen][Usage.max].last(0)}*0.7)</expression>
 					<priority>4</priority>
 				</trigger>
 				<trigger>
-					<description>70% memorypool par eden space used</description>
-					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Par Eden Space][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Par Eden Space][Usage.max].last(0)}*0.7)</expression>
-					<priority>4</priority>
-				</trigger>
-				<trigger>
-					<description>70% memorypool par survivor space used</description>
+					<description>70% memorypool par survivor space used on {HOSTNAME}</description>
 					<expression>{{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Par Survivor Space][Usage.used].last(0)}>({{HOSTNAME}:jmx[java.lang:type=MemoryPool,name=Par Survivor Space][Usage.max].last(0)}*0.7)</expression>
 					<priority>4</priority>
 				</trigger>
