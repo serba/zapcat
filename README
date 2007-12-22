@@ -38,6 +38,8 @@ RELEASE NOTES
 		  easier to see what the Zapcat agent supports and what not. This is
 		  largely thanks to Gerco Dries, who documented the agent protocol on
 		  the Zabbix wiki.
+		- Introduces agent.version and agent.ping.
+		- Makes the agent more robust against query formatting errors.
 
 	version 1.1:
 		- Introduces an Openfire XMPP server plugin for Zapcat. (thanks to Guus

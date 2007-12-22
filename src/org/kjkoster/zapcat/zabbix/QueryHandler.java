@@ -44,7 +44,8 @@ final class QueryHandler implements Runnable {
     private final StringBuilder hexdump = new StringBuilder();
 
     /**
-     * The return value that Zabbix interprets as the agent not supporting the item.
+     * The return value that Zabbix interprets as the agent not supporting the
+     * item.
      */
     private static final String NOTSUPPORTED = "ZBX_NOTSUPPORTED";
 
@@ -108,14 +109,20 @@ final class QueryHandler implements Runnable {
     private String response(final String query) throws Exception {
         final int lastOpen = query.lastIndexOf('[');
         final int lastClose = query.lastIndexOf(']');
-        final String attribute = query.substring(lastOpen + 1, lastClose);
+        String attribute = null;
+        if (lastOpen >= 0 && lastClose >= 0) {
+            attribute = query.substring(lastOpen + 1, lastClose);
+        }
 
         if (query.startsWith("jmx")) {
             final int firstClose = query.lastIndexOf(']', lastOpen);
             final int firstOpen = query.indexOf('[');
+            if (firstClose == -1 || firstOpen == -1 || attribute == null) {
+                return NOTSUPPORTED;
+            }
+
             final String objectName = query
                     .substring(firstOpen + 1, firstClose);
-
             try {
                 return JMXHelper.query(objectName, attribute);
             } catch (InstanceNotFoundException e) {

@@ -35,6 +35,13 @@ import org.kjkoster.zapcat.zabbix.ZabbixAgent;
  */
 public class ZabbixAgentProtocolTest extends TestCase {
 
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+
+        Thread.sleep(100);
+    }
+
     private final Properties originalProperties;
 
     /**
@@ -139,6 +146,128 @@ public class ZabbixAgentProtocolTest extends TestCase {
         assertEquals(version.charAt(1), buffer[1]);
         assertEquals(version.charAt(2), buffer[2]);
         assertEquals(version.charAt(3), buffer[3]);
+        // we'll take the rest for granted...
+
+        socket.close();
+        agent.stop();
+    }
+
+    public void testPing() throws Exception {
+        final Agent agent = new org.kjkoster.zapcat.zabbix.ZabbixAgent();
+        // give the agent some time to open the port
+        Thread.sleep(100);
+        final Socket socket = new Socket(InetAddress.getLocalHost(),
+                org.kjkoster.zapcat.zabbix.ZabbixAgent.DEFAULT_PORT);
+
+        final Writer out = new OutputStreamWriter(socket.getOutputStream());
+        out.write("agent.ping\n");
+        out.flush();
+
+        final InputStream in = socket.getInputStream();
+        final byte[] buffer = new byte[1024];
+        final int read = in.read(buffer);
+        assertEquals(14, read);
+
+        assertEquals('Z', buffer[0]);
+        assertEquals('B', buffer[1]);
+        assertEquals('X', buffer[2]);
+        assertEquals('D', buffer[3]);
+
+        assertEquals('1', buffer[13]);
+
+        // we'll take the rest for granted...
+
+        socket.close();
+        agent.stop();
+    }
+
+    public void testMissingArgument() throws Exception {
+        final Agent agent = new org.kjkoster.zapcat.zabbix.ZabbixAgent();
+        // give the agent some time to open the port
+        Thread.sleep(100);
+        final Socket socket = new Socket(InetAddress.getLocalHost(),
+                org.kjkoster.zapcat.zabbix.ZabbixAgent.DEFAULT_PORT);
+
+        final Writer out = new OutputStreamWriter(socket.getOutputStream());
+        out.write("jmx\n");
+        out.flush();
+
+        final InputStream in = socket.getInputStream();
+        final byte[] buffer = new byte[1024];
+        final int read = in.read(buffer);
+        assertEquals(29, read);
+
+        assertEquals('Z', buffer[0]);
+        assertEquals('B', buffer[1]);
+        assertEquals('X', buffer[2]);
+        assertEquals('D', buffer[3]);
+
+        assertEquals('N', buffer[17]);
+        assertEquals('O', buffer[18]);
+        assertEquals('T', buffer[19]);
+
+        // we'll take the rest for granted...
+
+        socket.close();
+        agent.stop();
+    }
+
+    public void testMissingOpen() throws Exception {
+        final Agent agent = new org.kjkoster.zapcat.zabbix.ZabbixAgent();
+        // give the agent some time to open the port
+        Thread.sleep(100);
+        final Socket socket = new Socket(InetAddress.getLocalHost(),
+                org.kjkoster.zapcat.zabbix.ZabbixAgent.DEFAULT_PORT);
+
+        final Writer out = new OutputStreamWriter(socket.getOutputStream());
+        out.write("jmx(foo]\n");
+        out.flush();
+
+        final InputStream in = socket.getInputStream();
+        final byte[] buffer = new byte[1024];
+        final int read = in.read(buffer);
+        assertEquals(29, read);
+
+        assertEquals('Z', buffer[0]);
+        assertEquals('B', buffer[1]);
+        assertEquals('X', buffer[2]);
+        assertEquals('D', buffer[3]);
+
+        assertEquals('N', buffer[17]);
+        assertEquals('O', buffer[18]);
+        assertEquals('T', buffer[19]);
+
+        // we'll take the rest for granted...
+
+        socket.close();
+        agent.stop();
+    }
+
+    public void testMissingClose() throws Exception {
+        final Agent agent = new org.kjkoster.zapcat.zabbix.ZabbixAgent();
+        // give the agent some time to open the port
+        Thread.sleep(100);
+        final Socket socket = new Socket(InetAddress.getLocalHost(),
+                org.kjkoster.zapcat.zabbix.ZabbixAgent.DEFAULT_PORT);
+
+        final Writer out = new OutputStreamWriter(socket.getOutputStream());
+        out.write("jmx[foo\n");
+        out.flush();
+
+        final InputStream in = socket.getInputStream();
+        final byte[] buffer = new byte[1024];
+        final int read = in.read(buffer);
+        assertEquals(29, read);
+
+        assertEquals('Z', buffer[0]);
+        assertEquals('B', buffer[1]);
+        assertEquals('X', buffer[2]);
+        assertEquals('D', buffer[3]);
+
+        assertEquals('N', buffer[17]);
+        assertEquals('O', buffer[18]);
+        assertEquals('T', buffer[19]);
+
         // we'll take the rest for granted...
 
         socket.close();
