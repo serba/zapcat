@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<zabbix_export version="1.0" date="16.12.07" time="03.42">
+<zabbix_export version="1.0" date="22.12.07" time="03.42">
 	<hosts>
 		<host name="Template_Java">
 			<status>3</status>
@@ -7,6 +7,16 @@
 				<group>Templates</group>
 			</groups>
 			<items>
+				<item type="0" key="agent.version" value_type="1">
+					<description>zapcat version</description>
+					<delay>3600</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
 				<item type="0" key="jmx[java.lang:type=ClassLoading][LoadedClassCount]" value_type="3">
 					<description>classes loaded</description>
 					<delay>30</delay>
@@ -791,14 +801,19 @@
 			</items>
 			<triggers>
 				<trigger>
-					<description>jvm uses suboptimal jit compiler on {HOSTNAME}</description>
-					<expression>{{HOSTNAME}:jmx[java.lang:type=Compilation][Name].str(Server)}#1</expression>
+					<description>{HOSTNAME} is not reachable</description>
+					<expression>{{HOSTNAME}:jmx[java.lang:type=Runtime][Uptime].nodata(60)}=1</expression>
 					<priority>4</priority>
+				</trigger>
+				<trigger>
+					<description>{HOSTNAME} uses suboptimal jit compiler</description>
+					<expression>{{HOSTNAME}:jmx[java.lang:type=Compilation][Name].str(Server)}#1</expression>
+					<priority>3</priority>
 				</trigger>
 				<trigger>
 					<description>display environment variable set on {HOSTNAME}</description>
 					<expression>{{HOSTNAME}:system.env[DISPLAY].nodata(60)}=0</expression>
-					<priority>4</priority>
+					<priority>3</priority>
 				</trigger>
 				<trigger>
 					<description>70% heap memory used on {HOSTNAME}</description>
