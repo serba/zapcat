@@ -44,6 +44,11 @@ final class QueryHandler implements Runnable {
     private final StringBuilder hexdump = new StringBuilder();
 
     /**
+     * The return value that Zabbix interprets as the agent not supporting the item.
+     */
+    private static final String NOTSUPPORTED = "ZBX_NOTSUPPORTED";
+
+    /**
      * Create a new query handler.
      * 
      * @param socket
@@ -115,19 +120,23 @@ final class QueryHandler implements Runnable {
                 return JMXHelper.query(objectName, attribute);
             } catch (InstanceNotFoundException e) {
                 log.debug("no bean named " + objectName, e);
-                return "ZBX_NOTSUPPORTED";
+                return NOTSUPPORTED;
             } catch (AttributeNotFoundException e) {
                 log.debug("no attribute named " + attribute + " on bean named "
                         + objectName, e);
-                return "ZBX_NOTSUPPORTED";
+                return NOTSUPPORTED;
             }
         } else if (query.startsWith("system.property")) {
             return querySystemProperty(attribute);
         } else if (query.startsWith("system.env")) {
             return queryEnvironment(attribute);
+        } else if (query.equals("agent.ping")) {
+            return "1";
+        } else if (query.equals("agent.version")) {
+            return "zapcat 1.2-beta";
         }
 
-        return null;
+        return NOTSUPPORTED;
     }
 
     /*
