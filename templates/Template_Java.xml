@@ -81,7 +81,7 @@
 				</item>
 				<item type="0" key="jmx[java.lang:type=OperatingSystem][MaxFileDescriptorCount]" value_type="3">
 					<description>filedescriptors max</description>
-					<delay>30</delay>
+					<delay>3600</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<formula>1</formula>
