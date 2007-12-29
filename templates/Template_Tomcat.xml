@@ -7,52 +7,87 @@
 				<group>Templates</group>
 			</groups>
 			<items>
-				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8080][bytesReceived]" value_type="3">
-					<description>http bytes received</description>
+				<item type="0" key="jmx[Catalina:type=Server][serverInfo]" value_type="1">
+					<description>tomcat version</description>
+					<delay>3600</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=jk-8009][bytesReceived]" value_type="0">
+					<description>jk-8009 bytes received per second</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<units>B</units>
+					<delta>1</delta>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8080][bytesSent]" value_type="3">
-					<description>http bytes sent</description>
+				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=jk-8009][bytesSent]" value_type="0">
+					<description>jk-8009 bytes sent per second</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<units>B</units>
+					<delta>1</delta>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8080][errorCount]" value_type="3">
-					<description>http request error count</description>
+				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=jk-8009][requestCount]" value_type="0">
+					<description>jk-8009 requests per second</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
+					<delta>1</delta>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8080][maxTime]" value_type="0">
-					<description>http request peak time</description>
+				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=jk-8009][errorCount]" value_type="0">
+					<description>jk-8009 errors per second</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<delta>1</delta>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=jk-8009][processingTime]" value_type="0">
+					<description>jk-8009 processing time per second</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<units>s</units>
+					<delta>1</delta>
 					<multiplier>1</multiplier>
 					<formula>0.001</formula>
 					<snmp_community>public</snmp_community>
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8080][requestCount]" value_type="3">
-					<description>http request count</description>
+				<item type="0" key="jmx[Catalina:type=ThreadPool,name=jk-8009][maxThreads]" value_type="3">
+					<description>jk-8009 threads max</description>
+					<delay>3600</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[Catalina:type=ThreadPool,name=jk-8009][currentThreadCount]" value_type="3">
+					<description>jk-8009 threads allocated</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
@@ -61,52 +96,87 @@
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8443][bytesReceived]" value_type="3">
-					<description>https bytes received</description>
+				<item type="0" key="jmx[Catalina:type=ThreadPool,name=jk-8009][currentThreadsBusy]" value_type="3">
+					<description>jk-8009 threads busy</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8080][bytesReceived]" value_type="0">
+					<description>http-8080 bytes received per second</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<units>B</units>
+					<delta>1</delta>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8443][bytesSent]" value_type="3">
-					<description>https bytes sent</description>
+				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8080][bytesSent]" value_type="0">
+					<description>http-8080 bytes sent per second</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<units>B</units>
+					<delta>1</delta>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8443][errorCount]" value_type="3">
-					<description>https request error count</description>
+				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8080][requestCount]" value_type="0">
+					<description>http-8080 requests per second</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
+					<delta>1</delta>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8443][maxTime]" value_type="0">
-					<description>https request peak time</description>
+				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8080][errorCount]" value_type="0">
+					<description>http-8080 errors per second</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<delta>1</delta>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8080][processingTime]" value_type="0">
+					<description>http-8080 processing time per second</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<units>s</units>
+					<delta>1</delta>
 					<multiplier>1</multiplier>
 					<formula>0.001</formula>
 					<snmp_community>public</snmp_community>
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8443][requestCount]" value_type="3">
-					<description>https request count</description>
+				<item type="0" key="jmx[Catalina:type=ThreadPool,name=http-8080][maxThreads]" value_type="3">
+					<description>http-8080 threads max</description>
+					<delay>3600</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[Catalina:type=ThreadPool,name=http-8080][currentThreadCount]" value_type="3">
+					<description>http-8080 threads allocated</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
@@ -115,53 +185,118 @@
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8009][bytesReceived]" value_type="3">
-					<description>jk bytes received</description>
+				<item type="0" key="jmx[Catalina:type=ThreadPool,name=http-8080][currentThreadsBusy]" value_type="3">
+					<description>http-8080 threads busy</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[Catalina:type=ProtocolHandler,port=8080][compression]" value_type="1">
+					<description>http-8080 gzip compression</description>
+					<delay>3600</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8443][bytesReceived]" value_type="0">
+					<description>http-8443 bytes received per second</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<units>B</units>
+					<delta>1</delta>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8009][bytesSent]" value_type="3">
-					<description>jk bytes sent</description>
+				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8443][bytesSent]" value_type="0">
+					<description>http-8443 bytes sent per second</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<units>B</units>
+					<delta>1</delta>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8009][errorCount]" value_type="3">
-					<description>jk request error count</description>
+				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8443][requestCount]" value_type="0">
+					<description>http-8443 requests per second</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
+					<delta>1</delta>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8009][maxTime]" value_type="0">
-					<description>jk request peak time</description>
+				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8443][errorCount]" value_type="0">
+					<description>http-8443 errors per second</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<delta>1</delta>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8443][processingTime]" value_type="0">
+					<description>http-8443 processing time per second</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<units>s</units>
+					<delta>1</delta>
 					<multiplier>1</multiplier>
 					<formula>0.001</formula>
 					<snmp_community>public</snmp_community>
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[Catalina:type=GlobalRequestProcessor,name=http-8009][requestCount]" value_type="3">
-					<description>jk request count</description>
+				<item type="0" key="jmx[Catalina:type=ThreadPool,name=http-8443][maxThreads]" value_type="3">
+					<description>http-8443 threads max</description>
+					<delay>3600</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[Catalina:type=ThreadPool,name=http-8443][currentThreadCount]" value_type="3">
+					<description>http-8443 threads allocated</description>
 					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[Catalina:type=ThreadPool,name=http-8443][currentThreadsBusy]" value_type="3">
+					<description>http-8443 threads busy</description>
+					<delay>30</delay>
+					<history>90</history>
+					<trends>365</trends>
+					<formula>1</formula>
+					<snmp_community>public</snmp_community>
+					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
+					<snmp_port>161</snmp_port>
+				</item>
+				<item type="0" key="jmx[Catalina:type=ProtocolHandler,port=8443][compression]" value_type="1">
+					<description>http-8443 gzip compression</description>
+					<delay>3600</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<formula>1</formula>
@@ -179,8 +314,8 @@
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[Catalina:type=Manager,path=/,host=localhost][maxActiveSessions]" value_type="0">
-					<description>sessions / max active</description>
+				<item type="0" key="jmx[Catalina:type=Manager,path=/,host=localhost][maxActiveSessions]" value_type="3">
+					<description>sessions / peak</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
@@ -199,234 +334,73 @@
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
-				<item type="0" key="jmx[Catalina:type=Server][serverInfo]" value_type="1">
-					<description>tomcat version</description>
-					<delay>3600</delay>
-					<history>90</history>
-					<trends>365</trends>
-					<formula>1</formula>
-					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
-					<snmp_port>161</snmp_port>
-				</item>
-				<item type="0" key="jmx[Catalina:type=ThreadPool,name=http-8080][currentThreadCount]" value_type="3">
-					<description>http threads current</description>
-					<delay>30</delay>
-					<history>90</history>
-					<trends>365</trends>
-					<formula>1</formula>
-					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
-					<snmp_port>161</snmp_port>
-				</item>
-				<item type="0" key="jmx[Catalina:type=ThreadPool,name=http-8080][currentThreadsBusy]" value_type="3">
-					<description>http threads busy</description>
-					<delay>30</delay>
-					<history>90</history>
-					<trends>365</trends>
-					<formula>1</formula>
-					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
-					<snmp_port>161</snmp_port>
-				</item>
-				<item type="0" key="jmx[Catalina:type=ThreadPool,name=http-8080][maxThreads]" value_type="3">
-					<description>http threads max</description>
-					<delay>3600</delay>
-					<history>90</history>
-					<trends>365</trends>
-					<formula>1</formula>
-					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
-					<snmp_port>161</snmp_port>
-				</item>
-				<item type="0" key="jmx[Catalina:type=ThreadPool,name=http-8443][currentThreadCount]" value_type="3">
-					<description>https threads current</description>
-					<delay>30</delay>
-					<history>90</history>
-					<trends>365</trends>
-					<formula>1</formula>
-					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
-					<snmp_port>161</snmp_port>
-				</item>
-				<item type="0" key="jmx[Catalina:type=ThreadPool,name=http-8443][currentThreadsBusy]" value_type="3">
-					<description>https threads busy</description>
-					<delay>30</delay>
-					<history>90</history>
-					<trends>365</trends>
-					<formula>1</formula>
-					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
-					<snmp_port>161</snmp_port>
-				</item>
-				<item type="0" key="jmx[Catalina:type=ThreadPool,name=http-8443][maxThreads]" value_type="3">
-					<description>https threads max</description>
-					<delay>3600</delay>
-					<history>90</history>
-					<trends>365</trends>
-					<formula>1</formula>
-					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
-					<snmp_port>161</snmp_port>
-				</item>
-				<item type="0" key="jmx[Catalina:type=ThreadPool,name=http-8009][currentThreadCount]" value_type="3">
-					<description>jk threads current</description>
-					<delay>30</delay>
-					<history>90</history>
-					<trends>365</trends>
-					<formula>1</formula>
-					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
-					<snmp_port>161</snmp_port>
-				</item>
-				<item type="0" key="jmx[Catalina:type=ThreadPool,name=http-8009][currentThreadsBusy]" value_type="3">
-					<description>jk threads busy</description>
-					<delay>30</delay>
-					<history>90</history>
-					<trends>365</trends>
-					<formula>1</formula>
-					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
-					<snmp_port>161</snmp_port>
-				</item>
-				<item type="0" key="jmx[Catalina:type=ThreadPool,name=http-8009][maxThreads]" value_type="3">
-					<description>jk threads max</description>
-					<delay>3600</delay>
-					<history>90</history>
-					<trends>365</trends>
-					<formula>1</formula>
-					<snmp_community>public</snmp_community>
-					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
-					<snmp_port>161</snmp_port>
-				</item>
 			</items>
+			<triggers>
+				<trigger>
+					<description>70% jk-8009 worker threads busy on {HOSTNAME}</description>
+					<expression>{{HOSTNAME}:jmx[Catalina:type=ThreadPool,name=jk-8009][currentThreadsBusy].last(0)}>({{HOSTNAME}:jmx[Catalina:type=ThreadPool,name=jk-8009][maxThreads].last(0)}*0.7)</expression>
+					<priority>4</priority>
+				</trigger>
+				<trigger>
+					<description>gzip compression is off for connector http-8080 on {HOSTNAME}</description>
+					<expression>{{HOSTNAME}:jmx[Catalina:type=ProtocolHandler,port=8080][compression].str(off)}=1</expression>
+					<priority>2</priority>
+				</trigger>
+				<trigger>
+					<description>70% http-8080 worker threads busy on {HOSTNAME}</description>
+					<expression>{{HOSTNAME}:jmx[Catalina:type=ThreadPool,name=http-8080][currentThreadsBusy].last(0)}>({{HOSTNAME}:jmx[Catalina:type=ThreadPool,name=http-8080][maxThreads].last(0)}*0.7)</expression>
+					<priority>4</priority>
+				</trigger>
+				<trigger>
+					<description>gzip compression is off for connector http-8443 on {HOSTNAME}</description>
+					<expression>{{HOSTNAME}:jmx[Catalina:type=ProtocolHandler,port=8443][compression].str(off)}=1</expression>
+					<priority>2</priority>
+				</trigger>
+				<trigger>
+					<description>70% http-8443 worker threads busy on {HOSTNAME}</description>
+					<expression>{{HOSTNAME}:jmx[Catalina:type=ThreadPool,name=http-8443][currentThreadsBusy].last(0)}>({{HOSTNAME}:jmx[Catalina:type=ThreadPool,name=http-8443][maxThreads].last(0)}*0.7)</expression>
+					<priority>4</priority>
+				</trigger>
+			</triggers>
 			<graphs>
-				<graph name="http bytes sent and received" width="900" height="200">
+				<graph name="jk-8009 worker threads" width="900" height="200">
 					<show_work_period>1</show_work_period>
 					<show_triggers>1</show_triggers>
 					<yaxismin>0.0000</yaxismin>
 					<yaxismax>100.0000</yaxismax>
 					<graph_elements>
-						<graph_element item="{HOSTNAME}:jmx[Catalina:type=GlobalRequestProcessor,name=http-8080][bytesReceived]">
-							<color>999900</color>
-							<yaxisside>1</yaxisside>
-							<calc_fnc>2</calc_fnc>
-							<periods_cnt>5</periods_cnt>
-						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[Catalina:type=GlobalRequestProcessor,name=http-8080][bytesSent]">
-							<color>009999</color>
-							<yaxisside>1</yaxisside>
-							<calc_fnc>2</calc_fnc>
-							<periods_cnt>5</periods_cnt>
-						</graph_element>
-					</graph_elements>
-				</graph>
-				<graph name="http request and error count" width="900" height="200">
-					<show_work_period>1</show_work_period>
-					<show_triggers>1</show_triggers>
-					<yaxismin>0.0000</yaxismin>
-					<yaxismax>100.0000</yaxismax>
-					<graph_elements>
-						<graph_element item="{HOSTNAME}:jmx[Catalina:type=GlobalRequestProcessor,name=http-8080][requestCount]">
-							<color>009900</color>
-							<yaxisside>1</yaxisside>
-							<calc_fnc>2</calc_fnc>
-							<periods_cnt>5</periods_cnt>
-						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[Catalina:type=GlobalRequestProcessor,name=http-8080][errorCount]">
+						<graph_element item="{HOSTNAME}:jmx[Catalina:type=ThreadPool,name=jk-8009][maxThreads]">
 							<color>990000</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
 							<periods_cnt>5</periods_cnt>
 						</graph_element>
-					</graph_elements>
-				</graph>
-				<graph name="https bytes sent and received" width="900" height="200">
-					<show_work_period>1</show_work_period>
-					<show_triggers>1</show_triggers>
-					<yaxismin>0.0000</yaxismin>
-					<yaxismax>100.0000</yaxismax>
-					<graph_elements>
-						<graph_element item="{HOSTNAME}:jmx[Catalina:type=GlobalRequestProcessor,name=http-8443][bytesReceived]">
-							<color>999900</color>
-							<yaxisside>1</yaxisside>
-							<calc_fnc>2</calc_fnc>
-							<periods_cnt>5</periods_cnt>
-						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[Catalina:type=GlobalRequestProcessor,name=http-8443][bytesSent]">
-							<color>009999</color>
-							<yaxisside>1</yaxisside>
-							<calc_fnc>2</calc_fnc>
-							<periods_cnt>5</periods_cnt>
-						</graph_element>
-					</graph_elements>
-				</graph>
-				<graph name="https request and error count" width="900" height="200">
-					<show_work_period>1</show_work_period>
-					<show_triggers>1</show_triggers>
-					<yaxismin>0.0000</yaxismin>
-					<yaxismax>100.0000</yaxismax>
-					<graph_elements>
-						<graph_element item="{HOSTNAME}:jmx[Catalina:type=GlobalRequestProcessor,name=http-8443][requestCount]">
+						<graph_element item="{HOSTNAME}:jmx[Catalina:type=ThreadPool,name=jk-8009][currentThreadsBusy]">
 							<color>009900</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
 							<periods_cnt>5</periods_cnt>
 						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[Catalina:type=GlobalRequestProcessor,name=http-8443][errorCount]">
+						<graph_element item="{HOSTNAME}:jmx[Catalina:type=ThreadPool,name=jk-8009][currentThreadCount]">
+							<color>000099</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+					</graph_elements>
+				</graph>
+				<graph name="http-8080 worker threads" width="900" height="200">
+					<show_work_period>1</show_work_period>
+					<show_triggers>1</show_triggers>
+					<yaxismin>0.0000</yaxismin>
+					<yaxismax>100.0000</yaxismax>
+					<graph_elements>
+						<graph_element item="{HOSTNAME}:jmx[Catalina:type=ThreadPool,name=http-8080][maxThreads]">
 							<color>990000</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
 							<periods_cnt>5</periods_cnt>
 						</graph_element>
-					</graph_elements>
-				</graph>
-				<graph name="jk bytes sent and received" width="900" height="200">
-					<show_work_period>1</show_work_period>
-					<show_triggers>1</show_triggers>
-					<yaxismin>0.0000</yaxismin>
-					<yaxismax>100.0000</yaxismax>
-					<graph_elements>
-						<graph_element item="{HOSTNAME}:jmx[Catalina:type=GlobalRequestProcessor,name=http-8009][bytesReceived]">
-							<color>999900</color>
-							<yaxisside>1</yaxisside>
-							<calc_fnc>2</calc_fnc>
-							<periods_cnt>5</periods_cnt>
-						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[Catalina:type=GlobalRequestProcessor,name=http-8009][bytesSent]">
-							<color>009999</color>
-							<yaxisside>1</yaxisside>
-							<calc_fnc>2</calc_fnc>
-							<periods_cnt>5</periods_cnt>
-						</graph_element>
-					</graph_elements>
-				</graph>
-				<graph name="jk request and error count" width="900" height="200">
-					<show_work_period>1</show_work_period>
-					<show_triggers>1</show_triggers>
-					<yaxismin>0.0000</yaxismin>
-					<yaxismax>100.0000</yaxismax>
-					<graph_elements>
-						<graph_element item="{HOSTNAME}:jmx[Catalina:type=GlobalRequestProcessor,name=http-8009][requestCount]">
-							<color>009900</color>
-							<yaxisside>1</yaxisside>
-							<calc_fnc>2</calc_fnc>
-							<periods_cnt>5</periods_cnt>
-						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[Catalina:type=GlobalRequestProcessor,name=http-8009][errorCount]">
-							<color>990000</color>
-							<yaxisside>1</yaxisside>
-							<calc_fnc>2</calc_fnc>
-							<periods_cnt>5</periods_cnt>
-						</graph_element>
-					</graph_elements>
-				</graph>
-				<graph name="http worker threads" width="900" height="200">
-					<show_work_period>1</show_work_period>
-					<show_triggers>1</show_triggers>
-					<yaxismin>0.0000</yaxismin>
-					<yaxismax>100.0000</yaxismax>
-					<graph_elements>
 						<graph_element item="{HOSTNAME}:jmx[Catalina:type=ThreadPool,name=http-8080][currentThreadsBusy]">
 							<color>009900</color>
 							<yaxisside>1</yaxisside>
@@ -439,20 +413,20 @@
 							<calc_fnc>2</calc_fnc>
 							<periods_cnt>5</periods_cnt>
 						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[Catalina:type=ThreadPool,name=http-8080][maxThreads]">
-							<color>990000</color>
-							<yaxisside>1</yaxisside>
-							<calc_fnc>2</calc_fnc>
-							<periods_cnt>5</periods_cnt>
-						</graph_element>
 					</graph_elements>
 				</graph>
-				<graph name="https worker threads" width="900" height="200">
+				<graph name="http-8443 worker threads" width="900" height="200">
 					<show_work_period>1</show_work_period>
 					<show_triggers>1</show_triggers>
 					<yaxismin>0.0000</yaxismin>
 					<yaxismax>100.0000</yaxismax>
 					<graph_elements>
+						<graph_element item="{HOSTNAME}:jmx[Catalina:type=ThreadPool,name=http-8443][maxThreads]">
+							<color>990000</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
 						<graph_element item="{HOSTNAME}:jmx[Catalina:type=ThreadPool,name=http-8443][currentThreadsBusy]">
 							<color>009900</color>
 							<yaxisside>1</yaxisside>
@@ -461,38 +435,6 @@
 						</graph_element>
 						<graph_element item="{HOSTNAME}:jmx[Catalina:type=ThreadPool,name=http-8443][currentThreadCount]">
 							<color>000099</color>
-							<yaxisside>1</yaxisside>
-							<calc_fnc>2</calc_fnc>
-							<periods_cnt>5</periods_cnt>
-						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[Catalina:type=ThreadPool,name=http-8443][maxThreads]">
-							<color>990000</color>
-							<yaxisside>1</yaxisside>
-							<calc_fnc>2</calc_fnc>
-							<periods_cnt>5</periods_cnt>
-						</graph_element>
-					</graph_elements>
-				</graph>
-				<graph name="jk worker threads" width="900" height="200">
-					<show_work_period>1</show_work_period>
-					<show_triggers>1</show_triggers>
-					<yaxismin>0.0000</yaxismin>
-					<yaxismax>100.0000</yaxismax>
-					<graph_elements>
-						<graph_element item="{HOSTNAME}:jmx[Catalina:type=ThreadPool,name=http-8009][currentThreadsBusy]">
-							<color>009900</color>
-							<yaxisside>1</yaxisside>
-							<calc_fnc>2</calc_fnc>
-							<periods_cnt>5</periods_cnt>
-						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[Catalina:type=ThreadPool,name=http-8009][currentThreadCount]">
-							<color>000099</color>
-							<yaxisside>1</yaxisside>
-							<calc_fnc>2</calc_fnc>
-							<periods_cnt>5</periods_cnt>
-						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[Catalina:type=ThreadPool,name=http-8009][maxThreads]">
-							<color>990000</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
 							<periods_cnt>5</periods_cnt>
@@ -506,12 +448,6 @@
 					<yaxismax>100.0000</yaxismax>
 					<graph_elements>
 						<graph_element item="{HOSTNAME}:jmx[Catalina:type=Manager,path=/,host=localhost][rejectedSessions]">
-							<color>990099</color>
-							<yaxisside>1</yaxisside>
-							<calc_fnc>2</calc_fnc>
-							<periods_cnt>5</periods_cnt>
-						</graph_element>
-						<graph_element item="{HOSTNAME}:jmx[Catalina:type=Manager,path=/,host=localhost][maxActiveSessions]">
 							<color>990000</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
@@ -519,6 +455,12 @@
 						</graph_element>
 						<graph_element item="{HOSTNAME}:jmx[Catalina:type=Manager,path=/,host=localhost][activeSessions]">
 							<color>009900</color>
+							<yaxisside>1</yaxisside>
+							<calc_fnc>2</calc_fnc>
+							<periods_cnt>5</periods_cnt>
+						</graph_element>
+						<graph_element item="{HOSTNAME}:jmx[Catalina:type=Manager,path=/,host=localhost][maxActiveSessions]">
+							<color>000099</color>
 							<yaxisside>1</yaxisside>
 							<calc_fnc>2</calc_fnc>
 							<periods_cnt>5</periods_cnt>
