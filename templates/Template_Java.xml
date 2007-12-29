@@ -330,7 +330,7 @@
 				</item>
 				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Perm Gen][Usage.max]" value_type="3">
 					<description>memorypool perm gen max</description>
-					<delay>30</delay>
+					<delay>3600</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<units>B</units>
@@ -363,7 +363,7 @@
 				</item>
 				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Code Cache][Usage.max]" value_type="3">
 					<description>memorypool code cache max</description>
-					<delay>30</delay>
+					<delay>3600</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<units>B</units>
@@ -396,7 +396,7 @@
 				</item>
 				<item type="0" key="jmx[java.lang:type=MemoryPool,name=Tenured Gen][Usage.max]" value_type="3">
 					<description>memorypool tenured gen max</description>
-					<delay>30</delay>
+					<delay>3600</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<units>B</units>
@@ -429,7 +429,7 @@
 				</item>
 				<item type="0" key="jmx[java.lang:type=MemoryPool,name=PS Old Gen][Usage.max]" value_type="3">
 					<description>memorypool ps old gen max</description>
-					<delay>30</delay>
+					<delay>3600</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<units>B</units>
@@ -462,7 +462,7 @@
 				</item>
 				<item type="0" key="jmx[java.lang:type=MemoryPool,name=PS Perm Gen][Usage.max]" value_type="3">
 					<description>memorypool ps perm gen max</description>
-					<delay>30</delay>
+					<delay>3600</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<units>B</units>
@@ -495,7 +495,7 @@
 				</item>
 				<item type="0" key="jmx[java.lang:type=MemoryPool,name=CMS Old Gen][Usage.max]" value_type="3">
 					<description>memorypool cms old gen max</description>
-					<delay>30</delay>
+					<delay>3600</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<units>B</units>
@@ -528,7 +528,7 @@
 				</item>
 				<item type="0" key="jmx[java.lang:type=MemoryPool,name=CMS Perm Gen][Usage.max]" value_type="3">
 					<description>memorypool cms perm gen max</description>
-					<delay>30</delay>
+					<delay>3600</delay>
 					<history>90</history>
 					<trends>365</trends>
 					<units>B</units>
