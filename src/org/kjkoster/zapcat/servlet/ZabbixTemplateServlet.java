@@ -85,8 +85,8 @@ public class ZabbixTemplateServlet extends HttpServlet {
             response.setContentType("text/xml"); // XXX
             t.writeHeader(out);
             t.writeItems(out, processors, managers);
-            t.writeTriggers(out);
-            t.writeGraphs(out, managers);
+            t.writeTriggers(out, processors);
+            t.writeGraphs(out, processors, managers);
             t.writeFooter(out);
         } catch (Exception e) {
             log.error("unable to generate template", e);
@@ -136,6 +136,9 @@ public class ZabbixTemplateServlet extends HttpServlet {
             throws MalformedObjectNameException {
         for (final ObjectName processor : processors) {
             final String name = name(processor);
+            final ObjectName threadpool = new ObjectName(
+                    "Catalina:type=ThreadPool,name=" + name);
+            final String port = name.substring(name.indexOf('-') + 1);
 
             writeItem(out, name + " bytes received per second", processor,
                     "bytesReceived", Type.Float, "B", Store.AsDelta,
@@ -153,8 +156,6 @@ public class ZabbixTemplateServlet extends HttpServlet {
                     "processingTime", Type.Float, "s", Store.AsDelta,
                     Time.TwicePerMinute);
 
-            final ObjectName threadpool = new ObjectName(
-                    "Catalina:type=ThreadPool,name=" + name);
             writeItem(out, name + " threads max", threadpool, "maxThreads",
                     Type.Integer, null, Store.AsIs, Time.OncePerHour);
             writeItem(out, name + " threads allocated", threadpool,
@@ -163,6 +164,13 @@ public class ZabbixTemplateServlet extends HttpServlet {
             writeItem(out, name + " threads busy", threadpool,
                     "currentThreadsBusy", Type.Integer, null, Store.AsIs,
                     Time.TwicePerMinute);
+
+            if (name.startsWith("http")) {
+                writeItem(out, name + " gzip compression", new ObjectName(
+                        "Catalina:type=ProtocolHandler,port=" + port),
+                        "compression", Type.Character, null, Store.AsIs,
+                        Time.OncePerHour);
+            }
         }
     }
 
@@ -212,52 +220,109 @@ public class ZabbixTemplateServlet extends HttpServlet {
         out.println("        </item>");
     }
 
-    private void writeTriggers(final PrintWriter out) {
+    private void writeTriggers(final PrintWriter out,
+            final Set<ObjectName> processors)
+            throws MalformedObjectNameException {
         out.println("      <triggers>");
+        writeProcessorTriggers(out, processors);
         out.println("      </triggers>");
     }
 
+    private void writeProcessorTriggers(final PrintWriter out,
+            final Set<ObjectName> processors)
+            throws MalformedObjectNameException {
+        for (final ObjectName processor : processors) {
+            final String name = name(processor);
+            final ObjectName threadpool = new ObjectName(
+                    "Catalina:type=ThreadPool,name=" + name);
+            final String port = name.substring(name.indexOf('-') + 1);
+
+            if (name.startsWith("http")) {
+                writeTrigger(out, "gzip compression is off for connector "
+                        + name + " on {HOSTNAME}",
+                        "{{HOSTNAME}:jmx[Catalina:type=ProtocolHandler,port="
+                                + port + "][compression].str(off)}=1", 2);
+            }
+            writeTrigger(out, "70% " + name
+                    + " worker threads busy on {HOSTNAME}", "{{HOSTNAME}:jmx["
+                    + threadpool
+                    + "][currentThreadsBusy].last(0)}>({{HOSTNAME}:jmx["
+                    + threadpool + "][maxThreads].last(0)}*0.7)", 4);
+        }
+    }
+
+    private void writeTrigger(final PrintWriter out, final String description,
+            final String expression, final int priority) {
+        out.println("        <trigger>");
+        out.println("          <description>" + description + "</description>");
+        out.println("          <expression>" + expression + "</expression>");
+        out.println("          <priority>" + priority + "</priority>");
+        out.println("        </trigger>");
+    }
+
     private void writeGraphs(final PrintWriter out,
-            final Set<ObjectName> managers) {
+            final Set<ObjectName> processors, final Set<ObjectName> managers)
+            throws MalformedObjectNameException {
         out.println("      <graphs>");
+        writeProcessorGraphs(out, processors);
         writeManagerGraphs(out, managers);
         out.println("      </graphs>");
+    }
+
+    private void writeProcessorGraphs(final PrintWriter out,
+            final Set<ObjectName> processors)
+            throws MalformedObjectNameException {
+        for (final ObjectName processor : processors) {
+            final String name = name(processor);
+            final ObjectName threadpool = new ObjectName(
+                    "Catalina:type=ThreadPool,name=" + name);
+
+            writeGraph(out, name + " worker threads", threadpool, "maxThreads",
+                    "currentThreadsBusy", "currentThreadCount");
+        }
     }
 
     private void writeManagerGraphs(final PrintWriter out,
             final Set<ObjectName> managers) {
         for (final ObjectName manager : managers) {
-            out.println("        <graph name=\"sessions " + path(manager)
-                    + "\" width=\"900\" height=\"200\">");
-            out.println("          <show_work_period>1</show_work_period>");
-            out.println("          <show_triggers>1</show_triggers>");
-            out.println("          <yaxismin>0.0000</yaxismin>");
-            out.println("          <yaxismax>100.0000</yaxismax>");
-            out.println("          <graph_elements>");
-            out.println("            <graph_element item=\"{HOSTNAME}:jmx["
-                    + manager + "][rejectedSessions]\">");
-            out.println("              <color>990099</color>");
-            out.println("              <yaxisside>1</yaxisside>");
-            out.println("              <calc_fnc>2</calc_fnc>");
-            out.println("              <periods_cnt>5</periods_cnt>");
-            out.println("            </graph_element>");
-            out.println("            <graph_element item=\"{HOSTNAME}:jmx["
-                    + manager + "][maxActiveSessions]\">");
-            out.println("              <color>990000</color>");
-            out.println("              <yaxisside>1</yaxisside>");
-            out.println("              <calc_fnc>2</calc_fnc>");
-            out.println("              <periods_cnt>5</periods_cnt>");
-            out.println("            </graph_element>");
-            out.println("            <graph_element item=\"{HOSTNAME}:jmx["
-                    + manager + "][activeSessions]\">");
-            out.println("              <color>009900</color>");
-            out.println("              <yaxisside>1</yaxisside>");
-            out.println("              <calc_fnc>2</calc_fnc>");
-            out.println("              <periods_cnt>5</periods_cnt>");
-            out.println("            </graph_element>");
-            out.println("          </graph_elements>");
-            out.println("        </graph>");
+            writeGraph(out, "sessions " + path(manager), manager,
+                    "rejectedSessions", "activeSessions", "maxActiveSessions");
         }
+    }
+
+    private void writeGraph(final PrintWriter out, final String name,
+            final ObjectName objectname, final String redAttribute,
+            final String greenAttribute, final String blueAttribute) {
+        out.println("        <graph name=\"" + name
+                + "\" width=\"900\" height=\"200\">");
+        out.println("          <show_work_period>1</show_work_period>");
+        out.println("          <show_triggers>1</show_triggers>");
+        out.println("          <yaxismin>0.0000</yaxismin>");
+        out.println("          <yaxismax>100.0000</yaxismax>");
+        out.println("          <graph_elements>");
+        out.println("            <graph_element item=\"{HOSTNAME}:jmx["
+                + objectname + "][" + redAttribute + "]\">");
+        out.println("              <color>990000</color>");
+        out.println("              <yaxisside>1</yaxisside>");
+        out.println("              <calc_fnc>2</calc_fnc>");
+        out.println("              <periods_cnt>5</periods_cnt>");
+        out.println("            </graph_element>");
+        out.println("            <graph_element item=\"{HOSTNAME}:jmx["
+                + objectname + "][" + greenAttribute + "]\">");
+        out.println("              <color>009900</color>");
+        out.println("              <yaxisside>1</yaxisside>");
+        out.println("              <calc_fnc>2</calc_fnc>");
+        out.println("              <periods_cnt>5</periods_cnt>");
+        out.println("            </graph_element>");
+        out.println("            <graph_element item=\"{HOSTNAME}:jmx["
+                + objectname + "][" + blueAttribute + "]\">");
+        out.println("              <color>000099</color>");
+        out.println("              <yaxisside>1</yaxisside>");
+        out.println("              <calc_fnc>2</calc_fnc>");
+        out.println("              <periods_cnt>5</periods_cnt>");
+        out.println("            </graph_element>");
+        out.println("          </graph_elements>");
+        out.println("        </graph>");
     }
 
     private String path(final ObjectName objectname) {

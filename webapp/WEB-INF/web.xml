@@ -6,9 +6,17 @@
 <web-app>
 	<servlet>
 		<servlet-name>ZapcatServlet</servlet-name>
-		<servlet-class>
-			org.kjkoster.zapcat.servlet.ZapcatServlet
-		</servlet-class>
+		<servlet-class>org.kjkoster.zapcat.servlet.ZapcatServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+
+	<servlet>
+		<servlet-name>ZabbixTemplateServlet</servlet-name>
+		<servlet-class>org.kjkoster.zapcat.servlet.ZabbixTemplateServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ZabbixTemplateServlet</servlet-name>
+		<url-pattern>/zabbix-tomcat-definition.xml</url-pattern>
+	</servlet-mapping>
 </web-app>
