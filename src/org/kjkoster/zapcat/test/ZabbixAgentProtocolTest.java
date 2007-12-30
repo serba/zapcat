@@ -2,18 +2,18 @@ package org.kjkoster.zapcat.test;
 
 /* This file is part of Zapcat.
  *
- * Zapcat is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Zapcat is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * Zapcat is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Zapcat is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  * 
- * You should have received a copy of the GNU General Public License
- * along with Zapcat.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * Zapcat. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import java.io.InputStream;
@@ -152,6 +152,12 @@ public class ZabbixAgentProtocolTest extends TestCase {
         agent.stop();
     }
 
+    /**
+     * Test the we can ping the agent.
+     * 
+     * @throws Exception
+     *             When the test failed.
+     */
     public void testPing() throws Exception {
         final Agent agent = new org.kjkoster.zapcat.zabbix.ZabbixAgent();
         // give the agent some time to open the port
@@ -181,6 +187,12 @@ public class ZabbixAgentProtocolTest extends TestCase {
         agent.stop();
     }
 
+    /**
+     * Test robustness.
+     * 
+     * @throws Exception
+     *             When the test failed.
+     */
     public void testMissingArgument() throws Exception {
         final Agent agent = new org.kjkoster.zapcat.zabbix.ZabbixAgent();
         // give the agent some time to open the port
@@ -212,6 +224,12 @@ public class ZabbixAgentProtocolTest extends TestCase {
         agent.stop();
     }
 
+    /**
+     * Test robustness.
+     * 
+     * @throws Exception
+     *             When the test failed.
+     */
     public void testMissingOpen() throws Exception {
         final Agent agent = new org.kjkoster.zapcat.zabbix.ZabbixAgent();
         // give the agent some time to open the port
@@ -243,6 +261,12 @@ public class ZabbixAgentProtocolTest extends TestCase {
         agent.stop();
     }
 
+    /**
+     * Test robustness.
+     * 
+     * @throws Exception
+     *             When the test failed.
+     */
     public void testMissingClose() throws Exception {
         final Agent agent = new org.kjkoster.zapcat.zabbix.ZabbixAgent();
         // give the agent some time to open the port

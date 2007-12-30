@@ -1,5 +1,21 @@
 package org.kjkoster.zapcat.servlet;
 
+/* This file is part of Zapcat.
+ *
+ * Zapcat is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * Zapcat is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * Zapcat. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.management.ManagementFactory;
@@ -12,7 +28,6 @@ import java.util.Set;
 import javax.management.MBeanServer;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +47,20 @@ public class ZabbixTemplateServlet extends HttpServlet {
             .getLogger(ZabbixTemplateServlet.class);
 
     private enum Type {
-        Float, Character, Integer;
+        /**
+         * Floating point data.
+         */
+        Float,
+
+        /**
+         * Character data, up to 255 bytes long.
+         */
+        Character,
+
+        /**
+         * Integer data, must be positive.
+         */
+        Integer;
 
         int getValue() {
             switch (this) {
@@ -49,7 +77,15 @@ public class ZabbixTemplateServlet extends HttpServlet {
     }
 
     private enum Time {
-        OncePerHour, TwicePerMinute;
+        /**
+         * For configuration items, poll this item only once per hour.
+         */
+        OncePerHour,
+
+        /**
+         * For normal statistics, poll this item twice pr minute.
+         */
+        TwicePerMinute;
 
         int getValue() {
             switch (this) {
@@ -64,25 +100,34 @@ public class ZabbixTemplateServlet extends HttpServlet {
     }
 
     private enum Store {
-        AsIs, AsDelta
+        /**
+         * Store the value as-is.
+         */
+        AsIs,
+
+        /**
+         * Store the value as delta, interpreting the data on a per-second
+         * basis.
+         */
+        AsDelta
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected void doGet(final HttpServletRequest request,
-            final HttpServletResponse response) throws ServletException,
-            IOException {
+            final HttpServletResponse response) throws IOException {
         final PrintWriter out = response.getWriter();
         final MBeanServer mbeanserver = ManagementFactory
                 .getPlatformMBeanServer();
         try {
-            final Set<ObjectName> managers = (Set<ObjectName>) mbeanserver
-                    .queryNames(new ObjectName("Catalina:type=Manager,*"), null);
-            final Set<ObjectName> processors = (Set<ObjectName>) mbeanserver
-                    .queryNames(new ObjectName(
-                            "Catalina:type=GlobalRequestProcessor,*"), null);
+            final Set<ObjectName> managers = mbeanserver.queryNames(
+                    new ObjectName("Catalina:type=Manager,*"), null);
+            final Set<ObjectName> processors = mbeanserver.queryNames(
+                    new ObjectName("Catalina:type=GlobalRequestProcessor,*"),
+                    null);
 
             ZabbixTemplateServlet t = new ZabbixTemplateServlet();
-            response.setContentType("text/xml"); // XXX
+            response.setContentType("text/xml");
             t.writeHeader(out);
             t.writeItems(out, processors, managers);
             t.writeTriggers(out, processors);
