@@ -22,7 +22,7 @@ LICENSE
 
 RELEASE NOTES
 
-	version 1.2-beta:
+	version 1.2:
 		- Introduces a trapper that can push data into the Zabbix server.
 		- Fixes an issue where system properties would be ignored by agents
 		  during startup. Hard-coded configuration was removed to simplify the
