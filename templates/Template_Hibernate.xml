@@ -8,10 +8,11 @@
 			</groups>
 			<items>
 				<item type="0" key="jmx[org.hibernate:type=statistics][OptimisticFailureCount]" value_type="3">
-					<description>transaction optimistic failure count</description>
+					<description>transactions failed per second</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
+					<delta>1</delta>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
@@ -60,20 +61,22 @@
 					<snmp_port>161</snmp_port>
 				</item>
 				<item type="0" key="jmx[org.hibernate:type=statistics][SuccessfulTransactionCount]" value_type="3">
-					<description>transaction successful count</description>
+					<description>transactions successful per second</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
+					<delta>1</delta>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
 					<snmp_port>161</snmp_port>
 				</item>
 				<item type="0" key="jmx[org.hibernate:type=statistics][TransactionCount]" value_type="3">
-					<description>transaction count</description>
+					<description>transactions per second</description>
 					<delay>30</delay>
 					<history>90</history>
 					<trends>365</trends>
+					<delta>1</delta>
 					<formula>1</formula>
 					<snmp_community>public</snmp_community>
 					<snmp_oid>interfaces.ifTable.ifEntry.ifInOctets.1</snmp_oid>
@@ -81,7 +84,7 @@
 				</item>
 			</items>
 			<graphs>
-				<graph name="hibernate transactions" width="900" height="200">
+				<graph name="hibernate transactions per second" width="900" height="200">
 					<show_work_period>1</show_work_period>
 					<show_triggers>1</show_triggers>
 					<yaxismin>0.0000</yaxismin>

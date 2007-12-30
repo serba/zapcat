@@ -911,7 +911,7 @@
 						</graph_element>
 					</graph_elements>
 				</graph>
-				<graph name="garbage collector cycles" width="900" height="200">
+				<graph name="garbage collector cycles per second" width="900" height="200">
 					<show_work_period>1</show_work_period>
 					<show_triggers>1</show_triggers>
 					<yaxismin>0.0000</yaxismin>
