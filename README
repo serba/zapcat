@@ -29,10 +29,17 @@ RELEASE NOTES
 		  agent's interface.
 		- Now works with older versions of Zabbix by introducing a switch that
 		  allows you to select the Zabbix 1.4 protocol, or the Zabbix 1.1
-		  protocol. (thanks to Valeri Felberg)
+		  protocol. (thanks to Valeri Felberg) Note that there are some issues
+		  with the trigger expression parser in Zabbix 1.1. I have not tested
+		  this very well, because I use Zabbix 1.4.
 		- Has some unit tests to avoid regression (never enough, though).
 		- Introduces a template for Java applications, making it even easier to
 		  quickly set up a monitor.
+		- Introduces a template for Hibernate, allowing you to track down SQL
+		  query storms and database connection leakage.
+		- Introduced a template for Tomcat, plus a host definition generator to
+		  automatically generate a host definition tailored to your Tomcat
+		  configuration.
 		- Makes the agent reply with ZBX_NOTSUPPORTED for unsupported mbeans or
 		  attributes. This makes the logging a lot less verbose and makes it
 		  easier to see what the Zapcat agent supports and what not. This is
