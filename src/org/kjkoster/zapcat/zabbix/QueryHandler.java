@@ -140,7 +140,7 @@ final class QueryHandler implements Runnable {
         } else if (query.equals("agent.ping")) {
             return "1";
         } else if (query.equals("agent.version")) {
-            return "zapcat 1.2";
+            return "zapcat 1.3-beta";
         }
 
         return NOTSUPPORTED;
