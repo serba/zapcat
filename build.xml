@@ -42,8 +42,8 @@
 			<classpath>
 				<pathelement location="lib/log4j-1.2.15.jar" />
 				<pathelement location="lib/servlet-api.jar" />
-				<pathelement location="lib/ostermillerutils_1_06_01.jar" />
-				<pathelement location="lib/junit-3.8.1.jar" />
+				<pathelement location="lib/ostermillerutils_1_07_00.jar" />
+				<pathelement location="lib/junit-4.4.jar" />
 			</classpath>
 		</javac>
 
@@ -103,7 +103,7 @@
 				<pathelement path="build/samples" />
 				<pathelement location="${jar}" />
 				<pathelement location="lib/log4j-1.2.15.jar" />
-				<pathelement location="lib/ostermillerutils_1_06_01.jar" />
+				<pathelement location="lib/ostermillerutils_1_07_00.jar" />
 			</classpath>
 		</java>
 	</target>

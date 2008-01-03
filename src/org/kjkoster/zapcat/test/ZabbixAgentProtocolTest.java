@@ -16,6 +16,9 @@ package org.kjkoster.zapcat.test;
  * Zapcat. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -23,8 +26,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Properties;
 
-import junit.framework.TestCase;
-
+import org.junit.After;
+import org.junit.Test;
 import org.kjkoster.zapcat.Agent;
 import org.kjkoster.zapcat.zabbix.ZabbixAgent;
 
@@ -33,34 +36,28 @@ import org.kjkoster.zapcat.zabbix.ZabbixAgent;
  * 
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
  */
-public class ZabbixAgentProtocolTest extends TestCase {
+public class ZabbixAgentProtocolTest {
+    final Properties originalProperties = (Properties) System.getProperties()
+            .clone();
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    /**
+     * Sleep a little, to give the agent time to die. Restore the system
+     * properties and check that we have not settings screwing up our
+     * experiments.
+     * 
+     * @throws Exception
+     *             When the test failed.
+     */
+    @After
+    public void tearDown() throws Exception {
+        System.out.println("XXX tearDown()");
 
         Thread.sleep(100);
-    }
-
-    private final Properties originalProperties;
-
-    /**
-     * Set up the test, preserving the system's configuration.
-     */
-    public ZabbixAgentProtocolTest() {
-        super();
-
-        originalProperties = System.getProperties();
-    }
-
-    /**
-     * @see junit.framework.TestCase#setUp()
-     */
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
 
         System.setProperties(originalProperties);
+        assertNull(originalProperties
+                .getProperty(ZabbixAgent.PROTOCOL_PROPERTY));
+        assertNull(originalProperties.get(ZabbixAgent.PROTOCOL_PROPERTY));
         assertNull(System.getProperty(ZabbixAgent.PROTOCOL_PROPERTY));
     }
 
@@ -70,7 +67,10 @@ public class ZabbixAgentProtocolTest extends TestCase {
      * @throws Exception
      *             When the test failed.
      */
+    @Test
     public void testDefault() throws Exception {
+        System.out.println("XXX testDefault()");
+
         final Agent agent = new ZabbixAgent();
         // give the agent some time to open the port
         Thread.sleep(100);
@@ -102,11 +102,11 @@ public class ZabbixAgentProtocolTest extends TestCase {
      * @throws Exception
      *             When the test failed.
      */
+    @Test
     public void testSetTo14() throws Exception {
-        final Properties testProperties = (Properties) originalProperties
-                .clone();
-        testProperties.setProperty(ZabbixAgent.PROTOCOL_PROPERTY, "1.4");
-        System.setProperties(testProperties);
+        System.out.println("XXX testSetTo14()");
+
+        System.setProperty(ZabbixAgent.PROTOCOL_PROPERTY, "1.4");
         assertEquals("1.4", System.getProperty(ZabbixAgent.PROTOCOL_PROPERTY));
 
         testDefault();
@@ -119,11 +119,11 @@ public class ZabbixAgentProtocolTest extends TestCase {
      * @throws Exception
      *             When the test failed.
      */
+    @Test
     public void testSetTo11() throws Exception {
-        final Properties testProperties = (Properties) originalProperties
-                .clone();
-        testProperties.setProperty(ZabbixAgent.PROTOCOL_PROPERTY, "1.1");
-        System.setProperties(testProperties);
+        System.out.println("XXX testSetTo11()");
+
+        System.setProperty(ZabbixAgent.PROTOCOL_PROPERTY, "1.1");
         assertEquals("1.1", System.getProperty(ZabbixAgent.PROTOCOL_PROPERTY));
 
         final Agent agent = new ZabbixAgent();
@@ -158,7 +158,10 @@ public class ZabbixAgentProtocolTest extends TestCase {
      * @throws Exception
      *             When the test failed.
      */
+    @Test
     public void testPing() throws Exception {
+        System.out.println("XXX testPing()");
+
         final Agent agent = new org.kjkoster.zapcat.zabbix.ZabbixAgent();
         // give the agent some time to open the port
         Thread.sleep(100);
@@ -193,7 +196,10 @@ public class ZabbixAgentProtocolTest extends TestCase {
      * @throws Exception
      *             When the test failed.
      */
+    @Test
     public void testMissingArgument() throws Exception {
+        System.out.println("XXX testMissingArgument()");
+
         final Agent agent = new org.kjkoster.zapcat.zabbix.ZabbixAgent();
         // give the agent some time to open the port
         Thread.sleep(100);
@@ -230,7 +236,10 @@ public class ZabbixAgentProtocolTest extends TestCase {
      * @throws Exception
      *             When the test failed.
      */
+    @Test
     public void testMissingOpen() throws Exception {
+        System.out.println("XXX testMissingOpen()");
+
         final Agent agent = new org.kjkoster.zapcat.zabbix.ZabbixAgent();
         // give the agent some time to open the port
         Thread.sleep(100);
@@ -267,7 +276,10 @@ public class ZabbixAgentProtocolTest extends TestCase {
      * @throws Exception
      *             When the test failed.
      */
+    @Test
     public void testMissingClose() throws Exception {
+        System.out.println("XXX testMissingClose()");
+
         final Agent agent = new org.kjkoster.zapcat.zabbix.ZabbixAgent();
         // give the agent some time to open the port
         Thread.sleep(100);

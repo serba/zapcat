@@ -16,6 +16,10 @@ package org.kjkoster.zapcat.test;
  * Zapcat. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+
 import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -23,8 +27,9 @@ import java.util.Properties;
 
 import javax.management.InstanceNotFoundException;
 
-import junit.framework.TestCase;
-
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.kjkoster.zapcat.Agent;
 import org.kjkoster.zapcat.zabbix.JMXHelper;
 import org.kjkoster.zapcat.zabbix.ZabbixAgent;
@@ -34,30 +39,22 @@ import org.kjkoster.zapcat.zabbix.ZabbixAgent;
  * 
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
  */
-public class ZabbixAgentConfigurationTest extends TestCase {
+public class ZabbixAgentConfigurationTest {
     private static final int DEFAULTPORT = ZabbixAgent.DEFAULT_PORT;
 
     private static final int PROPERTYPORT = DEFAULTPORT + 1;
 
-    private final Properties originalProperties;
+    final Properties originalProperties = (Properties) System.getProperties()
+            .clone();
 
     /**
-     * Set up the test, preserving the system's configuration.
+     * Restore the system properties and check that the agent is dead.
+     * 
+     * @throws Exception
+     *             When the test failed.
      */
-    public ZabbixAgentConfigurationTest() {
-        super();
-
-        originalProperties = System.getProperties();
-    }
-
-    /**
-     * @see junit.framework.TestCase#setUp()
-     */
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        System.setProperties(originalProperties);
+    @Before
+    public void setUp() throws Exception {
         assertNull(System.getProperty(ZabbixAgent.PORT_PROPERTY));
         assertNull(System.getProperty(ZabbixAgent.ADDRESS_PROPERTY));
 
@@ -66,14 +63,16 @@ public class ZabbixAgentConfigurationTest extends TestCase {
     }
 
     /**
-     * @see junit.framework.TestCase#tearDown()
+     * Check that the agent is dead.
+     * 
+     * @throws Exception
+     *             When the test failed.
      */
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    @After
+    public void tearDown() throws Exception {
+        System.setProperties(originalProperties);
 
-        assertAgentDown(DEFAULTPORT);
-        assertAgentDown(PROPERTYPORT);
+        setUp();
     }
 
     /**
@@ -82,6 +81,7 @@ public class ZabbixAgentConfigurationTest extends TestCase {
      * @throws Exception
      *             When the test failed.
      */
+    @Test
     public void testStartAndStop() throws Exception {
         final Agent agent = new ZabbixAgent();
 
@@ -97,6 +97,7 @@ public class ZabbixAgentConfigurationTest extends TestCase {
      * @throws Exception
      *             When the test failed.
      */
+    @Test
     public void testTouchAndTouch() throws Exception {
         final Agent agent = new ZabbixAgent();
 
@@ -115,12 +116,9 @@ public class ZabbixAgentConfigurationTest extends TestCase {
      * @throws Exception
      *             When the test failed.
      */
+    @Test
     public void testPortAsProperty() throws Exception {
-        final Properties testProperties = (Properties) originalProperties
-                .clone();
-        testProperties
-                .setProperty(ZabbixAgent.PORT_PROPERTY, "" + PROPERTYPORT);
-        System.setProperties(testProperties);
+        System.setProperty(ZabbixAgent.PORT_PROPERTY, "" + PROPERTYPORT);
         assertEquals("" + PROPERTYPORT, System
                 .getProperty(ZabbixAgent.PORT_PROPERTY));
 
