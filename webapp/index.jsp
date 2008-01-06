@@ -25,6 +25,25 @@
     if (address.equals("*")) {
         address = "all available addresses";
     }
+    
+    String server = "a type of application server that Zapcat is not familiar with";
+    String howto = null;
+    String generator = null;
+    
+    try {
+        server = JMXHelper.query("Catalina:type=Server", "serverInfo");
+        howto = "http://www.kjkoster.org/zapcat/Tomcat_How_To.html";
+        generator = "zabbix-tomcat-definition.xml";
+    } catch (Exception e) {
+        // ok, I guess we are not Tomcat
+    }
+
+    try {
+        server = "Oracle IAS " + JMXHelper.query("oc4j:j2eeType=J2EEServer,name=standalone", "serverVersion");
+        howto = "http://www.kjkoster.org/zapcat/Oracle_IAS_OC4J_How_To.html";
+    } catch (Exception e) {
+        // ok, I guess we are not Oracle IAS
+    }
 %>
 <html>
 <head>
@@ -35,16 +54,31 @@
 <h1>Welcome to Zapcat</h1>
 <p>Welcome to the Zapcat servlet engine plugin. This plugin is the
 quickest way to enable Zapcat on a servlet engine such as Tomcat or
-JBoss.</p>
+Oracle IAS.</p>
 <p>The Zapcat agent is listening on port&nbsp;<%=port%>, and bound
 to <%=address%>.</p>
-<p>If you use Tomcat, there is an official Zapcat for <a
-	href="http://www.kjkoster.org/zapcat/Tomcat_How_To.html">Tomcat
+
+<p>It looks like you use <%= server %>.
+
+<% if (howto != null) { %>
+There is an official Zapcat for <a href="<%= howto %>"><%= server %>
 how-to</a>. On that page, you will find step-by-step instructions that guide
-you through the process of <a href="zabbix-tomcat-definition.xml">generating
-a custom host definition</a> and hooking Zabbix up to your application
-server. Generating the host definition only works in Tomcat application
-servers.</p>
+you through the process of hooking Zabbix up to your application server.
+<% } else { %>
+There is no official how-to for this type of application server. Even so, you can
+monitor the basics of this Java process easily. Best start out by applying the
+Java template.
+<% } %>
+
+<% if (generator != null) { %>
+You can generate a custom host definition by <a href="<%= generator %>">clicking
+here</a>. You will find more information about the custom host generator in the
+how-to.
+<% } else { %>
+There is no custom host definition generator for this type of application server.
+<% } %>
+</p>
+
 <p>If you would like to add your own statistics to you host
 definition, the <a href="mbeans.jsp">mbean list</a> is a page that gives
 you a conveniently formatted list of all the mbeans in your server.</p>
