@@ -44,6 +44,13 @@
     } catch (Exception e) {
         // ok, I guess we are not Oracle IAS
     }
+    
+    try {
+        server = "Jetty " + JMXHelper.query("org.mortbay.jetty:type=server,id=0", "version");
+        howto = "http://www.kjkoster.org/zapcat/Jetty_How_To.html";
+    } catch (Exception e) {
+        // ok, I guess we are not Jetty
+    }
 %>
 <html>
 <head>
@@ -53,8 +60,8 @@
 <body>
 <h1>Welcome to Zapcat</h1>
 <p>Welcome to the Zapcat servlet engine plugin. This plugin is the
-quickest way to enable Zapcat on a servlet engine such as Tomcat or
-Oracle IAS.</p>
+quickest way to enable Zapcat on a servlet engine such as Tomcat,
+Oracle IAS or Jetty.</p>
 <p>The Zapcat agent is listening on port&nbsp;<%=port%>, and bound
 to <%=address%>.</p>
 
