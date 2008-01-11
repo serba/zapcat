@@ -585,7 +585,7 @@
 				</trigger>
 				<trigger>
 					<description>70% file descriptors used on {HOSTNAME}</description>
-					<expression>{{HOSTNAME}:jmx[java.lang:type=OperatingSystem][OpenFileDescriptorCount].last(0)}&gt;({{HOSTNAME}:jmx[java.lang:type=OperatingSystem][OpenFileDescriptorCount].last(0)}*0.7)</expression>
+					<expression>{{HOSTNAME}:jmx[java.lang:type=OperatingSystem][OpenFileDescriptorCount].last(0)}&gt;({{HOSTNAME}:jmx[java.lang:type=OperatingSystem][MaxFileDescriptorCount].last(0)}*0.7)</expression>
 					<priority>4</priority>
 				</trigger>
 				<trigger>
