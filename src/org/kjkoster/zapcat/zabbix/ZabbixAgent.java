@@ -222,10 +222,13 @@ public final class ZabbixAgent implements Agent, Runnable {
 
     /**
      * Our JMX representation.
+     * <p>
+     * This class is <code>public</code> because some application servers
+     * cannot access this mbean otherwise. JBoss version 4.0.2 for example.
      * 
      * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
      */
-    private class Agent implements AgentMBean {
+    public class Agent implements AgentMBean {
         /**
          * @see org.kjkoster.zapcat.zabbix.AgentMBean#getPort()
          */
