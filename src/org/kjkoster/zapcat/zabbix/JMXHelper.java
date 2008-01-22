@@ -18,7 +18,6 @@ package org.kjkoster.zapcat.zabbix;
 
 import java.lang.management.ManagementFactory;
 
-import javax.management.InstanceNotFoundException;
 import javax.management.MBeanServer;
 import javax.management.ObjectInstance;
 import javax.management.ObjectName;
@@ -34,8 +33,31 @@ import org.apache.log4j.Logger;
 public final class JMXHelper {
     private static final Logger log = Logger.getLogger(JMXHelper.class);
 
-    private static final MBeanServer mbeanserver = ManagementFactory
-            .getPlatformMBeanServer();
+    private static MBeanServer mbeanserver = null;
+
+    /**
+     * Locate the mbean server for this JVM instance. We try to look for the
+     * JBoss specific mbean server. Failing that, we just use the JVM's platorm
+     * mbean server.
+     * 
+     * @return An appropriate mbean server.
+     */
+    public static MBeanServer getMBeanServer() {
+        if (mbeanserver == null) {
+            // first, we try to see if we are running in JBoss
+            try {
+                mbeanserver = (MBeanServer) Class.forName(
+                        "org.jboss.mx.util.MBeanServerLocator").getMethod(
+                        "locateJBoss", (Class[]) null).invoke(null,
+                        (Object[]) null);
+            } catch (Exception e) {
+                // woops: not JBoss. Use the platform mbean server instead
+                mbeanserver = ManagementFactory.getPlatformMBeanServer();
+            }
+        }
+
+        return mbeanserver;
+    }
 
     /**
      * Perform a JMX query given an mbean name and the name of an attribute on
@@ -53,18 +75,18 @@ public final class JMXHelper {
             throws Exception {
         log.debug("JMX query[" + name + "][" + attribute + "]");
 
-        final ObjectInstance bean = mbeanserver
-                .getObjectInstance(new ObjectName(name));
+        final ObjectInstance bean = getMBeanServer().getObjectInstance(
+                new ObjectName(name));
         log.debug("found MBean class " + bean.getClassName());
 
         final int dot = attribute.indexOf('.');
         if (dot < 0) {
-            final Object ret = mbeanserver.getAttribute(new ObjectName(name),
-                    attribute);
+            final Object ret = getMBeanServer().getAttribute(
+                    new ObjectName(name), attribute);
             return ret == null ? null : ret.toString();
         }
 
-        return resolveFields((CompositeData) mbeanserver.getAttribute(
+        return resolveFields((CompositeData) getMBeanServer().getAttribute(
                 new ObjectName(name), attribute.substring(0, dot)), attribute
                 .substring(dot + 1));
     }
@@ -98,7 +120,7 @@ public final class JMXHelper {
         ObjectName name = null;
         try {
             name = new ObjectName(objectName);
-            mbeanserver.registerMBean(mbean, name);
+            getMBeanServer().registerMBean(mbean, name);
         } catch (Exception e) {
             log.warn("unable to register '" + name + "'", e);
         }
@@ -116,10 +138,7 @@ public final class JMXHelper {
         log.debug("un-registering [" + objectName + "]");
 
         try {
-            mbeanserver.unregisterMBean(objectName);
-        } catch (InstanceNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            getMBeanServer().unregisterMBean(objectName);
         } catch (Exception e) {
             log.warn("unable to unregister '" + objectName + "'", e);
         }

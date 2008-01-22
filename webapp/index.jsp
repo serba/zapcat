@@ -31,25 +31,37 @@
     String generator = null;
     
     try {
-        server = JMXHelper.query("Catalina:type=Server", "serverInfo");
-        howto = "http://www.kjkoster.org/zapcat/Tomcat_How_To.html";
-        generator = "zabbix-tomcat-definition.xml";
+		server = "JBoss " + JMXHelper.query("jboss.management.local:name=Local,j2eeType=J2EEServer", "serverVersion");
     } catch (Exception e) {
-        // ok, I guess we are not Tomcat
-    }
-
-    try {
-        server = "Oracle IAS " + JMXHelper.query("oc4j:j2eeType=J2EEServer,name=standalone", "serverVersion");
-        howto = "http://www.kjkoster.org/zapcat/Oracle_IAS_OC4J_How_To.html";
-    } catch (Exception e) {
-        // ok, I guess we are not Oracle IAS
+        // ok, I guess we are not JBoss
     }
     
-    try {
-        server = "Jetty " + JMXHelper.query("org.mortbay.jetty:type=server,id=0", "version");
-        howto = "http://www.kjkoster.org/zapcat/Jetty_How_To.html";
-    } catch (Exception e) {
-        // ok, I guess we are not Jetty
+    if (server == null) {
+	    try {
+    	    server = JMXHelper.query("Catalina:type=Server", "serverInfo");
+    		howto = "http://www.kjkoster.org/zapcat/Tomcat_How_To.html";
+        	generator = "zabbix-tomcat-definition.xml";
+    	} catch (Exception e) {
+        	// ok, I guess we are not Tomcat
+    	}
+    }
+
+    if (server == null) {
+	    try {
+    	    server = "Oracle IAS " + JMXHelper.query("oc4j:j2eeType=J2EEServer,name=standalone", "serverVersion");
+        	howto = "http://www.kjkoster.org/zapcat/Oracle_IAS_OC4J_How_To.html";
+	    } catch (Exception e) {
+    	    // ok, I guess we are not Oracle IAS
+    	}
+    }
+    
+    if (server == null) {
+	    try {
+    	    server = "Jetty " + JMXHelper.query("org.mortbay.jetty:type=server,id=0", "version");
+        	howto = "http://www.kjkoster.org/zapcat/Jetty_How_To.html";
+  	  	} catch (Exception e) {
+    	    // ok, I guess we are not Jetty
+    	}
     }
 %>
 <html>
@@ -60,8 +72,8 @@
 <body>
 <h1>Welcome to Zapcat</h1>
 <p>Welcome to the Zapcat servlet engine plugin. This plugin is the
-quickest way to enable Zapcat on a servlet engine such as Tomcat,
-Oracle IAS or Jetty.</p>
+quickest way to enable Zapcat on a servlet engine such as JBoss, Tomcat, Oracle
+IAS or Jetty.</p>
 <p>The Zapcat agent is listening on port&nbsp;<%=port%>, and bound
 to <%=address%>.</p>
 

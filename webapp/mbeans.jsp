@@ -15,11 +15,11 @@
     with Zapcat. If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<%@ page import="java.lang.management.ManagementFactory"%>
-<%@ page import="java.lang.reflect.Method"%>
-<%@ page import="java.util.*"%>
-<%@ page import="javax.management.*"%>
-<%@ page import="javax.management.openmbean.CompositeData"%>
+<%@ page import="java.lang.reflect.Method" %>
+<%@ page import="java.util.*" %>
+<%@ page import="javax.management.*" %>
+<%@ page import="javax.management.openmbean.CompositeData" %>
+<%@ page import="org.kjkoster.zapcat.zabbix.JMXHelper" %>
 
 <html>
 <head>
@@ -41,10 +41,8 @@ configuration, Tomcat versions and Tomcat configuration options.</p>
 
 <table>
 	<%
-	    final MBeanServer mbeanserver = ManagementFactory
-	            .getPlatformMBeanServer();
 		// we use Java 1.4-style iteration for older Jasper compilers
-		final Iterator beanCounter = mbeanserver.queryNames(null, null).iterator();
+		final Iterator beanCounter = JMXHelper.getMBeanServer().queryNames(null, null).iterator();
 		while(beanCounter.hasNext()) {
 			final ObjectName mbean = (ObjectName) beanCounter.next();
 	%>
@@ -53,7 +51,7 @@ configuration, Tomcat versions and Tomcat configuration options.</p>
 	</tr>
 	<%
 			// we use Java 1.4-style iteration for older Jasper compilers
-			final MBeanAttributeInfo[] info = mbeanserver.getMBeanInfo(mbean).getAttributes();
+			final MBeanAttributeInfo[] info = JMXHelper.getMBeanServer().getMBeanInfo(mbean).getAttributes();
 			for (int i = 0; i < info.length; i++) {
 			    final MBeanAttributeInfo attrib = info[i];
 	%>
