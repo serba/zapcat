@@ -26,6 +26,8 @@ RELEASE NOTES
 		- Updates the base64 utilities and junit to their newest versions.
 		- Has better text on the web application's index page for the Oracle
 		  IAS/OC4J server and for Jetty.
+		- Fixes access permissions and JSP syntax for JBoss 4.0.2. (thanks to
+		  Pablo Barrionuevo)
 
 	version 1.2:
 		- Introduces a trapper that can push data into the Zabbix server.
