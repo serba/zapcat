@@ -28,6 +28,9 @@ RELEASE NOTES
 		  IAS/OC4J server and for Jetty.
 		- Fixes access permissions and JSP syntax for JBoss 4.0.2. (thanks to
 		  Pablo Barrionuevo)
+		- Now uses the internal JBoss MBean server if deployed a JBoss server.
+		  This means that you can see all MBeans that JBoss exposes, not just
+		  the platform MBeans.
 
 	version 1.2:
 		- Introduces a trapper that can push data into the Zabbix server.
