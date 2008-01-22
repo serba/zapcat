@@ -17,7 +17,7 @@
 
 <%@ page import="java.lang.management.ManagementFactory"%>
 <%@ page import="java.lang.reflect.Method"%>
-<%@ page import="java.util.Set"%>
+<%@ page import="java.util.*"%>
 <%@ page import="javax.management.*"%>
 <%@ page import="javax.management.openmbean.CompositeData"%>
 
@@ -43,16 +43,19 @@ configuration, Tomcat versions and Tomcat configuration options.</p>
 	<%
 	    final MBeanServer mbeanserver = ManagementFactory
 	            .getPlatformMBeanServer();
-
-	    for (final ObjectName mbean : (Set<ObjectName>) mbeanserver
-	            .queryNames(null, null)) {
+		// we use Java 1.4-style iteration for older Jasper compilers
+		final Iterator beanCounter = mbeanserver.queryNames(null, null).iterator();
+		while(beanCounter.hasNext()) {
+			final ObjectName mbean = (ObjectName) beanCounter.next();
 	%>
 	<tr>
 		<td class="mbean" colspan="3">jmx[<%=mbean%>]</td>
 	</tr>
 	<%
-	    final MBeanInfo info = mbeanserver.getMBeanInfo(mbean);
-	        for (final MBeanAttributeInfo attrib : info.getAttributes()) {
+			// we use Java 1.4-style iteration for older Jasper compilers
+			final MBeanAttributeInfo[] info = mbeanserver.getMBeanInfo(mbean).getAttributes();
+			for (int i = 0; i < info.length; i++) {
+			    final MBeanAttributeInfo attrib = info[i];
 	%>
 	<tr>
 		<td>&nbsp;&nbsp;</td>
