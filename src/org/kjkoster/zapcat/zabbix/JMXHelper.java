@@ -92,7 +92,7 @@ public final class JMXHelper {
     }
 
     private static String resolveFields(final CompositeData attribute,
-            final String field) throws Exception {
+            final String field) {
         final int dot = field.indexOf('.');
         if (dot < 0) {
             final Object ret = attribute.get(field);
