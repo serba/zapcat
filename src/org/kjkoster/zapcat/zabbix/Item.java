@@ -1,6 +1,10 @@
 package org.kjkoster.zapcat.zabbix;
 
+import javax.management.AttributeNotFoundException;
+import javax.management.InstanceNotFoundException;
+import javax.management.MBeanException;
 import javax.management.ObjectName;
+import javax.management.ReflectionException;
 
 /* This file is part of Zapcat.
  *
@@ -124,11 +128,17 @@ final class Item {
      * value. If this is a JMX query item, perform the query.
      * 
      * @return The current value for this item.
-     * @throws Exception
-     *             When the item could not be queried in the platform's mbean
-     *             server.
+     * @throws InstanceNotFoundException
+     *             When the specified mbean could not be located.
+     * @throws ReflectionException
+     *             When there was a problem inspecting the mbean.
+     * @throws MBeanException
+     *             When there was a problem inspecting the mbean.
+     * @throws AttributeNotFoundException
+     *             When the specified attribute could not be found.
      */
-    public String getValue() throws Exception {
+    public String getValue() throws InstanceNotFoundException,
+            AttributeNotFoundException, MBeanException, ReflectionException {
         if (attribute == null) {
             return value;
         }

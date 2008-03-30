@@ -18,6 +18,8 @@ package org.kjkoster.zapcat;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.management.ObjectName;
+
 /**
  * The interface of a trapper and sender. Trappers and senders take initiative
  * in sending data to the monitoring server.
@@ -52,7 +54,7 @@ public interface Trapper {
      * @param attribute
      *            The attribute on that object.
      */
-    void send(String key, String objectName, String attribute);
+    void send(String key, ObjectName objectName, String attribute);
 
     /**
      * Schedule the sending of the output of a JMX query to the server. The
@@ -70,6 +72,6 @@ public interface Trapper {
      * @param attribute
      *            The attribute on that object.
      */
-    void every(int time, TimeUnit unit, String key, String objectName,
+    void every(int time, TimeUnit unit, String key, ObjectName objectName,
             String attribute);
 }

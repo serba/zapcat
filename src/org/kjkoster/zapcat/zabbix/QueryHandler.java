@@ -24,8 +24,10 @@ import java.net.Socket;
 
 import javax.management.AttributeNotFoundException;
 import javax.management.InstanceNotFoundException;
+import javax.management.MBeanException;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
+import javax.management.ReflectionException;
 
 import org.apache.log4j.Logger;
 
@@ -82,7 +84,7 @@ final class QueryHandler implements Runnable {
         }
     }
 
-    private void handleQuery() throws Exception {
+    private void handleQuery() throws IOException {
         String request = receive(socket.getInputStream());
         log.debug("received '" + request + "'");
 
@@ -108,7 +110,7 @@ final class QueryHandler implements Runnable {
         return line;
     }
 
-    private String response(final String query) throws Exception {
+    private String response(final String query) {
         final int lastOpen = query.lastIndexOf('[');
         final int lastClose = query.lastIndexOf(']');
         String attribute = null;
@@ -136,6 +138,14 @@ final class QueryHandler implements Runnable {
             } catch (AttributeNotFoundException e) {
                 log.debug("no attribute named " + attribute + " on bean named "
                         + objectName, e);
+                return NOTSUPPORTED;
+            } catch (MBeanException e) {
+                log.warn("unable to find either " + objectName + " or "
+                        + attribute, e);
+                return NOTSUPPORTED;
+            } catch (ReflectionException e) {
+                log.warn("unable to find either " + objectName + " or "
+                        + attribute, e);
                 return NOTSUPPORTED;
             }
         } else if (query.startsWith("system.property")) {

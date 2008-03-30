@@ -18,9 +18,13 @@ package org.kjkoster.zapcat.zabbix;
 
 import java.lang.management.ManagementFactory;
 
+import javax.management.AttributeNotFoundException;
+import javax.management.InstanceNotFoundException;
+import javax.management.MBeanException;
 import javax.management.MBeanServer;
 import javax.management.ObjectInstance;
 import javax.management.ObjectName;
+import javax.management.ReflectionException;
 import javax.management.openmbean.CompositeData;
 
 import org.apache.log4j.Logger;
@@ -68,11 +72,18 @@ public final class JMXHelper {
      * @param attribute
      *            The attribute to query for.
      * @return The value of the attribute.
-     * @throws Exception
-     *             When something went wrong.
+     * @throws InstanceNotFoundException
+     *             When the specified mbean could not be located.
+     * @throws ReflectionException
+     *             When there was a problem inspecting the mbean.
+     * @throws MBeanException
+     *             When there was a problem inspecting the mbean.
+     * @throws AttributeNotFoundException
+     *             When the specified attribute could not be found.
      */
     public static String query(final ObjectName objectName,
-            final String attribute) throws Exception {
+            final String attribute) throws InstanceNotFoundException,
+            AttributeNotFoundException, MBeanException, ReflectionException {
         log.debug("JMX query[" + objectName + "][" + attribute + "]");
 
         final ObjectInstance bean = getMBeanServer().getObjectInstance(
