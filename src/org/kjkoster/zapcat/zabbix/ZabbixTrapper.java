@@ -103,7 +103,25 @@ public final class ZabbixTrapper implements Trapper {
      * @see org.kjkoster.zapcat.Trapper#send(java.lang.String, java.lang.Object)
      */
     public void send(final String key, final Object value) {
-        queue.offer(new Item(host, key, value.toString()));
+        send(host, key, value);
+    }
+
+    /**
+     * Just push some data into the server, regardless of the host setting for
+     * this trapper. Most likely you will not use this method, but its simpler
+     * form with just the key and value pair. This method is for library use of
+     * the trapper, where one trapper is used to feed more than one host
+     * configuration.
+     * 
+     * @param useHost
+     *            The host configuration name in Zabbix.
+     * @param key
+     *            The identifier of the data item.
+     * @param value
+     *            The value. Cannot be <code>null</code>.
+     */
+    public void send(final String useHost, final String key, final Object value) {
+        queue.offer(new Item(useHost, key, value.toString()));
     }
 
     /**
