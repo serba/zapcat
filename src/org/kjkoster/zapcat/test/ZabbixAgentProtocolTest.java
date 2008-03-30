@@ -50,8 +50,6 @@ public class ZabbixAgentProtocolTest {
      */
     @After
     public void tearDown() throws Exception {
-        System.out.println("XXX tearDown()");
-
         Thread.sleep(100);
 
         System.setProperties(originalProperties);
@@ -69,8 +67,6 @@ public class ZabbixAgentProtocolTest {
      */
     @Test
     public void testDefault() throws Exception {
-        System.out.println("XXX testDefault()");
-
         final Agent agent = new ZabbixAgent();
         // give the agent some time to open the port
         Thread.sleep(100);
@@ -104,8 +100,6 @@ public class ZabbixAgentProtocolTest {
      */
     @Test
     public void testSetTo14() throws Exception {
-        System.out.println("XXX testSetTo14()");
-
         System.setProperty(ZabbixAgent.PROTOCOL_PROPERTY, "1.4");
         assertEquals("1.4", System.getProperty(ZabbixAgent.PROTOCOL_PROPERTY));
 
@@ -121,8 +115,6 @@ public class ZabbixAgentProtocolTest {
      */
     @Test
     public void testSetTo11() throws Exception {
-        System.out.println("XXX testSetTo11()");
-
         System.setProperty(ZabbixAgent.PROTOCOL_PROPERTY, "1.1");
         assertEquals("1.1", System.getProperty(ZabbixAgent.PROTOCOL_PROPERTY));
 
@@ -160,8 +152,6 @@ public class ZabbixAgentProtocolTest {
      */
     @Test
     public void testPing() throws Exception {
-        System.out.println("XXX testPing()");
-
         final Agent agent = new org.kjkoster.zapcat.zabbix.ZabbixAgent();
         // give the agent some time to open the port
         Thread.sleep(100);
@@ -198,8 +188,6 @@ public class ZabbixAgentProtocolTest {
      */
     @Test
     public void testMissingArgument() throws Exception {
-        System.out.println("XXX testMissingArgument()");
-
         final Agent agent = new org.kjkoster.zapcat.zabbix.ZabbixAgent();
         // give the agent some time to open the port
         Thread.sleep(100);
@@ -238,8 +226,6 @@ public class ZabbixAgentProtocolTest {
      */
     @Test
     public void testMissingOpen() throws Exception {
-        System.out.println("XXX testMissingOpen()");
-
         final Agent agent = new org.kjkoster.zapcat.zabbix.ZabbixAgent();
         // give the agent some time to open the port
         Thread.sleep(100);
@@ -278,8 +264,6 @@ public class ZabbixAgentProtocolTest {
      */
     @Test
     public void testMissingClose() throws Exception {
-        System.out.println("XXX testMissingClose()");
-
         final Agent agent = new org.kjkoster.zapcat.zabbix.ZabbixAgent();
         // give the agent some time to open the port
         Thread.sleep(100);
