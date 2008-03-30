@@ -31,6 +31,8 @@ RELEASE NOTES
 		- Now uses the internal JBoss MBean server if deployed a JBoss server.
 		  This means that you can see all MBeans that JBoss exposes, not just
 		  the platform MBeans.
+		- Adds a whilelist feature to regulate what hosts or IP addresses can
+		  and cannot connect to the Zapcat agent. (thanks to Tim McCune)
 
 	version 1.2:
 		- Introduces a trapper that can push data into the Zabbix server.
