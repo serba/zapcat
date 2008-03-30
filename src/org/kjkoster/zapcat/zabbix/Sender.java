@@ -16,8 +16,9 @@ package org.kjkoster.zapcat.zabbix;
  * Zapcat. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -46,8 +47,6 @@ final class Sender extends Thread {
     private static final String middle = "</key><data>";
 
     private static final String tail = "</data></req>";
-
-    private final byte[] response = new byte[1024];
 
     private boolean stopping = false;
 
@@ -132,7 +131,7 @@ final class Sender extends Thread {
 
         Socket zabbix = null;
         OutputStreamWriter out = null;
-        InputStream in = null;
+        BufferedReader in = null;
         try {
             zabbix = new Socket(zabbixServer, zabbixPort);
             zabbix.setSoTimeout(TIMEOUT);
@@ -141,12 +140,13 @@ final class Sender extends Thread {
             out.write(message.toString());
             out.flush();
 
-            in = zabbix.getInputStream();
-            final int read = in.read(response);
+            in = new BufferedReader(new InputStreamReader(zabbix
+                    .getInputStream()));
+            final String response = in.readLine();
             if (log.isDebugEnabled()) {
-                log.debug("received " + new String(response));
+                log.debug("received " + response);
             }
-            if (read != 2 || response[0] != 'O' || response[1] != 'K') {
+            if (!"OK".equals(response)) {
                 log.warn("received unexpected response '"
                         + new String(response) + "' for key '" + key + "'");
             }
