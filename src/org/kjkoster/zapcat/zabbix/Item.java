@@ -1,5 +1,7 @@
 package org.kjkoster.zapcat.zabbix;
 
+import javax.management.ObjectName;
+
 /* This file is part of Zapcat.
  *
  * Zapcat is free software: you can redistribute it and/or modify it under the
@@ -27,22 +29,30 @@ package org.kjkoster.zapcat.zabbix;
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
  */
 final class Item {
+    private final String host;
 
     private final String key;
 
     private final String value;
+
+    private final ObjectName objectName;
 
     private final String attribute;
 
     /**
      * Create a literal value item.
      * 
+     * @param host
+     *            The host configuration to send the item to.
      * @param key
      *            The monitoring server's key for this statistic.
      * @param value
      *            The literal value.
      */
-    public Item(final String key, final String value) {
+    public Item(final String host, final String key, final String value) {
+        if (host == null || "".equals(host.trim())) {
+            throw new IllegalArgumentException("empty host");
+        }
         if (key == null || "".equals(key.trim())) {
             throw new IllegalArgumentException("empty key");
         }
@@ -51,14 +61,18 @@ final class Item {
                     + "'");
         }
 
+        this.host = host;
         this.key = key;
         this.value = value;
+        this.objectName = null;
         this.attribute = null;
     }
 
     /**
      * Create a JMX query item.
      * 
+     * @param host
+     *            The host configuration to send the item to.
      * @param key
      *            The monitoring server's key for this statistic.
      * @param objectName
@@ -66,8 +80,8 @@ final class Item {
      * @param attribute
      *            The attribute on that object.
      */
-    public Item(final String key, final String objectName,
-            final String attribute) {
+    public Item(final String host, final String key,
+            final ObjectName objectName, final String attribute) {
         if (key == null || "".equals(key.trim())) {
             throw new IllegalArgumentException("empty key");
         }
@@ -80,9 +94,20 @@ final class Item {
                     + "'");
         }
 
+        this.host = host;
         this.key = key;
-        this.value = objectName;
+        this.value = null;
+        this.objectName = objectName;
         this.attribute = attribute;
+    }
+
+    /**
+     * Find the item's host.
+     * 
+     * @return The monitoring server's host for this item.
+     */
+    public String getHost() {
+        return host;
     }
 
     /**
@@ -108,6 +133,6 @@ final class Item {
             return value;
         }
 
-        return JMXHelper.query(value, attribute);
+        return JMXHelper.query(objectName, attribute);
     }
 }

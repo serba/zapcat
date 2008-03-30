@@ -42,9 +42,11 @@ final class Sender extends Thread {
 
     private final int zabbixPort;
 
-    private final String head;
+    private static final String head = "<req><host>";
 
-    private static final String middle = "</key><data>";
+    private static final String leftmiddle = "</host><key>";
+
+    private static final String rightmiddle = "</key><data>";
 
     private static final String tail = "</data></req>";
 
@@ -61,12 +63,9 @@ final class Sender extends Thread {
      *            The name or IP of the machine to send the data to.
      * @param zabbixPort
      *            The port number on that machine.
-     * @param host
-     *            The host name, as defined in the host definition in Zabbix.
      */
     public Sender(final BlockingQueue<Item> queue,
-            final InetAddress zabbixServer, final int zabbixPort,
-            final String host) {
+            final InetAddress zabbixServer, final int zabbixPort) {
         super("Zabbix-sender");
         setDaemon(true);
 
@@ -74,8 +73,6 @@ final class Sender extends Thread {
 
         this.zabbixServer = zabbixServer;
         this.zabbixPort = zabbixPort;
-
-        this.head = "<req><host>" + Base64.encode(host) + "</host><key>";
     }
 
     /**
@@ -95,7 +92,7 @@ final class Sender extends Thread {
             try {
                 final Item item = queue.take();
 
-                send(item.getKey(), item.getValue());
+                send(item.getHost(), item.getKey(), item.getValue());
             } catch (InterruptedException e) {
                 if (!stopping) {
                     log.warn("ignoring exception", e);
@@ -109,19 +106,22 @@ final class Sender extends Thread {
         while (queue.size() > 0) {
             final Item item = queue.remove();
             try {
-                send(item.getKey(), item.getValue());
+                send(item.getHost(), item.getKey(), item.getValue());
             } catch (Exception e) {
                 log.warn("ignoring exception", e);
             }
         }
     }
 
-    private void send(final String key, final String value) throws IOException {
+    private void send(final String host, final String key, final String value)
+            throws IOException {
         final long start = System.currentTimeMillis();
 
         final StringBuilder message = new StringBuilder(head);
+        message.append(Base64.encode(host));
+        message.append(leftmiddle);
         message.append(Base64.encode(key));
-        message.append(middle);
+        message.append(rightmiddle);
         message.append(Base64.encode(value == null ? "" : value));
         message.append(tail);
 

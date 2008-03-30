@@ -24,6 +24,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import javax.management.ObjectName;
+
 import org.kjkoster.zapcat.Trapper;
 
 /**
@@ -60,6 +62,8 @@ public final class ZabbixTrapper implements Trapper {
     private final ScheduledExecutorService scheduler = Executors
             .newScheduledThreadPool(1);
 
+    private final String host;
+
     /**
      * Create a new Zabbix trapper, using the default port number.
      * 
@@ -76,10 +80,10 @@ public final class ZabbixTrapper implements Trapper {
         final String server = System.getProperty(SERVER_PROPERTY, zabbixServer);
         final String serverPort = System.getProperty(PORT_PROPERTY, Integer
                 .toString(DEFAULT_PORT));
-        final String serverHost = System.getProperty(HOST_PROPERTY, host);
+        this.host = System.getProperty(HOST_PROPERTY, host);
 
         sender = new Sender(queue, InetAddress.getByName(server), Integer
-                .parseInt(serverPort), serverHost);
+                .parseInt(serverPort));
         sender.start();
     }
 
@@ -99,16 +103,16 @@ public final class ZabbixTrapper implements Trapper {
      * @see org.kjkoster.zapcat.Trapper#send(java.lang.String, java.lang.Object)
      */
     public void send(final String key, final Object value) {
-        queue.offer(new Item(key, value.toString()));
+        queue.offer(new Item(host, key, value.toString()));
     }
 
     /**
      * @see org.kjkoster.zapcat.Trapper#send(java.lang.String, java.lang.String,
      *      java.lang.String)
      */
-    public void send(final String key, final String objectName,
+    public void send(final String key, final ObjectName objectName,
             final String attribute) {
-        queue.offer(new Item(key, objectName, attribute));
+        queue.offer(new Item(host, key, objectName, attribute));
     }
 
     /**
@@ -117,7 +121,7 @@ public final class ZabbixTrapper implements Trapper {
      *      java.lang.String)
      */
     public void every(final int time, final TimeUnit unit, final String key,
-            final String objectName, final String attribute) {
+            final ObjectName objectName, final String attribute) {
         scheduler.scheduleAtFixedRate(new Runnable() {
             public void run() {
                 send(key, objectName, attribute);

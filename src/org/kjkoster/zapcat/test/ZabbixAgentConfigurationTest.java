@@ -26,6 +26,7 @@ import java.net.Socket;
 import java.util.Properties;
 
 import javax.management.InstanceNotFoundException;
+import javax.management.ObjectName;
 
 import org.junit.After;
 import org.junit.Before;
@@ -132,8 +133,8 @@ public class ZabbixAgentConfigurationTest {
 
     private void assertAgentDown(final int port) throws Exception {
         try {
-            JMXHelper.query("org.kjkoster.zapcat:type=Agent,port=" + port,
-                    "Port");
+            JMXHelper.query(new ObjectName(
+                    "org.kjkoster.zapcat:type=Agent,port=" + port), "Port");
             fail();
         } catch (InstanceNotFoundException e) {
             // this is supposed to happen
@@ -150,10 +151,10 @@ public class ZabbixAgentConfigurationTest {
         // give the agent some time to open the port
         Thread.sleep(100);
 
-        assertEquals("" + port, JMXHelper.query(
-                "org.kjkoster.zapcat:type=Agent,port=" + port, "Port"));
-        assertEquals("*", JMXHelper.query(
-                "org.kjkoster.zapcat:type=Agent,port=" + port, "BindAddress"));
+        assertEquals("" + port, JMXHelper.query(new ObjectName(
+                "org.kjkoster.zapcat:type=Agent,port=" + port), "Port"));
+        assertEquals("*", JMXHelper.query(new ObjectName(
+                "org.kjkoster.zapcat:type=Agent,port=" + port), "BindAddress"));
         final Socket touch = new Socket(InetAddress.getLocalHost(), port);
         touch.close();
     }

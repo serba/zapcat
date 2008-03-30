@@ -24,6 +24,8 @@ import java.net.Socket;
 
 import javax.management.AttributeNotFoundException;
 import javax.management.InstanceNotFoundException;
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
 
 import org.apache.log4j.Logger;
 
@@ -124,8 +126,11 @@ final class QueryHandler implements Runnable {
             final String objectName = query
                     .substring(firstOpen + 1, firstClose);
             try {
-                return JMXHelper.query(objectName, attribute);
+                return JMXHelper.query(new ObjectName(objectName), attribute);
             } catch (InstanceNotFoundException e) {
+                log.debug("no bean named " + objectName, e);
+                return NOTSUPPORTED;
+            } catch (MalformedObjectNameException e) {
                 log.debug("no bean named " + objectName, e);
                 return NOTSUPPORTED;
             } catch (AttributeNotFoundException e) {

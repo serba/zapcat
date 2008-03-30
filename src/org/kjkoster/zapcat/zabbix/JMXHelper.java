@@ -63,7 +63,7 @@ public final class JMXHelper {
      * Perform a JMX query given an mbean name and the name of an attribute on
      * that mbean.
      * 
-     * @param name
+     * @param objectName
      *            The object name of the mbean to query.
      * @param attribute
      *            The attribute to query for.
@@ -71,23 +71,23 @@ public final class JMXHelper {
      * @throws Exception
      *             When something went wrong.
      */
-    public static String query(final String name, final String attribute)
-            throws Exception {
-        log.debug("JMX query[" + name + "][" + attribute + "]");
+    public static String query(final ObjectName objectName,
+            final String attribute) throws Exception {
+        log.debug("JMX query[" + objectName + "][" + attribute + "]");
 
         final ObjectInstance bean = getMBeanServer().getObjectInstance(
-                new ObjectName(name));
+                objectName);
         log.debug("found MBean class " + bean.getClassName());
 
         final int dot = attribute.indexOf('.');
         if (dot < 0) {
-            final Object ret = getMBeanServer().getAttribute(
-                    new ObjectName(name), attribute);
+            final Object ret = getMBeanServer().getAttribute(objectName,
+                    attribute);
             return ret == null ? null : ret.toString();
         }
 
         return resolveFields((CompositeData) getMBeanServer().getAttribute(
-                new ObjectName(name), attribute.substring(0, dot)), attribute
+                objectName, attribute.substring(0, dot)), attribute
                 .substring(dot + 1));
     }
 
