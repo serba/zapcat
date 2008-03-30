@@ -16,6 +16,8 @@
 
 import java.util.concurrent.TimeUnit;
 
+import javax.management.ObjectName;
+
 import org.kjkoster.zapcat.Trapper;
 import org.kjkoster.zapcat.zabbix.ZabbixTrapper;
 
@@ -27,10 +29,11 @@ public class SampleTrapper {
 
             trapper.send("java.version", System.getProperty("java.version"));
 
-            trapper.send("compiler.name", "java.lang:type=Compilation", "Name");
+            trapper.send("compiler.name",
+                    new ObjectName("java.lang:type=Compilation"), "Name");
 
             trapper.every(30, TimeUnit.SECONDS, "compiler.time",
-                    "java.lang:type=Compilation", "TotalCompilationTime");
+                    new ObjectName("java.lang:type=Compilation"), "TotalCompilationTime");
 
             // simulate lots of important work being done...
             Thread.sleep(Long.MAX_VALUE);
