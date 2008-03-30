@@ -21,6 +21,10 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -64,6 +68,12 @@ public final class ZabbixAgent implements Agent, Runnable {
      */
     public static final String PROTOCOL_PROPERTY = "org.kjkoster.zapcat.zabbix.protocol";
 
+    /**
+     * The property key for the whitelist of hosts that may connect to the
+     * agent.
+     */
+    public static final String WHITELIST_PROPERTY = "org.kjkoster.zapcat.whitelist";
+
     // the address to bind to (or 'null' to bind to any available interface).
     private final InetAddress address;
 
@@ -75,6 +85,8 @@ public final class ZabbixAgent implements Agent, Runnable {
     private ServerSocket serverSocket = null;
 
     private volatile boolean stopping = false;
+
+    private final Set<String> whitelist;
 
     /**
      * Configure a new Zabbix agent. Each agent needs the local port number to
@@ -95,10 +107,10 @@ public final class ZabbixAgent implements Agent, Runnable {
      * Configure a new Zabbix agent to listen on a specific address and port
      * number.
      * <p>
-     * Use of this method is discouraged, since it places address and port
-     * number configuration in the hands of developers. That is a task that
-     * should normally be left to system administrators and done through system
-     * properties.
+     * Direct use of this method in your code is discouraged, since it places
+     * address and port number configuration in the hands of developers. That is
+     * a task that should normally be left to system administrators and done
+     * through system properties. Please use the default constructor instead.
      * 
      * @param address
      *            The address to listen on, or 'null' to listen on any available
@@ -122,6 +134,14 @@ public final class ZabbixAgent implements Agent, Runnable {
         final String propertyPort = System.getProperty(PORT_PROPERTY);
         this.port = propertyPort == null ? port : Integer
                 .parseInt(propertyPort);
+
+        if (System.getProperty(WHITELIST_PROPERTY) != null) {
+            whitelist = new HashSet<String>();
+            whitelist.addAll(Arrays.asList(System.getProperty(
+                    WHITELIST_PROPERTY).split(",\\s*")));
+        } else {
+            whitelist = null;
+        }
 
         daemon = new Thread(this, "Zabbix-agent");
         daemon.setDaemon(true);
@@ -172,7 +192,13 @@ public final class ZabbixAgent implements Agent, Runnable {
                 log.debug("accepted connection from "
                         + accepted.getInetAddress().getHostAddress());
 
-                handlers.execute(new QueryHandler(accepted));
+                if (acceptedByWhitelist(accepted.getInetAddress())) {
+                    handlers.execute(new QueryHandler(accepted));
+                } else {
+                    log.warn("rejecting ip address "
+                            + accepted.getInetAddress().getHostAddress()
+                            + ", it is not on the whitelist");
+                }
             }
         } catch (IOException e) {
             if (!stopping) {
@@ -199,6 +225,26 @@ public final class ZabbixAgent implements Agent, Runnable {
         }
     }
 
+    private boolean acceptedByWhitelist(final InetAddress accepted) {
+        if (whitelist == null) {
+            return true;
+        }
+
+        for (final String allowed : whitelist) {
+            try {
+                if (accepted.equals(InetAddress.getByName(allowed))) {
+                    return true;
+                }
+            } catch (UnknownHostException e) {
+                log
+                        .error("invalid host '" + allowed
+                                + "' on the white list", e);
+            }
+        }
+
+        return false;
+    }
+
     /**
      * The interface to our JMX representation.
      * 
@@ -218,6 +264,17 @@ public final class ZabbixAgent implements Agent, Runnable {
          * @return The configured bind address, or '*' to indicate any address.
          */
         String getBindAddress();
+
+        /**
+         * Read the whitelist as a collection of strings in the format
+         * &lt;supplied name&gt;&nbsp;(&lt;resolved address or exception&gt;).
+         * <p>
+         * Of course, this should really be a map, but jconsole does not deal
+         * gracefully with maps.
+         * 
+         * @return The whitelist for this agent.
+         */
+        Collection<String> getWhitelist();
     }
 
     /**
@@ -241,6 +298,25 @@ public final class ZabbixAgent implements Agent, Runnable {
          */
         public String getBindAddress() {
             return address == null ? "*" : address.getHostAddress();
+        }
+
+        /**
+         * @see org.kjkoster.zapcat.zabbix.ZabbixAgent.AgentMBean#getWhitelist()
+         */
+        public Collection<String> getWhitelist() {
+            final Collection<String> list = new HashSet<String>();
+            for (final String host : whitelist) {
+                try {
+                    list.add(host + " ("
+                            + InetAddress.getByName(host).getHostAddress()
+                            + ")");
+                } catch (UnknownHostException e) {
+                    list.add(host + " (" + e.getClass().getName() + ": "
+                            + e.getMessage() + ")");
+                }
+            }
+
+            return list;
         }
     }
 }
