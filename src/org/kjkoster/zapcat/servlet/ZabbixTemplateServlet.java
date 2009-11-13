@@ -18,6 +18,7 @@ package org.kjkoster.zapcat.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
@@ -32,7 +33,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.kjkoster.zapcat.zabbix.JMXHelper;
 import org.kjkoster.zapcat.zabbix.ZabbixAgent;
 
 /**
@@ -40,20 +40,10 @@ import org.kjkoster.zapcat.zabbix.ZabbixAgent;
  * for Tomcat because it is so configuraton-dependent. Zabbix really is not able
  * to deal with very dynamic systems.
  * 
- * @deprecated by Brett Cave - replaced by 
- * ZabbixTemplateServletTomcat
- * 
- * @see #ZabbixTemplateServletTomcat()
- * 
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
  */
-@Deprecated
 public class ZabbixTemplateServlet extends HttpServlet {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1245376184346210185L;
-	private static final Logger log = Logger
+    private static final Logger log = Logger
             .getLogger(ZabbixTemplateServlet.class);
 
     private enum Type {
@@ -127,8 +117,8 @@ public class ZabbixTemplateServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest request,
             final HttpServletResponse response) throws IOException {
         final PrintWriter out = response.getWriter();
-        final MBeanServer mbeanserver = JMXHelper
-                .getMBeanServer();
+        final MBeanServer mbeanserver = ManagementFactory
+                .getPlatformMBeanServer();
         try {
             final Set<ObjectName> managers = mbeanserver.queryNames(
                     new ObjectName("Catalina:type=Manager,*"), null);

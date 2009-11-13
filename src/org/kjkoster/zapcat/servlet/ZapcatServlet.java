@@ -28,11 +28,7 @@ import org.kjkoster.zapcat.zabbix.ZabbixAgent;
  */
 public class ZapcatServlet extends HttpServlet {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 534196152069080114L;
-	private Agent agent = null;
+    private Agent agent = null;
 
     /**
      * @see javax.servlet.GenericServlet#init()

@@ -44,7 +44,6 @@
 				<pathelement location="lib/servlet-api.jar" />
 				<pathelement location="lib/ostermillerutils_1_06_01.jar" />
 				<pathelement location="lib/junit-3.8.1.jar" />
-				<pathelement location="lib/jmx-client.jar" />
 			</classpath>
 		</javac>
 
@@ -61,11 +60,6 @@
 		<copy file="${jar}" todir="build/webapp/WEB-INF/lib" />
 
 		<jar destfile="${war}" basedir="build/webapp" />
-	</target>
-	
-	<target name="deploywar" description="Deploys archived war to deploy.dir" depends="war">
-		<fail unless="deploy.dir">deploy.dir not set</fail>
-		<copy todir="${deploy.dir}" file="${war}" />
 	</target>
 
 	<target name="of" description="build the Openfire plugin" depends="jar">
