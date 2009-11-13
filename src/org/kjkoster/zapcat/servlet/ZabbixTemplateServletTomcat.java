@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.kjkoster.zapcat.zabbix.JMXHelper;
 import org.kjkoster.zapcat.zabbix.ZabbixAgent;
 
 /**
@@ -41,17 +42,10 @@ import org.kjkoster.zapcat.zabbix.ZabbixAgent;
  * to deal with very dynamic systems.
  * 
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
- * 
- * @deprecated by Brett Cave - replaced by
- * ZabbixTemplateServletTomcat which also uses the new getMBeanServer method
- * 
- * @see #ZabbixTemplateServletTomcat()
- * 
  */
-@Deprecated
-public class ZabbixTemplateServlet extends HttpServlet {
+public class ZabbixTemplateServletTomcat extends HttpServlet {
     private static final Logger log = Logger
-            .getLogger(ZabbixTemplateServlet.class);
+            .getLogger(ZabbixTemplateServletTomcat.class);
 
     private enum Type {
         /**
@@ -124,8 +118,7 @@ public class ZabbixTemplateServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest request,
             final HttpServletResponse response) throws IOException {
         final PrintWriter out = response.getWriter();
-        final MBeanServer mbeanserver = ManagementFactory
-                .getPlatformMBeanServer();
+        final MBeanServer mbeanserver = JMXHelper.getMBeanServer();
         try {
             final Set<ObjectName> managers = mbeanserver.queryNames(
                     new ObjectName("Catalina:type=Manager,*"), null);
@@ -133,7 +126,7 @@ public class ZabbixTemplateServlet extends HttpServlet {
                     new ObjectName("Catalina:type=GlobalRequestProcessor,*"),
                     null);
 
-            ZabbixTemplateServlet t = new ZabbixTemplateServlet();
+            ZabbixTemplateServletTomcat t = new ZabbixTemplateServletTomcat();
             response.setContentType("text/xml");
             t.writeHeader(out);
             t.writeItems(out, processors, managers);

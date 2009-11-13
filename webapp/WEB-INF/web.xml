@@ -31,9 +31,27 @@
 		<servlet-name>ZabbixTemplateServlet</servlet-name>
 		<servlet-class>org.kjkoster.zapcat.servlet.ZabbixTemplateServlet</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>ZabbixTemplateServletTomcat</servlet-name>
+		<servlet-class>org.kjkoster.zapcat.servlet.ZabbixTemplateServletTomcat</servlet-class>
+	</servlet>
+	
+  <servlet>
+  	<servlet-name>ZabbixTemplateServletJBoss42</servlet-name>
+    <servlet-class>org.kjkoster.zapcat.servlet.ZabbixTemplateServletJBoss42</servlet-class>
+  </servlet>
+	
 
 	<servlet-mapping>
-		<servlet-name>ZabbixTemplateServlet</servlet-name>
+		<servlet-name>ZabbixTemplateServletTomcat</servlet-name>
 		<url-pattern>/zabbix-tomcat-definition.xml</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>ZabbixTemplateServletJBoss42</servlet-name>
+		<url-pattern>/zabbix-jboss42-definition.xml</url-pattern>
+	</servlet-mapping>
+	
+	
 </web-app>

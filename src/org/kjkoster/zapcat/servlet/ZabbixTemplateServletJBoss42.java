@@ -1,5 +1,7 @@
 package org.kjkoster.zapcat.servlet;
 
+// TODO: Convert this from javax.management mbean server to org.jboss mbean stuff ;)
+
 /* This file is part of Zapcat.
  *
  * Zapcat is free software: you can redistribute it and/or modify it under the
@@ -18,7 +20,6 @@ package org.kjkoster.zapcat.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
@@ -33,6 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.kjkoster.zapcat.zabbix.JMXHelper;
 import org.kjkoster.zapcat.zabbix.ZabbixAgent;
 
 /**
@@ -41,17 +43,15 @@ import org.kjkoster.zapcat.zabbix.ZabbixAgent;
  * to deal with very dynamic systems.
  * 
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
- * 
- * @deprecated by Brett Cave - replaced by
- * ZabbixTemplateServletTomcat which also uses the new getMBeanServer method
- * 
- * @see #ZabbixTemplateServletTomcat()
- * 
  */
-@Deprecated
-public class ZabbixTemplateServlet extends HttpServlet {
-    private static final Logger log = Logger
-            .getLogger(ZabbixTemplateServlet.class);
+public class ZabbixTemplateServletJBoss42 extends HttpServlet {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1245376184346210185L;
+	
+	private static final Logger log = Logger
+            .getLogger(ZabbixTemplateServletJBoss42.class);
 
     private enum Type {
         /**
@@ -124,16 +124,15 @@ public class ZabbixTemplateServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest request,
             final HttpServletResponse response) throws IOException {
         final PrintWriter out = response.getWriter();
-        final MBeanServer mbeanserver = ManagementFactory
-                .getPlatformMBeanServer();
+        final MBeanServer mbeanserver = JMXHelper.getMBeanServer();
         try {
             final Set<ObjectName> managers = mbeanserver.queryNames(
-                    new ObjectName("Catalina:type=Manager,*"), null);
+            		new ObjectName("jboss.web:type=Manager,*"), null);
             final Set<ObjectName> processors = mbeanserver.queryNames(
-                    new ObjectName("Catalina:type=GlobalRequestProcessor,*"),
+                    new ObjectName("jboss.web:type=GlobalRequestProcessor,*"),
                     null);
 
-            ZabbixTemplateServlet t = new ZabbixTemplateServlet();
+            ZabbixTemplateServletJBoss42 t = new ZabbixTemplateServletJBoss42();
             response.setContentType("text/xml");
             t.writeHeader(out);
             t.writeItems(out, processors, managers);
@@ -156,7 +155,7 @@ public class ZabbixTemplateServlet extends HttpServlet {
                 + new SimpleDateFormat("HH.mm").format(new Date()) + "\">");
         out.println("  <hosts>");
 
-        out.println("    <host name=\"tomcat_"
+        out.println("    <host name=\"jboss_"
                 + InetAddress.getLocalHost().getHostName().replaceAll(
                         "[^a-zA-Z0-9]+", "_") + "\">");
         out.println("      <dns>" + InetAddress.getLocalHost().getHostName()
@@ -174,10 +173,12 @@ public class ZabbixTemplateServlet extends HttpServlet {
             final Set<ObjectName> processors, final Set<ObjectName> managers)
             throws MalformedObjectNameException {
         out.println("      <items>");
+        writeItem(out, "JBoss version",
+        		new ObjectName("jboss.system:type=Server"), "VersionNumber",
+        		Type.Character, null, Store.AsIs, Time.OncePerHour);
         writeItem(out, "tomcat version",
                 new ObjectName("Catalina:type=Server"), "serverInfo",
                 Type.Character, null, Store.AsIs, Time.OncePerHour);
-
         writeProcessorItems(out, processors);
         writeManagerItems(out, managers);
         out.println("      </items>");
@@ -188,9 +189,15 @@ public class ZabbixTemplateServlet extends HttpServlet {
             throws MalformedObjectNameException {
         for (final ObjectName processor : processors) {
             final String name = name(processor);
+            log.debug("Getting address for " + processor);
+            final String address = address(processor);
             final ObjectName threadpool = new ObjectName(
-                    "Catalina:type=ThreadPool,name=" + name);
-            final String port = name.substring(name.indexOf('-') + 1);
+                    "jboss.web:type=ThreadPool,name=" + name);
+            String tmpPort = name.substring(name.indexOf('-') + 1);
+            if (tmpPort.contains("-")) {
+            	tmpPort = tmpPort.substring(tmpPort.indexOf('-') + 1);
+            }
+            final String port = tmpPort;
 
             writeItem(out, name + " bytes received per second", processor,
                     "bytesReceived", Type.Float, "B", Store.AsDelta,
@@ -219,7 +226,7 @@ public class ZabbixTemplateServlet extends HttpServlet {
 
             if (name.startsWith("http")) {
                 writeItem(out, name + " gzip compression", new ObjectName(
-                        "Catalina:type=ProtocolHandler,port=" + port),
+                        "jboss.web:type=ProtocolHandler,port=" + port + ",address=" + address),
                         "compression", Type.Character, null, Store.AsIs,
                         Time.OncePerHour);
             }
@@ -285,15 +292,17 @@ public class ZabbixTemplateServlet extends HttpServlet {
             throws MalformedObjectNameException {
         for (final ObjectName processor : processors) {
             final String name = name(processor);
+            log.debug("Getting address for " + processor);
+            final String address = address(processor);
             final ObjectName threadpool = new ObjectName(
-                    "Catalina:type=ThreadPool,name=" + name);
+                    "jboss.web:type=ThreadPool,name=" + name);
             final String port = name.substring(name.indexOf('-') + 1);
 
             if (name.startsWith("http")) {
                 writeTrigger(out, "gzip compression is off for connector "
                         + name + " on {HOSTNAME}",
-                        "{{HOSTNAME}:jmx[Catalina:type=ProtocolHandler,port="
-                                + port + "][compression].str(off)}=1", 2);
+                        "{{HOSTNAME}:jmx[jboss.web:type=ProtocolHandler,port="
+                                + port + ",address=" + address + "][compression].str(off)}=1", 2);
             }
             writeTrigger(out, "70% " + name
                     + " worker threads busy on {HOSTNAME}", "{{HOSTNAME}:jmx["
@@ -327,7 +336,7 @@ public class ZabbixTemplateServlet extends HttpServlet {
         for (final ObjectName processor : processors) {
             final String name = name(processor);
             final ObjectName threadpool = new ObjectName(
-                    "Catalina:type=ThreadPool,name=" + name);
+                    "jboss.web:type=ThreadPool,name=" + name);
 
             writeGraph(out, name + " worker threads", threadpool, "maxThreads",
                     "currentThreadsBusy", "currentThreadCount");
@@ -390,6 +399,14 @@ public class ZabbixTemplateServlet extends HttpServlet {
         final int start = name.indexOf("name=") + 5;
 
         return name.substring(start);
+    }
+    
+    private String address(final ObjectName objectname) {
+    	final String name = objectname.toString();
+    	final int start = name.indexOf("address=") + 8;
+    	final int end = name.indexOf(',', start);
+    	
+    	return name.substring(start,end);
     }
 
     private void writeFooter(final PrintWriter out) {
