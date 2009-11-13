@@ -106,6 +106,11 @@ final class QueryHandler implements Runnable {
 
             b = in.read();
         }
+        
+        // This adds support for zabbix_get to communicate with the agent.
+        // As posted to the sourceforge project page by Jim Riggs (jhriggs)
+        if (isProtocol14() && line.startsWith("ZBXD\1"))
+        	line = line.substring(13);
 
         return line;
     }
@@ -118,7 +123,38 @@ final class QueryHandler implements Runnable {
             attribute = query.substring(lastOpen + 1, lastClose);
         }
 
-        if (query.startsWith("jmx")) {
+        if (query.startsWith("jmx_op")) {
+        	String query_string = query;
+        	int index = query_string.indexOf(']');
+        	
+        	if (index < 0)
+        		return NOTSUPPORTED;
+        	
+        	String objectName = query_string.substring(7, index);
+        	query_string = query_string.substring(index+2);
+        	index = query_string.indexOf(']');
+        	if (index < 0)
+        		return NOTSUPPORTED;
+        	
+        	String op_name = query_string.substring(0, index);
+        	query_string = query_string.substring(index);
+        	
+        	try {
+        		return JMXHelper.op_query(objectName, op_name, query_string);
+        	} catch (InstanceNotFoundException e) {
+        		log.debug("no bean named " + objectName, e);
+        		return NOTSUPPORTED;
+        	} catch (UnsupportedOperationException e) {
+        		log.debug("operation named " + op_name + " is not supported on bean named " + objectName, e);
+        		return NOTSUPPORTED;
+        	} catch (IllegalArgumentException e) {
+        		log.debug("parameters passed is illegal for operation named " + op_name + " on bean named " + objectName, e);
+        		return NOTSUPPORTED;
+        	} catch (Exception e) {
+        		log.debug("exception with jmx_op", e);
+        	}
+        	
+        } else if (query.startsWith("jmx")) {
             final int firstClose = query.lastIndexOf(']', lastOpen);
             final int firstOpen = query.indexOf('[');
             if (firstClose == -1 || firstOpen == -1 || attribute == null) {

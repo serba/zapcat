@@ -17,10 +17,14 @@ package org.kjkoster.zapcat.zabbix;
  */
 
 import java.lang.management.ManagementFactory;
+import java.util.StringTokenizer;
 
 import javax.management.AttributeNotFoundException;
 import javax.management.InstanceNotFoundException;
 import javax.management.MBeanException;
+import javax.management.MBeanInfo;
+import javax.management.MBeanOperationInfo;
+import javax.management.MBeanParameterInfo;
 import javax.management.MBeanServer;
 import javax.management.ObjectInstance;
 import javax.management.ObjectName;
@@ -100,6 +104,75 @@ public final class JMXHelper {
         return resolveFields((CompositeData) getMBeanServer().getAttribute(
                 objectName, attribute.substring(0, dot)), attribute
                 .substring(dot + 1));
+    }
+    
+    /**
+     * Invoke a JMX operation by providing the mbean name, the operation name and arguments.
+     * 
+     * @param name
+     *            The object name of the mbean to invoke operation on.
+     * @param operation
+     *            The operation to invoke.
+     * @param query_args
+     * 				The arguments to pass to the operation.
+     * @return A String representation of the object returned by invoking the operation.
+     * 
+     * @throws Exception
+     *             UnsupportedOperationException
+     *             
+     * This is based on the patch submitted anonymously to the project page on sourceforge 
+     */
+    public static String op_query(final String name, final String operation, final String query_args)
+    	throws Exception {
+    	
+    	final MBeanServer mbeanserver = getMBeanServer();
+    	log.debug("JMX op_query[" + name + "][" + operation + "]" + query_args.substring(1));
+    	
+    	final MBeanInfo info = mbeanserver.getMBeanInfo(new ObjectName(name));
+    	final MBeanOperationInfo[] ops = info.getOperations();
+    	StringTokenizer tokens = new StringTokenizer(query_args, "[],", false);
+    	
+    	int op_index = -1;
+    	boolean op_name_exist = false;
+    	MBeanParameterInfo[] sig = null;
+    	
+    	for (int i = 0; i < ops.length; i++) {
+    		if (ops[i].getName().equalsIgnoreCase(operation)) {
+    			op_name_exist = true;
+    			sig = ops[i].getSignature();
+    			if (sig.length == tokens.countTokens()) {
+    				op_index = i;
+    				break;
+    			}
+    		}
+    	}
+    	
+    	if (op_index == -1 && op_name_exist)
+    		throw new UnsupportedOperationException("Incorrect number of arguments.");
+    	else if (op_index == -1 && !op_name_exist)
+    		throw new UnsupportedOperationException("Operation not found in mbean.");
+    	
+    	String[] string_sig = new String[sig.length];
+    	Object[] obj_args = new Object[sig.length];
+
+		for (int j = 0; j < sig.length; j++) {
+			string_sig[j] = sig[j].getType();
+			if (string_sig[j].equals("long")) {
+				obj_args[j] = new Long(tokens.nextToken());
+			} else if (string_sig[j].equals("int")) {
+				obj_args[j] = new Integer(tokens.nextToken());
+			} else if (string_sig[j].equals("java.lang.String")) {
+				obj_args[j] = new String(tokens.nextToken());
+			} else if (string_sig[j].equals("boolean")) {
+				obj_args[j] = new Boolean(tokens.nextToken());
+			} else if (string_sig[j].equals("float")) {
+				obj_args[j] = new Float(tokens.nextToken());
+			} else if (string_sig[j].equals("double")) {
+				obj_args[j] = new Double(tokens.nextToken());
+			}
+		}
+		
+		return mbeanserver.invoke(new ObjectName(name), operation, obj_args,string_sig).toString();
     }
 
     private static String resolveFields(final CompositeData attribute,
