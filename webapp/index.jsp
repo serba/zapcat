@@ -16,12 +16,13 @@
 -->
 
 <%@ page import="org.kjkoster.zapcat.zabbix.JMXHelper"%>
+<%@ page import="javax.management.ObjectName" %>
 <%
     final String objectName = "org.kjkoster.zapcat:type=Agent,port="
             + System.getProperty("org.kjkoster.zapcat.zabbix.port",
                     "10052");
-    final String port = JMXHelper.query(objectName, "Port");
-    String address = JMXHelper.query(objectName, "BindAddress");
+    final String port = JMXHelper.query(new ObjectName(objectName), "Port");
+    String address = JMXHelper.query(new ObjectName(objectName), "BindAddress");
     if (address.equals("*")) {
         address = "all available addresses";
     }
@@ -33,7 +34,7 @@
     try {
     	// Could also use ("jboss.system:Type=Server", "VersionNUmber") to get a release version (4.2.2.GA) instead of the build version
     	// - 4.2.2.GA (build:SVNTag=JBoss_4_2_2_GA date=200710221140)
-			server = "JBoss " + JMXHelper.query("jboss.management.local:name=Local,j2eeType=J2EEServer", "serverVersion");
+			server = "JBoss " + JMXHelper.query(new ObjectName("jboss.management.local:name=Local,j2eeType=J2EEServer"), "serverVersion");
     	// Here is a generator for jboss42. jboss 5 is under way.
 			generator = "zabbix-jboss42-definition.xml";
     } catch (Exception e) {
@@ -42,7 +43,7 @@
     
     if (server == null) {
 	    try {
-    	    server = JMXHelper.query("Catalina:type=Server", "serverInfo");
+    	    server = JMXHelper.query(new ObjectName("Catalina:type=Server"), "serverInfo");
     		howto = "http://www.kjkoster.org/zapcat/Tomcat_How_To.html";
         	generator = "zabbix-tomcat-definition.xml";
     	} catch (Exception e) {
@@ -52,7 +53,7 @@
 
     if (server == null) {
 	    try {
-    	    server = "Oracle IAS " + JMXHelper.query("oc4j:j2eeType=J2EEServer,name=standalone", "serverVersion");
+    	    server = "Oracle IAS " + JMXHelper.query(new ObjectName("oc4j:j2eeType=J2EEServer,name=standalone"), "serverVersion");
         	howto = "http://www.kjkoster.org/zapcat/Oracle_IAS_OC4J_How_To.html";
 	    } catch (Exception e) {
     	    // ok, I guess we are not Oracle IAS
@@ -61,7 +62,7 @@
     
     if (server == null) {
 	    try {
-    	    server = "Jetty " + JMXHelper.query("org.mortbay.jetty:type=server,id=0", "version");
+    	    server = "Jetty " + JMXHelper.query(new ObjectName("org.mortbay.jetty:type=server,id=0"), "version");
         	howto = "http://www.kjkoster.org/zapcat/Jetty_How_To.html";
   	  	} catch (Exception e) {
     	    // ok, I guess we are not Jetty
