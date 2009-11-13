@@ -74,6 +74,15 @@
 	</target>
 
 	<target name="all" description="compile the lot" depends="jar,war,of" />
+	
+	<target name="deploy_war" depends="war" description="Deploys war to application server deploy directory">
+		<fail unless="deploy.dir">deploy.dir not set</fail>
+		<copy todir="${deploy.dir}">
+			<fileset dir=".">
+				<include name="${war}"/>
+			</fileset>
+		</copy>
+	</target>
 
 	<target name="agent" depends="jar" description="run the zapcat agent sample">
 		<mkdir dir="build/samples" />
