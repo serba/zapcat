@@ -50,7 +50,11 @@ import org.kjkoster.zapcat.zabbix.ZabbixAgent;
  */
 @Deprecated
 public class ZabbixTemplateServlet extends HttpServlet {
-    private static final Logger log = Logger
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1245376184346210185L;
+	private static final Logger log = Logger
             .getLogger(ZabbixTemplateServlet.class);
 
     private enum Type {

@@ -189,15 +189,10 @@ public class ZabbixTemplateServletJBoss42 extends HttpServlet {
             throws MalformedObjectNameException {
         for (final ObjectName processor : processors) {
             final String name = name(processor);
-            log.debug("Getting address for " + processor);
-            final String address = address(processor);
             final ObjectName threadpool = new ObjectName(
                     "jboss.web:type=ThreadPool,name=" + name);
-            String tmpPort = name.substring(name.indexOf('-') + 1);
-            if (tmpPort.contains("-")) {
-            	tmpPort = tmpPort.substring(tmpPort.indexOf('-') + 1);
-            }
-            final String port = tmpPort;
+            final String port = port(name);
+            final String address = address(name);
 
             writeItem(out, name + " bytes received per second", processor,
                     "bytesReceived", Type.Float, "B", Store.AsDelta,
@@ -225,6 +220,7 @@ public class ZabbixTemplateServletJBoss42 extends HttpServlet {
                     Time.TwicePerMinute);
 
             if (name.startsWith("http")) {
+            	log.debug("Writing: " + "jboss.web:type=ProtocolHandler,port=" + port + ",address=" + address);
                 writeItem(out, name + " gzip compression", new ObjectName(
                         "jboss.web:type=ProtocolHandler,port=" + port + ",address=" + address),
                         "compression", Type.Character, null, Store.AsIs,
@@ -292,11 +288,10 @@ public class ZabbixTemplateServletJBoss42 extends HttpServlet {
             throws MalformedObjectNameException {
         for (final ObjectName processor : processors) {
             final String name = name(processor);
-            log.debug("Getting address for " + processor);
-            final String address = address(processor);
             final ObjectName threadpool = new ObjectName(
                     "jboss.web:type=ThreadPool,name=" + name);
-            final String port = name.substring(name.indexOf('-') + 1);
+            final String port = port(name);
+            final String address = address(name);
 
             if (name.startsWith("http")) {
                 writeTrigger(out, "gzip compression is off for connector "
@@ -401,12 +396,14 @@ public class ZabbixTemplateServletJBoss42 extends HttpServlet {
         return name.substring(start);
     }
     
-    private String address(final ObjectName objectname) {
-    	final String name = objectname.toString();
-    	final int start = name.indexOf("address=") + 8;
-    	final int end = name.indexOf(',', start);
-    	
-    	return name.substring(start,end);
+    private String address(final String name) {
+    	final String addressPort = name.substring(name.indexOf('-') + 1);
+    	return "%2F" + addressPort.substring(0,addressPort.indexOf('-'));
+    }
+    
+    private String port (final String name) {
+    	final String addressPort = name.substring(name.indexOf('-') + 1);
+    	return addressPort.substring(addressPort.indexOf('-') + 1);
     }
 
     private void writeFooter(final PrintWriter out) {

@@ -18,7 +18,6 @@ package org.kjkoster.zapcat.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
@@ -44,7 +43,11 @@ import org.kjkoster.zapcat.zabbix.ZabbixAgent;
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
  */
 public class ZabbixTemplateServletTomcat extends HttpServlet {
-    private static final Logger log = Logger
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6675506730016914413L;
+	private static final Logger log = Logger
             .getLogger(ZabbixTemplateServletTomcat.class);
 
     private enum Type {
