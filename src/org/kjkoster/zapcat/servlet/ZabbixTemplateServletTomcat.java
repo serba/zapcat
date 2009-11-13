@@ -40,21 +40,15 @@ import org.kjkoster.zapcat.zabbix.ZabbixAgent;
  * for Tomcat because it is so configuraton-dependent. Zabbix really is not able
  * to deal with very dynamic systems.
  * 
- * @deprecated by Brett Cave - replaced by 
- * ZabbixTemplateServletTomcat
- * 
- * @see #ZabbixTemplateServletTomcat()
- * 
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
  */
-@Deprecated
-public class ZabbixTemplateServlet extends HttpServlet {
+public class ZabbixTemplateServletTomcat extends HttpServlet {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1245376184346210185L;
+	private static final long serialVersionUID = 6675506730016914413L;
 	private static final Logger log = Logger
-            .getLogger(ZabbixTemplateServlet.class);
+            .getLogger(ZabbixTemplateServletTomcat.class);
 
     private enum Type {
         /**
@@ -136,7 +130,7 @@ public class ZabbixTemplateServlet extends HttpServlet {
                     new ObjectName("Catalina:type=GlobalRequestProcessor,*"),
                     null);
 
-            ZabbixTemplateServlet t = new ZabbixTemplateServlet();
+            ZabbixTemplateServletTomcat t = new ZabbixTemplateServletTomcat();
             response.setContentType("text/xml");
             t.writeHeader(out);
             t.writeItems(out, processors, managers);
