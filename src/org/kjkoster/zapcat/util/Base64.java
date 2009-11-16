@@ -1,10 +1,32 @@
 package org.kjkoster.zapcat.util;
 
+/* This file is part of Zapcat.
+*
+* Zapcat is free software: you can redistribute it and/or modify it under the
+* terms of the GNU General Public License as published by the Free Software
+* Foundation, either version 3 of the License, or (at your option) any later
+* version.
+* 
+* Zapcat is distributed in the hope that it will be useful, but WITHOUT ANY
+* WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+* FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+* details.
+* 
+* You should have received a copy of the GNU General Public License along with
+* Zapcat. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/**
+ * A Base64 utility class that performs static Base64 string encoding.
+ * 
+ * @author Brett Cave &lt;brettcave@gmail.com&gt;
+ *
+ */
 public class Base64 {
  
     public static String base64code = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
- 
-        "abcdefghijklmnopqrstuvwxyz" + "0123456789" + "+/";
+        "abcdefghijklmnopqrstuvwxyz" + 
+        "0123456789" + "+/";
  
     public static int splitLinesAt = 76;
  
@@ -14,6 +36,12 @@ public class Base64 {
         return padded;
     }
  
+    /**
+     * Encodes a string as per the Base64 RFC (RFC3548 / RFC4648)
+     * 
+     * @param string - the string to encode.
+     * @return String - the Base64 encoded string.
+     */
     public static String encode(String string) {
  
         String encoded = "";
@@ -41,29 +69,15 @@ public class Base64 {
         // replace encoded padding nulls with "="
         return splitLines(encoded.substring(0, encoded.length() -
             paddingCount) + "==".substring(0, paddingCount));
- 
     }
+    
     public static String splitLines(String string) {
- 
         String lines = "";
         for (int i = 0; i < string.length(); i += splitLinesAt) {
- 
             lines += string.substring(i, Math.min(string.length(), i + splitLinesAt));
             lines += "\r\n";
- 
         }
         return lines;
- 
-    }
-    public static void main(String[] args) {
- 
-        for (int i = 0; i < args.length; i++) {
- 
-            System.err.println("encoding \"" + args[i] + "\"");
-            System.out.println(encode(args[i]));
- 
-        }
- 
     }
  
 }
