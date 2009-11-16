@@ -1,5 +1,7 @@
 package org.kjkoster.zapcat.util;
 
+import java.nio.charset.Charset;
+
 /* This file is part of Zapcat.
 *
 * Zapcat is free software: you can redistribute it and/or modify it under the
@@ -35,22 +37,40 @@ public class Base64 {
         System.arraycopy(bytes, 0, padded, 0, bytes.length);
         return padded;
     }
- 
+
+    
     /**
-     * Encodes a string as per the Base64 RFC (RFC3548 / RFC4648)
+     * Encodes a string as per the Base64 RFC (RFC3548 / RFC4648), using the default character set.
      * 
-     * @param string - the string to encode.
+     * @param String string - the string to encode.
+     * 
      * @return String - the Base64 encoded string.
      */
     public static String encode(String string) {
+    	return encode(string,Charset.defaultCharset().name());
+    }
+ 
+    /**
+     * Encodes a string as per the Base64 RFC (RFC3548 / RFC4648), using a specific character set.
+     * If the specified character set cannot be used to encode the string, the system default
+     * character set will be used.
+     * 
+     * @param String string - the string to encode.
+     * 
+     * @param String charset - the character set to use to encode the string (e.g. UTF-8)
+     * 
+     * @return String - the Base64 encoded string. 
+     */
+    public static String encode(String string, String charset) {
  
         String encoded = "";
         byte[] stringArray;
         try {
-            stringArray = string.getBytes("UTF-8");  // use appropriate encoding string!
+            stringArray = string.getBytes(charset);
         } catch (Exception ignored) {
             stringArray = string.getBytes();  // use locale default rather than croak
         }
+        
         // determine how many padding bytes to add to the output
         int paddingCount = (3 - (stringArray.length % 3)) % 3;
         // add any necessary padding to the input
