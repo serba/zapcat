@@ -25,8 +25,8 @@ import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 
 import org.apache.log4j.Logger;
+import org.kjkoster.zapcat.util.Base64;
 
-import com.Ostermiller.util.Base64;
 
 /**
  * A daemon thread that waits for and forwards data items to a Zabbix server.
