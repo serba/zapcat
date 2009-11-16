@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.StringTokenizer;
 
 import javax.management.AttributeNotFoundException;
 import javax.management.InstanceNotFoundException;
@@ -30,6 +31,7 @@ import javax.management.ObjectName;
 import javax.management.ReflectionException;
 
 import org.apache.log4j.Logger;
+import org.kjkoster.zapcat.Trapper;
 
 /**
  * A JMX query handler for Zabbix. The query handler reads the query from the
@@ -122,8 +124,37 @@ final class QueryHandler implements Runnable {
         if (lastOpen >= 0 && lastClose >= 0) {
             attribute = query.substring(lastOpen + 1, lastClose);
         }
-
-        if (query.startsWith("jmx_op")) {
+        
+        /*
+         *  This allows testing of trapper functionality from within this framework.
+         *  Set key to trap[zabbixServer][host][key][value] and the agent will create
+         *  a trapper that pushes to the zabbix server. (e.g. use with zabbix_get -k"trap...")
+         *  
+         *  This needs some work. The agent should be able to receive a trap command
+         *  to schedule a trapper client, or work in a similar method to the way zabbix
+         *  agent active checks work.
+         *  
+         *  This command should not be used at present. Stick to jmx / jmx_op.
+         */
+        if (query.startsWith("trap")) {
+        	try {
+        		StringTokenizer trapperParms = new StringTokenizer(query.substring(query.indexOf('[')), "[]", false);
+        		String zabbixServer = trapperParms.nextToken();
+        		String host = trapperParms.nextToken();
+        		String key = trapperParms.nextToken();
+        		String value = attribute;
+        		if (sendTrap(zabbixServer, host, key, value)) {
+        			log.debug("Success: " + key + "='" + value + "' for host " + host + " sent to the Zabbix Trapper on " + zabbixServer);
+        			return key + "='" + value + "' for host " + host + " sent to the Zabbix Trapper on " + zabbixServer;
+        		}
+        		log.debug("Fail: " + key + "='" + value + "' for host " + host + " sent to the Zabbix Trapper on " + zabbixServer);
+        		return NOTSUPPORTED;
+        	} catch (Exception e) {
+        		log.debug("Could not send trap from query " + query);
+        		return NOTSUPPORTED;
+        	}
+        	
+        } else if (query.startsWith("jmx_op")) {
         	String query_string = query;
         	int index = query_string.indexOf(']');
         	
@@ -242,6 +273,22 @@ final class QueryHandler implements Runnable {
         out.flush();
         log.debug("sent bytes " + hexdump);
     }
+    
+    private boolean sendTrap(String zabbixServer, String host, String key, String value) {
+		Trapper trapper = null;
+		try {
+			trapper = new ZabbixTrapper(zabbixServer, host);
+			trapper.send(key, value);
+		} catch (Exception e) {
+			log.debug(e.toString());
+			return false;
+		} finally {
+			trapper.stop();
+		}
+		
+		return true;
+		
+	}
 
     private boolean isProtocol14() {
         final String protocolProperty = System
