@@ -176,9 +176,8 @@ public class ZabbixTemplateServletJBoss42 extends HttpServlet {
         writeItem(out, "JBoss version",
         		new ObjectName("jboss.system:type=Server"), "VersionNumber",
         		Type.Character, null, Store.AsIs, Time.OncePerHour);
-        writeItem(out, "tomcat version",
-                new ObjectName("Catalina:type=Server"), "serverInfo",
-                Type.Character, null, Store.AsIs, Time.OncePerHour);
+        // tomcat version is not appropriate - its Catalina:type=Server[serverInfo] that returns JBoss Web version
+        // Jboss web version is determined by jboss version anyway, so skip this for now.
         writeProcessorItems(out, processors);
         writeManagerItems(out, managers);
         out.println("      </items>");
@@ -236,7 +235,7 @@ public class ZabbixTemplateServletJBoss42 extends HttpServlet {
                     "activeSessions", Type.Integer, null, Store.AsIs,
                     Time.TwicePerMinute);
             writeItem(out, "sessions " + path(manager) + " peak", manager,
-                    "maxActiveSessions", Type.Integer, null, Store.AsIs,
+                    "maxActiveSessions", Type.Float, null, Store.AsIs,
                     Time.TwicePerMinute);
             writeItem(out, "sessions " + path(manager) + " rejected", manager,
                     "rejectedSessions", Type.Integer, null, Store.AsIs,
