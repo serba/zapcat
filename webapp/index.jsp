@@ -32,11 +32,9 @@
     String generator = null;
     
     try {
-    	// Could also use ("jboss.system:Type=Server", "VersionNUmber") to get a release version (4.2.2.GA) instead of the build version
-    	// - 4.2.2.GA (build:SVNTag=JBoss_4_2_2_GA date=200710221140)
-			server = "JBoss " + JMXHelper.query(new ObjectName("jboss.management.local:name=Local,j2eeType=J2EEServer"), "serverVersion");
-    	// Here is a generator for jboss42. jboss 5 is under way.
-			generator = "zabbix-jboss42-definition.xml";
+    	// jboss.system:type=Server is a more friendly version.
+			server = "JBoss " + JMXHelper.query(new ObjectName("jboss.system:type=Server"),"VersionNumber");
+			generator = "zabbix-jboss-definition.xml";
     } catch (Exception e) {
         // ok, I guess we are not JBoss
     }
