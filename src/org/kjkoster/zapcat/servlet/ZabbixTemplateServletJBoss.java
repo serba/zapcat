@@ -44,14 +44,14 @@ import org.kjkoster.zapcat.zabbix.ZabbixAgent;
  * 
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
  */
-public class ZabbixTemplateServletJBoss5 extends HttpServlet {
+public class ZabbixTemplateServletJBoss extends HttpServlet {
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1245376184346210185L;
 	
 	private static final Logger log = Logger
-            .getLogger(ZabbixTemplateServletJBoss5.class);
+            .getLogger(ZabbixTemplateServletJBoss.class);
 
     private enum Type {
         /**
@@ -132,7 +132,7 @@ public class ZabbixTemplateServletJBoss5 extends HttpServlet {
                     new ObjectName("jboss.web:type=GlobalRequestProcessor,*"),
                     null);
 
-            ZabbixTemplateServletJBoss5 t = new ZabbixTemplateServletJBoss5();
+            ZabbixTemplateServletJBoss t = new ZabbixTemplateServletJBoss();
             response.setContentType("text/xml");
             t.writeHeader(out);
             t.writeItems(out, processors, managers);
@@ -176,8 +176,6 @@ public class ZabbixTemplateServletJBoss5 extends HttpServlet {
         writeItem(out, "JBoss version",
         		new ObjectName("jboss.system:type=Server"), "VersionNumber",
         		Type.Character, null, Store.AsIs, Time.OncePerHour);
-        // "Tomcat Version is not really appropriate, as this is now JBoss Web Version
-        // which is actually determined by the JBoss version above - so tomcat version is gone.
         writeProcessorItems(out, processors);
         writeManagerItems(out, managers);
         out.println("      </items>");
