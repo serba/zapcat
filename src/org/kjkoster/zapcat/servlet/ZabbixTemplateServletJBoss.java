@@ -26,14 +26,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 
-import javax.management.MBeanServer;
+import javax.management.MBeanServerConnection;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 import org.kjkoster.zapcat.zabbix.JMXHelper;
 import org.kjkoster.zapcat.zabbix.ZabbixAgent;
 
@@ -51,7 +52,7 @@ public class ZabbixTemplateServletJBoss extends HttpServlet {
 	private static final long serialVersionUID = 1245376184346210185L;
 	
 	private static final Logger log = Logger
-            .getLogger(ZabbixTemplateServletJBoss.class);
+            .getLogger(ZabbixTemplateServletJBoss.class.getName());
 
     private enum Type {
         /**
@@ -124,7 +125,7 @@ public class ZabbixTemplateServletJBoss extends HttpServlet {
     protected void doGet(final HttpServletRequest request,
             final HttpServletResponse response) throws IOException {
         final PrintWriter out = response.getWriter();
-        final MBeanServer mbeanserver = JMXHelper.getMBeanServer();
+        final MBeanServerConnection mbeanserver = JMXHelper.getMBeanServer();
         try {
             final Set<ObjectName> managers = mbeanserver.queryNames(
             		new ObjectName("jboss.web:type=Manager,*"), null);
@@ -140,7 +141,7 @@ public class ZabbixTemplateServletJBoss extends HttpServlet {
             t.writeGraphs(out, processors, managers);
             t.writeFooter(out);
         } catch (Exception e) {
-            log.error("unable to generate template", e);
+            log.log(Level.SEVERE, "unable to generate template", e);
             e.printStackTrace(out);
         } finally {
             out.flush();
@@ -217,7 +218,7 @@ public class ZabbixTemplateServletJBoss extends HttpServlet {
                     Time.TwicePerMinute);
 
             if (name.startsWith("http")) {
-            	log.debug("Writing: " + "jboss.web:type=ProtocolHandler,port=" + port + ",address=" + address);
+            	log.fine("Writing: " + "jboss.web:type=ProtocolHandler,port=" + port + ",address=" + address);
                 writeItem(out, name + " gzip compression", new ObjectName(
                         "jboss.web:type=ProtocolHandler,port=" + port + ",address=" + address),
                         "compression", Type.Character, null, Store.AsIs,

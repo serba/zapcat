@@ -30,7 +30,8 @@ import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
 
-import org.apache.log4j.Logger;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 import org.kjkoster.zapcat.Trapper;
 
 /**
@@ -43,7 +44,7 @@ import org.kjkoster.zapcat.Trapper;
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
  */
 final class QueryHandler implements Runnable {
-    private static final Logger log = Logger.getLogger(QueryHandler.class);
+    private static final Logger log = Logger.getLogger(QueryHandler.class.getName());
 
     private final Socket socket;
 
@@ -70,7 +71,7 @@ final class QueryHandler implements Runnable {
      */
     public void run() {
         try {
-            log.debug("started worker");
+            log.fine("started worker");
             try {
                 do {
                     handleQuery();
@@ -80,15 +81,15 @@ final class QueryHandler implements Runnable {
                     socket.close();
                 }
             }
-            log.debug("worker is done");
+            log.fine("worker is done");
         } catch (Exception e) {
-            log.error("dropping exception", e);
+            log.log(Level.SEVERE, "dropping exception", e);
         }
     }
 
     private void handleQuery() throws IOException {
         String request = receive(socket.getInputStream());
-        log.debug("received '" + request + "'");
+        log.fine("received '" + request + "'");
 
         String response = response(request);
         // make sure we can send
@@ -96,7 +97,7 @@ final class QueryHandler implements Runnable {
             response = "";
         }
 
-        log.debug("sending '" + response + "'");
+        log.fine("sending '" + response + "'");
         send(response, socket.getOutputStream());
     }
 
@@ -118,13 +119,16 @@ final class QueryHandler implements Runnable {
     }
 
     private String response(final String query) {
+		//log.setLevel(Level.DEBUG);
+		log.fine("query = " + query);
+
         final int lastOpen = query.lastIndexOf('[');
         final int lastClose = query.lastIndexOf(']');
         String attribute = null;
         if (lastOpen >= 0 && lastClose >= 0) {
             attribute = query.substring(lastOpen + 1, lastClose);
         }
-        
+		log.fine("attribute = " + attribute);
         /*
          *  This allows testing of trapper functionality from within this framework.
          *  Set key to trap[zabbixServer][host][key][value] and the agent will create
@@ -144,13 +148,13 @@ final class QueryHandler implements Runnable {
         		String key = trapperParms.nextToken();
         		String value = attribute;
         		if (sendTrap(zabbixServer, host, key, value)) {
-        			log.debug("Success: " + key + "='" + value + "' for host " + host + " sent to the Zabbix Trapper on " + zabbixServer);
+        			log.fine("Success: " + key + "='" + value + "' for host " + host + " sent to the Zabbix Trapper on " + zabbixServer);
         			return key + "='" + value + "' for host " + host + " sent to the Zabbix Trapper on " + zabbixServer;
         		}
-        		log.debug("Fail: " + key + "='" + value + "' for host " + host + " sent to the Zabbix Trapper on " + zabbixServer);
+        		log.fine("Fail: " + key + "='" + value + "' for host " + host + " sent to the Zabbix Trapper on " + zabbixServer);
         		return NOTSUPPORTED;
         	} catch (Exception e) {
-        		log.debug("Could not send trap from query " + query);
+        		log.fine("Could not send trap from query " + query);
         		return NOTSUPPORTED;
         	}
         	
@@ -173,16 +177,16 @@ final class QueryHandler implements Runnable {
         	try {
         		return JMXHelper.op_query(objectName, op_name, query_string);
         	} catch (InstanceNotFoundException e) {
-        		log.debug("no bean named " + objectName, e);
+        		log.log(Level.FINE, "no bean named " + objectName, e);
         		return NOTSUPPORTED;
         	} catch (UnsupportedOperationException e) {
-        		log.debug("operation named " + op_name + " is not supported on bean named " + objectName, e);
+        		log.log(Level.FINE, "operation named " + op_name + " is not supported on bean named " + objectName, e);
         		return NOTSUPPORTED;
         	} catch (IllegalArgumentException e) {
-        		log.debug("parameters passed is illegal for operation named " + op_name + " on bean named " + objectName, e);
+        		log.log(Level.FINE, "parameters passed is illegal for operation named " + op_name + " on bean named " + objectName, e);
         		return NOTSUPPORTED;
         	} catch (Exception e) {
-        		log.debug("exception with jmx_op", e);
+        		log.log(Level.FINE, "exception with jmx_op", e);
         	}
         	
         } else if (query.startsWith("jmx")) {
@@ -194,25 +198,29 @@ final class QueryHandler implements Runnable {
 
             final String objectName = query
                     .substring(firstOpen + 1, firstClose);
+			log.fine("objectName = " + objectName);
             try {
                 return JMXHelper.query(new ObjectName(objectName), attribute);
             } catch (InstanceNotFoundException e) {
-                log.debug("no bean named " + objectName, e);
+                log.log(Level.FINE, "no bean named " + objectName, e);
                 return NOTSUPPORTED;
             } catch (MalformedObjectNameException e) {
-                log.debug("no bean named " + objectName, e);
+                log.log(Level.FINE, "no bean named " + objectName, e);
                 return NOTSUPPORTED;
             } catch (AttributeNotFoundException e) {
-                log.debug("no attribute named " + attribute + " on bean named "
+                log.log(Level.FINE, "no attribute named " + attribute + " on bean named "
                         + objectName, e);
                 return NOTSUPPORTED;
             } catch (MBeanException e) {
-                log.warn("unable to find either " + objectName + " or "
+                log.log(Level.WARNING, "unable to find either " + objectName + " or "
                         + attribute, e);
                 return NOTSUPPORTED;
             } catch (ReflectionException e) {
-                log.warn("unable to find either " + objectName + " or "
+                log.log(Level.WARNING, "unable to find either " + objectName + " or "
                         + attribute, e);
+                return NOTSUPPORTED;
+            } catch (IOException e) {
+                log.log(Level.SEVERE, "Cannot connect to remote JMX "+System.getProperty(ZabbixAgent.JMX_URL_PROPERTY), e);
                 return NOTSUPPORTED;
             }
         } else if (query.startsWith("system.property")) {
@@ -233,12 +241,12 @@ final class QueryHandler implements Runnable {
      * query handler.
      */
     private String querySystemProperty(final String key) {
-        log.debug("System property[" + key + "]");
+        log.fine("System property[" + key + "]");
         return System.getProperty(key);
     }
 
     private String queryEnvironment(final String key) {
-        log.debug("Environment[" + key + "]");
+        log.fine("Environment[" + key + "]");
         return System.getenv(key);
     }
 
@@ -271,7 +279,7 @@ final class QueryHandler implements Runnable {
         }
 
         out.flush();
-        log.debug("sent bytes " + hexdump);
+        log.fine("sent bytes " + hexdump);
     }
     
     private boolean sendTrap(String zabbixServer, String host, String key, String value) {
@@ -280,7 +288,7 @@ final class QueryHandler implements Runnable {
 			trapper = new ZabbixTrapper(zabbixServer, host);
 			trapper.send(key, value);
 		} catch (Exception e) {
-			log.debug(e.toString());
+			log.fine(e.toString());
 			return false;
 		} finally {
 			trapper.stop();
@@ -300,7 +308,7 @@ final class QueryHandler implements Runnable {
             return false;
         }
 
-        log.warn("Unsupported protocol '" + protocolProperty + "', using 1.4");
+        log.warning("Unsupported protocol '" + protocolProperty + "', using 1.4");
         return true;
     }
 

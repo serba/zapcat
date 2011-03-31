@@ -1,5 +1,6 @@
 package org.kjkoster.zapcat.zabbix;
 
+import java.io.IOException;
 import javax.management.AttributeNotFoundException;
 import javax.management.InstanceNotFoundException;
 import javax.management.MBeanException;
@@ -138,7 +139,7 @@ final class Item {
      *             When the specified attribute could not be found.
      */
     public String getValue() throws InstanceNotFoundException,
-            AttributeNotFoundException, MBeanException, ReflectionException {
+            AttributeNotFoundException, MBeanException, ReflectionException, IOException {
         if (attribute == null) {
             return value;
         }

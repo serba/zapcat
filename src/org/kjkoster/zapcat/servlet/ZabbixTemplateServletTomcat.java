@@ -24,14 +24,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 
-import javax.management.MBeanServer;
+import javax.management.MBeanServerConnection;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
 import org.kjkoster.zapcat.zabbix.JMXHelper;
 import org.kjkoster.zapcat.zabbix.ZabbixAgent;
 
@@ -48,7 +50,7 @@ public class ZabbixTemplateServletTomcat extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 6675506730016914413L;
 	private static final Logger log = Logger
-            .getLogger(ZabbixTemplateServletTomcat.class);
+            .getLogger(ZabbixTemplateServletTomcat.class.getName());
 
     private enum Type {
         /**
@@ -121,7 +123,7 @@ public class ZabbixTemplateServletTomcat extends HttpServlet {
     protected void doGet(final HttpServletRequest request,
             final HttpServletResponse response) throws IOException {
         final PrintWriter out = response.getWriter();
-        final MBeanServer mbeanserver = JMXHelper.getMBeanServer();
+        final MBeanServerConnection mbeanserver = JMXHelper.getMBeanServer();
         try {
             final Set<ObjectName> managers = mbeanserver.queryNames(
                     new ObjectName("Catalina:type=Manager,*"), null);
@@ -137,7 +139,7 @@ public class ZabbixTemplateServletTomcat extends HttpServlet {
             t.writeGraphs(out, processors, managers);
             t.writeFooter(out);
         } catch (Exception e) {
-            log.error("unable to generate template", e);
+            log.log(Level.SEVERE, "unable to generate template", e);
             e.printStackTrace(out);
         } finally {
             out.flush();

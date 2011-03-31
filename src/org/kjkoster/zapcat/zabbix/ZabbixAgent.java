@@ -16,6 +16,8 @@ package org.kjkoster.zapcat.zabbix;
  * Zapcat. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -23,16 +25,19 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import javax.management.ObjectName;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
-import org.apache.log4j.Logger;
 import org.kjkoster.zapcat.Agent;
 
 /**
@@ -46,7 +51,7 @@ import org.kjkoster.zapcat.Agent;
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
  */
 public final class ZabbixAgent implements Agent, Runnable {
-    private static final Logger log = Logger.getLogger(ZabbixAgent.class);
+    private static final Logger log = Logger.getLogger(ZabbixAgent.class.getName());
 
     /**
      * The default port that the Zapcat agents listens on.
@@ -74,6 +79,20 @@ public final class ZabbixAgent implements Agent, Runnable {
      */
     public static final String WHITELIST_PROPERTY = "org.kjkoster.zapcat.whitelist";
 
+    /**
+     * The property key for the JMX URL."
+     */
+    public static final String JMX_URL_PROPERTY = "org.kjkoster.zapcat.jmx.url";
+
+    /**
+     * The property key for the JMX Username.
+     */
+    public static final String JMX_USERNAME_PROPERTY = "org.kjkoster.zapcat.jmx.username";
+    /**
+     * The property key for the JMX Password.
+     */
+    public static final String JMX_PASSWORD_PROPERTY = "org.kjkoster.zapcat.jmx.password";
+
     // the address to bind to (or 'null' to bind to any available interface).
     private final InetAddress address;
 
@@ -100,7 +119,7 @@ public final class ZabbixAgent implements Agent, Runnable {
      * address.
      */
     public ZabbixAgent() {
-        this(null, DEFAULT_PORT);
+        this(null, DEFAULT_PORT, true);
     }
 
     /**
@@ -118,14 +137,14 @@ public final class ZabbixAgent implements Agent, Runnable {
      * @param port
      *            The port number to listen on.
      */
-    public ZabbixAgent(final InetAddress address, final int port) {
+    public ZabbixAgent(final InetAddress address, final int port, boolean isDaemon) {
         final String propertyAddress = System.getProperty(ADDRESS_PROPERTY);
         InetAddress resolved = null;
         if (propertyAddress != null) {
             try {
                 resolved = InetAddress.getByName(propertyAddress);
             } catch (UnknownHostException e) {
-                log.warn("Unable to resolve " + propertyAddress
+                log.log(Level.WARNING, "Unable to resolve " + propertyAddress
                         + " as a host name, ignoring setting", e);
             }
         }
@@ -144,7 +163,7 @@ public final class ZabbixAgent implements Agent, Runnable {
         }
 
         daemon = new Thread(this, "Zabbix-agent");
-        daemon.setDaemon(true);
+        daemon.setDaemon(isDaemon);
         daemon.start();
     }
 
@@ -171,7 +190,7 @@ public final class ZabbixAgent implements Agent, Runnable {
             // ignore, we're going down anyway...
         }
 
-        log.debug("zabbix agent is done");
+        log.fine("zabbix agent is done");
     }
 
     /**
@@ -180,29 +199,29 @@ public final class ZabbixAgent implements Agent, Runnable {
     public void run() {
         final ExecutorService handlers = new ThreadPoolExecutor(1, 5, 60L,
                 TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
-        final ObjectName mbeanName = JMXHelper.register(new Agent(),
+        /*final ObjectName mbeanName = JMXHelper.register(new Agent(),
                 "org.kjkoster.zapcat:type=Agent,port=" + port);
-
+*/
         try {
             // 0 means 'use default backlog'
             serverSocket = new ServerSocket(port, 0, address);
 
             while (!stopping) {
                 final Socket accepted = serverSocket.accept();
-                log.debug("accepted connection from "
+                log.fine("accepted connection from "
                         + accepted.getInetAddress().getHostAddress());
 
                 if (acceptedByWhitelist(accepted.getInetAddress())) {
                     handlers.execute(new QueryHandler(accepted));
                 } else {
-                    log.warn("rejecting ip address "
+                    log.warning( "rejecting ip address "
                             + accepted.getInetAddress().getHostAddress()
                             + ", it is not on the whitelist");
                 }
             }
         } catch (IOException e) {
             if (!stopping) {
-                log.error("caught exception, exiting", e);
+                log.log(Level.SEVERE, "caught exception, exiting", e);
             }
         } finally {
             try {
@@ -221,7 +240,7 @@ public final class ZabbixAgent implements Agent, Runnable {
                 // ignore, we're going down anyway...
             }
 
-            JMXHelper.unregister(mbeanName);
+//            JMXHelper.unregister(mbeanName);
         }
     }
 
@@ -236,8 +255,7 @@ public final class ZabbixAgent implements Agent, Runnable {
                     return true;
                 }
             } catch (UnknownHostException e) {
-                log
-                        .error("invalid host '" + allowed
+                log.log(Level.SEVERE, "invalid host '" + allowed
                                 + "' on the white list", e);
             }
         }
@@ -318,5 +336,57 @@ public final class ZabbixAgent implements Agent, Runnable {
 
             return list;
         }
+    }
+
+    public static final void main(String[] args) throws Exception {
+        Properties properties=new Properties();
+        Logger logger = Logger.getLogger(ZabbixAgent.class.getName());
+       
+        HashMap<String, String> pList = new HashMap();
+        pList.put(PORT_PROPERTY, "port");
+        pList.put(ADDRESS_PROPERTY, "address");
+        pList.put(PROTOCOL_PROPERTY, "protocol");
+        pList.put(WHITELIST_PROPERTY, "whitelist");
+        pList.put(JMX_URL_PROPERTY, "jmx.url");
+        pList.put(JMX_USERNAME_PROPERTY, "jmx.username");
+        pList.put(JMX_PASSWORD_PROPERTY, "jmx.password");
+
+        logger.setLevel(Level.FINER);
+        
+        logger.severe("severe");
+        logger.warning("warning");      
+        logger.info("info");
+        logger.finer("finer");
+        logger.finest("finest");
+
+        System.out.println(logger.getLevel());
+
+        try {
+            FileInputStream input=new FileInputStream("zapcat.properties");
+            try {
+                properties.load(input);
+                Iterator iterator = pList.keySet().iterator();
+                while (iterator.hasNext()) {
+                    String name = (String) iterator.next();
+                    if (properties.containsKey(name)) {                       
+                        logger.fine("found property " + name + " = " + properties.getProperty(name));
+                        System.setProperty(name, properties.getProperty(name));
+                    } else {
+                        logger.warning("property " + name + " not found");
+                    }
+                }               
+            } finally {
+                input.close();
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("zapcat.properties introuvable");
+        }
+        //starts Zabbix Agent
+        String addressStr = System.getProperty(ADDRESS_PROPERTY);        
+        InetAddress address=null;
+        if (addressStr!=null) {
+            address = InetAddress.getByName(addressStr);
+        }
+        new ZabbixAgent(address, DEFAULT_PORT, false);
     }
 }

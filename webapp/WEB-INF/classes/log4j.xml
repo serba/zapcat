@@ -10,8 +10,11 @@
 		</layout>
 	</appender>
 
-	<logger name="org.kjkoster.zapcat">
-		<level value="INFO" />
+	<logger name="org.kjkoster.zapcat.zabbix.QueryHandler">
+		<level value="WARNING" />
+	</logger>
+	<logger name="org.kjkoster.zapcat.zabbix.JMXHelper">
+		<level value="WARNING" />
 	</logger>
 	
 	<root>
